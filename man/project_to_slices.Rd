@@ -2,12 +2,11 @@
 % Please edit documentation in R/projection.R
 \name{project_to_slices}
 \alias{project_to_slices}
-\title{Map correlation matrix to brain annotations and plot the result}
+\title{Map correlation matrix to brain slices and plot the result}
 \usage{
 project_to_slices(corr_mat, cell_groups = NULL, slices = c(6, 11, 23,
-  28, 34), annotation_level = "level_1",
-  annotation_colors = level1_colors, group_colors = many)
+  28, 36), annotation_level = "level_1", annotation_colors = many)
 }
 \description{
-Map correlation matrix to brain annotations and plot the result
+Map correlation matrix to brain slices and plot the result
 }

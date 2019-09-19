@@ -61,7 +61,35 @@ slice_plot <- function(slice_df,
     egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
 }
 
-#
+#' Plot correlation to entire brain from saggital view
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @export
+#'
+brain_plot <- function(corr_df,
+                       corr_colors = rdpu,
+                       newpage = T
+){
+    plots <- map(levels(factor(corr_df$cluster)), function(x){
+        plot_df <- corr_df[corr_df$cluster==x, ]
+        p <- ggplot(plot_df, aes(x, y, fill = corr)) +
+            geom_tile() +
+            theme_void() +
+            theme(
+                legend.position = 'none',
+                plot.title = element_text(angle = 45, hjust = 0, vjust = 0, size = 8)
+                ) +
+            scale_fill_gradientn(colors = corr_colors) +
+            labs(title = x)
+        return(p)
+    })
+
+    egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
+}
+
+
 # feature_plot <- function(expr_mat, meta, markers,
 #                          plot=tsne_plot,
 #                          title=NULL,
