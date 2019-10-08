@@ -1,0 +1,9 @@
+---
+title: "Annotate cell types from brain organoids"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Annotate cell types from brain organoids}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
