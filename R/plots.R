@@ -1,19 +1,3 @@
-# Plot Plots Plots
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Cmd + Shift + B'
-#   Check Package:             'Cmd + Shift + E'
-#   Test Package:              'Cmd + Shift + T'
-
-
 #' Plot correlation to brain slices and structure annotation
 #'
 #' @import ggplot2
@@ -21,7 +5,7 @@
 #'
 #' @export
 #'
-slice_plot <- function(slice_df,
+slice_plot <- function(x = slice_df,
                        struct_colors = many,
                        corr_colors = gyrdpu,
                        newpage = T){
@@ -58,7 +42,8 @@ slice_plot <- function(slice_df,
     })
 
     plots <- c(list(annot), plots)
-    egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
+    p <- egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
+    print(p)
 }
 
 #' Plot correlation to entire brain from saggital view
@@ -68,7 +53,7 @@ slice_plot <- function(slice_df,
 #'
 #' @export
 #'
-brain_plot <- function(corr_df,
+brain_plot <- function(x = corr_df,
                        corr_colors = rdpu,
                        newpage = T
 ){
@@ -86,32 +71,98 @@ brain_plot <- function(corr_df,
         return(p)
     })
 
-    egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
+    p <- egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
+    print(p)
 }
 
 
-# feature_plot <- function(expr_mat, meta, markers,
-#                          plot=tsne_plot,
-#                          title=NULL,
-#                          ncol=NULL,
-#                          nrow=NULL,
-#                          sort=T,
-#                          scale=T){
-#     meta$cell <- as.character(meta$cell)
-#     expr_markers <- get_markers(expr_mat, markers, scale=scale) %>%
-#         mutate(cell=as.character(cell)) %>%
-#         right_join(meta)
-#     plots <- map(unique(markers), function(g){
-#         x <- expr_markers %>%
-#             filter(gene==g)
-#         if (sort){
-#             x <- arrange(x, expr)
-#         }
-#         plot(x, g)
-#     })
-#     do.call(grid.arrange, args=c(plots, top=title, ncol=ncol, nrow=nrow))
-# }
-#
+#' Plot brain annotation
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @export
+#'
+#'
+brain_annotation_plot <- function(stage = 'E13pt5',
+                                  annotation_level = 'custom_2',
+                                  annotation_colors = many,
+                                  show_coordinates = F,
+                                  show_legend = F,
+                                  alpha = 0.5
+){
+    utils::data(voxel_meta, envir = environment())
+    m <- filter(voxel_meta, age==stage)
+    p <- ggplot(m, aes_string('x', 'y', fill=annotation_level)) +
+        geom_tile(alpha=alpha)
+    if (!show_coordinates){
+        p <- p + theme_void()
+    }
+    if (!show_legend){
+        p <- p + theme(legend.position = 'none')
+    }
+    return(p)
+}
+
+#' Plot gene expression across the mouse brain
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @export
+#'
+#'
+brain_expression_plot <- function(expr_mat,
+                                  stage = 'E13pt5',
+                                  genes = NULL
+
+){
+    utils::data(voxel_meta, envir = environment())
+    m <- filter(voxel_meta, age==stage)
+    feature_plot(expr_mat = expr_mat, meta = m, markers = genes)
+}
+
+#' Feature plot
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+feature_plot <- function(expr_mat, meta, markers,
+                         plot = xy_plot,
+                         title = NULL,
+                         ncol = NULL,
+                         nrow = NULL,
+                         sort = T,
+                         scale = T){
+    meta$cell <- as.character(meta$voxel)
+    expr_markers <- get_markers(expr_mat, markers, scale=scale) %>%
+        mutate(cell=as.character(cell)) %>%
+        right_join(meta)
+    plots <- map(unique(markers), function(g){
+        x <- expr_markers %>%
+            filter(gene==g)
+        if (sort){
+            x <- arrange(x, expr)
+        }
+        plot(x, g)
+    })
+    do.call(grid.arrange, args=c(plots, top=title, ncol=ncol, nrow=nrow))
+}
+
+#' Plotting xy coordinates
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+xy_plot <- function(x, g){
+    ggplot(x, aes(x, y, fill=expr, alpha=expr)) +
+        geom_tile(alpha=point_alpha) +
+        dr_theme +
+        labs(title=g) +
+        feature_fill_scale +
+        feature_theme
+}
+
 # single_feature_plot <- function(expr_mat, meta, gene,
 #                                 plot=tsne_plot,
 #                                 title=NULL,

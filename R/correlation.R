@@ -6,12 +6,13 @@ voxel_correlation <- function(expr_mat, voxel_mat,
                               allow_neg = F,
                               method = 'pearson',
                               genes_use = NULL
-                              ){
+){
     inter_genes <- intersect(colnames(expr_mat), colnames(voxel_mat))
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
     expr_mat <- as.matrix(t(expr_mat[, inter_genes]))
+    voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
     vox_cor <- stats::cor(expr_mat, voxel_mat, method = method)
     vox_cor[is.na(vox_cor)] <- 0
