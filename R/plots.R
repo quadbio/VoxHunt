@@ -5,7 +5,7 @@
 #'
 #' @export
 #'
-slice_plot <- function(x = slice_df,
+slice_plot <- function(slice_df,
                        struct_colors = many,
                        corr_colors = gyrdpu,
                        newpage = T){
@@ -53,7 +53,7 @@ slice_plot <- function(x = slice_df,
 #'
 #' @export
 #'
-brain_plot <- function(x = corr_df,
+brain_plot <- function(corr_df,
                        corr_colors = rdpu,
                        newpage = T
 ){

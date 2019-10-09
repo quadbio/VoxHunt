@@ -2,11 +2,22 @@
 % Please edit documentation in R/correlation.R
 \name{voxel_correlation}
 \alias{voxel_correlation}
+\alias{voxel_correlation.default}
+\alias{voxel_correlation.Seurat}
 \title{Correlate single-cell gene expression with in situ hybridization data}
 \usage{
-voxel_correlation(expr_mat, voxel_mat, allow_neg = F,
-  method = "pearson", genes_use = NULL)
+voxel_correlation(object, ...)
+
+\method{voxel_correlation}{default}(object, voxel_mat, groups = NULL,
+  method = "pearson", allow_neg = F, genes_use = NULL)
+
+\method{voxel_correlation}{Seurat}(object, voxel_mat, group_name = NULL,
+  method = "pearson", allow_neg = F, genes_use = NULL)
 }
 \description{
+Correlate single-cell gene expression with in situ hybridization data
+
+Correlate single-cell gene expression with in situ hybridization data
+
 Correlate single-cell gene expression with in situ hybridization data
 }
