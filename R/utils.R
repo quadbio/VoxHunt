@@ -3,18 +3,18 @@
 #' @export
 #'
 load_aba_data <- function(
-    directory,
+    dir,
     lazy = T
 ){
-    e11_path <- file.path(DATA_DIR, 'grid_data_E11pt5.loom')
-    e13_path <- file.path(DATA_DIR, 'grid_data_E13pt5.loom')
-    e15_path <- file.path(DATA_DIR, 'grid_data_E15pt5.loom')
-    e18_path <- file.path(DATA_DIR, 'grid_data_E18pt5.loom')
-    p4_path <- file.path(DATA_DIR, 'grid_data_P4.loom')
-    p14_path <- file.path(DATA_DIR, 'grid_data_P14.loom')
-    p28_path <- file.path(DATA_DIR, 'grid_data_P28.loom')
-    p56_path <- file.path(DATA_DIR, 'grid_data_P56.loom')
-    PATH_LIST <- list(
+    e11_path <- file.path(dir, 'grid_data_E11pt5.loom')
+    e13_path <- file.path(dir, 'grid_data_E13pt5.loom')
+    e15_path <- file.path(dir, 'grid_data_E15pt5.loom')
+    e18_path <- file.path(dir, 'grid_data_E18pt5.loom')
+    p4_path <- file.path(dir, 'grid_data_P4.loom')
+    p14_path <- file.path(dir, 'grid_data_P14.loom')
+    p28_path <- file.path(dir, 'grid_data_P28.loom')
+    p56_path <- file.path(dir, 'grid_data_P56.loom')
+    PATH_LIST <<- list(
         E11 = e11_path,
         E13 = e13_path,
         E15 = e15_path,
@@ -24,27 +24,27 @@ load_aba_data <- function(
         P28 = p28_path,
         P56 = p56_path
     )
-    assign('PATH_LIST', PATH_LIST, envir = .GlobalEnv)
+    DATA_LIST <<- list(
+        E11 = NULL,
+        E13 = NULL,
+        E15 = NULL,
+        E18 = NULL,
+        P4 = NULL,
+        P14 = NULL,
+        P28 = NULL,
+        P56 = NULL
+    )
     if (!lazy){
-        e11 <- read_loom(e11_path)
-        e13 <- read_loom(e13_path)
-        e15 <- read_loom(e15_path)
-        e18 <- read_loom(e18_path)
-        p4 <- read_loom(p4_path)
-        p14 <- read_loom(p14_path)
-        p28 <- read_loom(p28_path)
-        p56 <- read_loom(p56_path)
-        DATA_LIST <- list(
-            E11 = e11_path,
-            E13 = e13_path,
-            E15 = e15_path,
-            E18 = e18_path,
-            P4 = p4_path,
-            P14 = p14_path,
-            P28 = p28_path,
-            P56 = p56_path
+        DATA_LIST <<- list(
+            E11 = read_loom(e11_path),
+            E13 = read_loom(e13_path),
+            E15 = read_loom(e15_path),
+            E18 = read_loom(e18_path),
+            P4 = read_loom(p4_path),
+            P14 = read_loom(p14_path),
+            P28 = read_loom(p28_path),
+            P56 = read_loom(p56_path)
         )
-        assign('DATA_LIST', DATA_LIST, envir = .GlobalEnv)
     }
 }
 
@@ -60,13 +60,13 @@ read_loom <- function(
     col_id = 'gene'
 ){
     loom_file <- connect(filename)
-    row_meta <- tibble::as_tibble(loom_file$get.attribute.df(2)) %>%
-        dplyr::rename(row_id='CellID')
-    col_meta <- tibble::as_tibble(loom_file$get.attribute.df(1)) %>%
-        dplyr::rename(col_id='Gene')
+    row_meta <- tibble::as_tibble(loom_file$get.attribute.df(2))
+    colnames(row_meta)[1] <- row_id
+    col_meta <- tibble::as_tibble(loom_file$get.attribute.df(1))
+    colnames(col_meta)[1] <- col_id
     mat <- t(loom_file$get.sparse(layer))
-    colnames(mat) <- col_meta[[row_id]]
-    rownames(mat) <- row_meta[[col_id]]
+    colnames(mat) <- col_meta[[col_id]]
+    rownames(mat) <- row_meta[[row_id]]
     loom_file$close_all()
 
     out_list <- list(

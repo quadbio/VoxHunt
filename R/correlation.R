@@ -21,19 +21,33 @@ voxel_correlation.default <- function(
     allow_neg = F,
     genes_use = NULL
 ){
+
+    if (!exists('DATA_LIST') | !exists('PATH_LIST')){
+        stop('Data has not been loaded. Please run load_aba_data() first.')
+    }
+
+    stage <- stage_name(stage)
+    if (is.null(DATA_LIST[[stage]])){
+        DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
+    }
+
+    voxel_mat <- DATA_LIST[[stage]]$matrix
     inter_genes <- intersect(colnames(object), colnames(voxel_mat))
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
+
     expr_mat <- as.matrix(t(object[, inter_genes]))
     voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
     vox_cor <- stats::cor(expr_mat, voxel_mat, method = method)
     vox_cor[is.na(vox_cor)] <- 0
     vox_cor <- Matrix::Matrix(vox_cor, sparse=T)
+
     if (!allow_neg){
         vox_cor[vox_cor < 0] <- 0
     }
+
     return(vox_cor)
 }
 
@@ -59,7 +73,7 @@ voxel_correlation.Seurat <- function(
     }
     vox_cor <- voxel_correlation(
         object = expr_mat,
-        voxel_mat = voxel_mat,
+        stage = stage,
         groups = groups,
         allow_neg = allow_neg,
         method = method,
