@@ -6,26 +6,45 @@ load_aba_data <- function(
     directory,
     lazy = T
 ){
-    assign('DATA_DIR', directory, envir = .GlobalEnv)
-    if (lazy){
-        return()
-    } else {
-        e11 <- read_loom(file.path(DATA_DIR, 'grid_data_E11pt5.loom'))
-        assign('E11', e11, envir = .GlobalEnv)
-        e13 <- read_loom(file.path(DATA_DIR, 'grid_data_E13pt5.loom'))
-        assign('E13', e13, envir = .GlobalEnv)
-        e15 <- read_loom(file.path(DATA_DIR, 'grid_data_E15pt5.loom'))
-        assign('E15', e15, envir = .GlobalEnv)
-        e18 <- read_loom(file.path(DATA_DIR, 'grid_data_E18pt5.loom'))
-        assign('E18', e18, envir = .GlobalEnv)
-        p4 <- read_loom(file.path(DATA_DIR, 'grid_data_P4.loom'))
-        assign('P4', p4, envir = .GlobalEnv)
-        p14 <- read_loom(file.path(DATA_DIR, 'grid_data_P14.loom'))
-        assign('P14', p14, envir = .GlobalEnv)
-        p28 <- read_loom(file.path(DATA_DIR, 'grid_data_P28.loom'))
-        assign('P28', p28, envir = .GlobalEnv)
-        p56 <- read_loom(file.path(DATA_DIR, 'grid_data_P56.loom'))
-        assign('P56', p56, envir = .GlobalEnv)
+    e11_path <- file.path(DATA_DIR, 'grid_data_E11pt5.loom')
+    e13_path <- file.path(DATA_DIR, 'grid_data_E13pt5.loom')
+    e15_path <- file.path(DATA_DIR, 'grid_data_E15pt5.loom')
+    e18_path <- file.path(DATA_DIR, 'grid_data_E18pt5.loom')
+    p4_path <- file.path(DATA_DIR, 'grid_data_P4.loom')
+    p14_path <- file.path(DATA_DIR, 'grid_data_P14.loom')
+    p28_path <- file.path(DATA_DIR, 'grid_data_P28.loom')
+    p56_path <- file.path(DATA_DIR, 'grid_data_P56.loom')
+    PATH_LIST <- list(
+        E11 = e11_path,
+        E13 = e13_path,
+        E15 = e15_path,
+        E18 = e18_path,
+        P4 = p4_path,
+        P14 = p14_path,
+        P28 = p28_path,
+        P56 = p56_path
+    )
+    assign('PATH_LIST', PATH_LIST, envir = .GlobalEnv)
+    if (!lazy){
+        e11 <- read_loom(e11_path)
+        e13 <- read_loom(e13_path)
+        e15 <- read_loom(e15_path)
+        e18 <- read_loom(e18_path)
+        p4 <- read_loom(p4_path)
+        p14 <- read_loom(p14_path)
+        p28 <- read_loom(p28_path)
+        p56 <- read_loom(p56_path)
+        DATA_LIST <- list(
+            E11 = e11_path,
+            E13 = e13_path,
+            E15 = e15_path,
+            E18 = e18_path,
+            P4 = p4_path,
+            P14 = p14_path,
+            P28 = p28_path,
+            P56 = p56_path
+        )
+        assign('DATA_LIST', DATA_LIST, envir = .GlobalEnv)
     }
 }
 
@@ -40,9 +59,6 @@ read_loom <- function(
     row_id = 'voxel',
     col_id = 'gene'
 ){
-
-
-
     loom_file <- connect(filename)
     row_meta <- tibble::as_tibble(loom_file$get.attribute.df(2)) %>%
         dplyr::rename(row_id='CellID')
@@ -109,8 +125,25 @@ get_markers <- function(
     return(expr_mat)
 }
 
-# extract_legend <- function(x){
-#     tmp <- ggplot::ggplot_gtable(ggplot::ggplot_build(x))
-#     leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-#     legend <- tmp$grobs[[leg]]
-#     return(legend)}
+
+#' Pick proper stage name
+#'
+pick_stage_name <- function(
+    stage
+){
+    stage_names <- list(
+        E11 = c('E11pt5', 'E11.5', 'E11', 11, '11'),
+        E13 = c('E13pt5', 'E13.5', 'E13', 13, '13'),
+        E15 = c('E15pt5', 'E15.5', 'E15', 15, '15'),
+        E18 = c('E18pt5', 'E18.5', 'E18', 18, '18'),
+        P4 = c('P4', 4, '4'),
+        P14 = c('P14', 14, '14'),
+        P28 = c('P28', 28, '28'),
+        P56 = c('P56', 56, '56')
+    )
+    for (n in names(stage_names)){
+        if (stage %in% stage_names[[n]]){
+            return(n)
+        }
+    }
+}

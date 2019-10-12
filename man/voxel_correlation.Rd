@@ -8,11 +8,13 @@
 \usage{
 voxel_correlation(object, ...)
 
-\method{voxel_correlation}{default}(object, voxel_mat, groups = NULL,
-  method = "pearson", allow_neg = F, genes_use = NULL)
+\method{voxel_correlation}{default}(object, stage = "E13",
+  groups = NULL, method = "pearson", allow_neg = F,
+  genes_use = NULL)
 
-\method{voxel_correlation}{Seurat}(object, voxel_mat, group_name = NULL,
-  method = "pearson", allow_neg = F, genes_use = NULL)
+\method{voxel_correlation}{Seurat}(object, stage = "E13",
+  group_name = NULL, method = "pearson", allow_neg = F,
+  genes_use = NULL)
 }
 \description{
 Correlate single-cell gene expression with in situ hybridization data

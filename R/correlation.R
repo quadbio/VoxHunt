@@ -15,7 +15,7 @@ voxel_correlation <- function(object, ...){
 #'
 voxel_correlation.default <- function(
     object,
-    voxel_mat,
+    stage = 'E13',
     groups = NULL,
     method = 'pearson',
     allow_neg = F,
@@ -45,7 +45,7 @@ voxel_correlation.default <- function(
 #'
 voxel_correlation.Seurat <- function(
     object,
-    voxel_mat,
+    stage = 'E13',
     group_name = NULL,
     method = 'pearson',
     allow_neg = F,
