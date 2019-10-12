@@ -128,7 +128,7 @@ get_markers <- function(
 
 #' Pick proper stage name
 #'
-pick_stage_name <- function(
+stage_name <- function(
     stage
 ){
     stage_names <- list(
