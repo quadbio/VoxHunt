@@ -1,19 +1,19 @@
 #' Correlate single-cell gene expression with in situ hybridization data
 #'
-#' @rdname voxel_correlation
-#' @export voxel_correlation
+#' @rdname voxel_map
+#' @export voxel_map
 #'
-voxel_correlation <- function(object, ...){
-    UseMethod(generic = 'voxel_correlation', object = object)
+voxel_map <- function(object, ...){
+    UseMethod(generic = 'voxel_map', object = object)
 }
 
 #' Correlate single-cell gene expression with in situ hybridization data
 #'
-#' @rdname voxel_correlation
+#' @rdname voxel_map
 #' @export
-#' @method voxel_correlation default
+#' @method voxel_map default
 #'
-voxel_correlation.default <- function(
+voxel_map.default <- function(
     object,
     stage = 'E13',
     groups = NULL,
@@ -53,11 +53,11 @@ voxel_correlation.default <- function(
 
 #' Correlate single-cell gene expression with in situ hybridization data
 #'
-#' @rdname voxel_correlation
+#' @rdname voxel_map
 #' @export
-#' @method voxel_correlation Seurat
+#' @method voxel_map Seurat
 #'
-voxel_correlation.Seurat <- function(
+voxel_map.Seurat <- function(
     object,
     stage = 'E13',
     group_name = NULL,
@@ -71,7 +71,7 @@ voxel_correlation.Seurat <- function(
     } else {
         groups <- object[[group_name]][, 1]
     }
-    vox_cor <- voxel_correlation(
+    vox_cor <- voxel_map(
         object = expr_mat,
         stage = stage,
         groups = groups,
