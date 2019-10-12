@@ -2,7 +2,7 @@
 #'
 #' @export
 #'
-find_structure_markers <- function(expr_mat,
+structure_markers <- function(expr_mat,
                                    annotation_level = NULL,
                                    structure_groups = NULL
 ){

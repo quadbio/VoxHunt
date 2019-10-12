@@ -94,7 +94,9 @@ brain_annotation_plot <- function(stage = 'E13pt5',
     utils::data(voxel_meta, envir = environment())
     m <- filter(voxel_meta, age==stage)
     p <- ggplot(m, aes_string('x', 'y', fill=annotation_level)) +
-        geom_tile(alpha=alpha)
+        geom_tile(alpha=alpha) +
+        scale_x_continuous(breaks = seq(0, 100, 2)) +
+        scale_y_continuous(breaks = seq(-100, 100, 2))
     if (!show_coordinates){
         p <- p + theme_void()
     }

@@ -4,7 +4,7 @@
 \alias{load_aba_data}
 \title{Define the path to voxel data and load lazily if required}
 \usage{
-load_aba_data(directory, lazy = T)
+load_aba_data(dir, lazy = T)
 }
 \description{
 Define the path to voxel data and load lazily if required
