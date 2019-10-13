@@ -52,7 +52,7 @@ voxel_map.default <- function(
         )
     }
     utils::data(voxel_meta, envir = environment())
-    voxel_meta = dplyr::filter(voxel_meta, sage==stage)
+    voxel_meta = voxel_meta[match(colnames(corr_mat), voxel_meta$voxel), ]
 
     vox_map <- list(
         corr_mat = corr_mat,
@@ -106,11 +106,11 @@ print.VoxelMap <- function(object){
     n_cells <- dim(object$corr_mat)[1]
     n_voxels <- dim(object$corr_mat)[2]
     n_genes <- length(object$genes)
-    stage  <- unique(object$voxel_meta$sage)
+    stage  <- unique(object$voxel_meta$stage)
     cat(paste0(
-        'A VoxelMap object\n', n_cells, ' cells mapped to ',
+        'A VoxelMap object\n', n_cells, ' cells mapped to\n',
         n_voxels, ' voxels in the ', stage, ' mouse brain\nbased on ',
-        n_genes, ' features.\n'
+        n_genes, ' features\n'
     ))
 }
 
