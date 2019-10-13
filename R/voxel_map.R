@@ -41,21 +41,28 @@ voxel_map.default <- function(
     voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
 
     corr_mat <- safe_cor(expr_mat, voxel_mat)
-    cell_meta <- tibble(
-        cell = rownames(corr_mat),
-        groups = groups
-    )
-    voxel_meta = utils::data(voxel_meta, envir = environment())
-    voxel_meta = dplyr::filter(voxel_meta, stage=stage)
+    if (is.null(groups)){
+        cell_meta <- tibble(
+            cell = rownames(corr_mat)
+        )
+    } else {
+        cell_meta <- tibble(
+            cell = rownames(corr_mat),
+            groups = groups
+        )
+    }
+    utils::data(voxel_meta, envir = environment())
+    voxel_meta = dplyr::filter(voxel_meta, sage==stage)
 
     vox_map <- list(
         corr_mat = corr_mat,
         cell_meta = cell_meta,
-        voxel_meta = voxel_meta
+        voxel_meta = voxel_meta,
+        genes = inter_genes
     )
     class(vox_map) <- 'VoxelMap'
 
-    return(vox_corr)
+    return(vox_map)
 }
 
 #' Correlate single-cell gene expression with in situ hybridization data
@@ -88,5 +95,23 @@ voxel_map.Seurat <- function(
     )
 }
 
+
+#' Print VoxelMap objects
+#'
+#' @rdname print
+#' @export
+#' @method print VoxelMap
+#'
+print.VoxelMap <- function(object){
+    n_cells <- dim(object$corr_mat)[1]
+    n_voxels <- dim(object$corr_mat)[2]
+    n_genes <- length(object$genes)
+    stage  <- unique(object$voxel_meta$sage)
+    cat(paste0(
+        'A VoxelMap object\n', n_cells, ' cells mapped to ',
+        n_voxels, ' voxels in the ', stage, ' mouse brain\nbased on ',
+        n_genes, ' features.\n'
+    ))
+}
 
 
