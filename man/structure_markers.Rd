@@ -4,7 +4,7 @@
 \alias{structure_markers}
 \title{Finds differentially expressed features for all structures on a given annotation level}
 \usage{
-structure_markers(expr_mat, annotation_level = NULL,
+structure_markers(stage = "E13pt5", annotation_level = "custom_3",
   structure_groups = NULL)
 }
 \description{

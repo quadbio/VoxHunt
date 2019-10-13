@@ -36,19 +36,13 @@ voxel_map.default <- function(
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
-
     expr_mat <- as.matrix(t(object[, inter_genes]))
     voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
-    vox_cor <- stats::cor(expr_mat, voxel_mat, method = method)
-    vox_cor[is.na(vox_cor)] <- 0
-    vox_cor <- Matrix::Matrix(vox_cor, sparse=T)
 
-    if (!allow_neg){
-        vox_cor[vox_cor < 0] <- 0
-    }
+    vox_corr <- safe_cor(expr_mat, voxel_mat)
 
-    return(vox_cor)
+    return(vox_corr)
 }
 
 #' Correlate single-cell gene expression with in situ hybridization data
@@ -81,5 +75,21 @@ voxel_map.Seurat <- function(
     )
 }
 
+#' Safe correlation function which returns a sparse matrix without missing values
+#'
+safe_cor <- function(
+    x,
+    y,
+    method = 'pearson',
+    allow_neg = F
+){
+    corr_mat <- stats::cor(x, y, method = method)
+    corr_mat[is.na(corr_mat)] <- 0
+    corr_mat <- Matrix::Matrix(corr_mat, sparse=T)
+    if (!allow_neg){
+        corr_mat[corr_mat < 0] <- 0
+    }
+    return(corr_mat)
+}
 
 
