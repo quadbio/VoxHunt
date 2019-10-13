@@ -40,7 +40,20 @@ voxel_map.default <- function(
     voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
 
-    vox_corr <- safe_cor(expr_mat, voxel_mat)
+    corr_mat <- safe_cor(expr_mat, voxel_mat)
+    cell_meta <- tibble(
+        cell = rownames(corr_mat),
+        groups = groups
+    )
+    voxel_meta = utils::data(voxel_meta, envir = environment())
+    voxel_meta = dplyr::filter(voxel_meta, stage=stage)
+
+    vox_map <- list(
+        corr_mat = corr_mat,
+        cell_meta = cell_meta,
+        voxel_meta = voxel_meta
+    )
+    class(vox_map) <- 'VoxelMap'
 
     return(vox_corr)
 }
@@ -75,21 +88,5 @@ voxel_map.Seurat <- function(
     )
 }
 
-#' Safe correlation function which returns a sparse matrix without missing values
-#'
-safe_cor <- function(
-    x,
-    y,
-    method = 'pearson',
-    allow_neg = F
-){
-    corr_mat <- stats::cor(x, y, method = method)
-    corr_mat[is.na(corr_mat)] <- 0
-    corr_mat <- Matrix::Matrix(corr_mat, sparse=T)
-    if (!allow_neg){
-        corr_mat[corr_mat < 0] <- 0
-    }
-    return(corr_mat)
-}
 
 

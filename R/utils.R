@@ -147,3 +147,21 @@ stage_name <- function(
         }
     }
 }
+
+
+#' Safe correlation function which returns a sparse matrix without missing values
+#'
+safe_cor <- function(
+    x,
+    y,
+    method = 'pearson',
+    allow_neg = F
+){
+    corr_mat <- stats::cor(x, y, method = method)
+    corr_mat[is.na(corr_mat)] <- 0
+    corr_mat <- Matrix::Matrix(corr_mat, sparse=T)
+    if (!allow_neg){
+        corr_mat[corr_mat < 0] <- 0
+    }
+    return(corr_mat)
+}
