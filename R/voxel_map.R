@@ -36,9 +36,9 @@ voxel_map.default <- function(
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
-    expr_mat <- as.matrix(t(object[, inter_genes]))
+    expr_mat <- t(object[, inter_genes])
     voxel_mat[voxel_mat < 1] <- 0
-    voxel_mat <- as.matrix(t(voxel_mat[, inter_genes]))
+    voxel_mat <- t(voxel_mat[, inter_genes])
 
     corr_mat <- safe_cor(expr_mat, voxel_mat)
     if (is.null(groups)){
@@ -86,7 +86,7 @@ voxel_map.Seurat <- function(
         groups <- object[[group_name]][, 1]
     }
     vox_cor <- voxel_map(
-        object = expr_mat,
+        object = Matrix::Matrix(expr_mat, sparse = T),
         stage = stage,
         groups = groups,
         allow_neg = allow_neg,

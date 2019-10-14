@@ -7,10 +7,10 @@
 \usage{
 plot_map(object, ...)
 
-\method{plot_map}{VoxelMap}(object, view = "saggital", groups = NULL,
-  annotation_level = "custom_2", annotation_colors = many,
-  map_colors = gyrdpu, show_coordinates = F, show_legend = F,
-  newpage = T)
+\method{plot_map}{VoxelMap}(object, view = "saggital", slices = c(6,
+  11, 23, 28, 36), groups = NULL, annotation_level = "custom_2",
+  annotation_colors = many, map_colors = gyrdpu,
+  show_coordinates = F, show_legend = F, newpage = T)
 }
 \description{
 Plot voxel map of single cells to voxels

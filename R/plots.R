@@ -99,6 +99,7 @@ plot_map <- function(object, ...){
 plot_map.VoxelMap <- function(
     object,
     view = 'saggital',
+    slices = c(6, 11, 23, 28, 36),
     groups = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
@@ -119,40 +120,38 @@ plot_map.VoxelMap <- function(
         groups <- object$cell_meta$group
     }
 
+    if (is.null(groups)){
+        grouping_levels <- ' '
+    } else{
+        grouping_levels <- levels(factor(groups))
+    }
+
+    cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=colMeans)
+
+    plot_df <- cluster_cor %>%
+        as.matrix() %>%
+        as_tibble(rownames='voxel') %>%
+        tidyr::gather(group, corr, -voxel) %>%
+        mutate(group=factor(group, levels=grouping_levels))
+
+    meta <- column_to_rownames(object$voxel_meta, 'voxel')
+    plot_df$struct <- meta[plot_df$voxel, ][[annotation_level]]
+    plot_df$x <- meta[plot_df$voxel, ]$x
+    plot_df$y <- meta[plot_df$voxel, ]$y
+    plot_df$z <- meta[plot_df$voxel, ]$z
+
     if (view == 'slice'){
-        slice_df <- object$slices
+        plot_df <- plot_df %>%
+            filter(x%in%slices) %>%
+            mutate(slice=as.numeric(factor(x)))
+
         slice_plot(
-            slice_df = slice_df,
+            slice_df = plot_df,
             annotation_colors = annotation_colors,
             map_colors = map_colors,
             newpage = newpage
         )
     } else {
-
-        if (is.null(groups) & !is.null(object$cell_meta$group)){
-            groups <- object$cell_meta$group
-        }
-
-        if (is.null(groups)){
-            grouping_levels <- ' '
-        } else{
-            grouping_levels <- levels(factor(groups))
-        }
-
-        cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=colMeans)
-
-        plot_df <- cluster_cor %>%
-            as.matrix() %>%
-            as_tibble(rownames='voxel') %>%
-            tidyr::gather(group, corr, -voxel) %>%
-            mutate(group=factor(group, levels=grouping_levels))
-
-        meta <- column_to_rownames(object$voxel_meta, 'voxel')
-        plot_df$struct <- meta[plot_df$voxel, ][[annotation_level]]
-        plot_df$x <- meta[plot_df$voxel, ]$x
-        plot_df$y <- meta[plot_df$voxel, ]$y
-        plot_df$z <- meta[plot_df$voxel, ]$z
-
         mapping_plot(
             map_df = plot_df,
             view = view,
@@ -255,15 +254,27 @@ mapping_plot <- function(
 #'
 #' @export
 #'
-#'
-brain_expression_plot <- function(expr_mat,
-                                  stage = 'E13pt5',
-                                  genes = NULL
-
+plot_expression <- function(
+    stage = 'E13',
+    genes = NULL
 ){
-    utils::data(voxel_meta, envir = environment())
-    m <- filter(voxel_meta, age==stage)
-    feature_plot(expr_mat = expr_mat, meta = m, markers = genes)
+    if (!exists('DATA_LIST') | !exists('PATH_LIST')){
+        stop('Data has not been loaded. Please run load_aba_data() first.')
+    }
+
+    stage <- stage_name(stage)
+    if (is.null(DATA_LIST[[stage]])){
+        DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
+    }
+
+    voxel_mat <- DATA_LIST[[stage]]$matrix
+    voxel_meta <- DATA_LIST[[stage]]$row_meta
+
+    feature_plot(
+        expr_mat = voxel_mat,
+        meta = voxel_meta,
+        markers = genes
+    )
 }
 
 #' Feature plot
@@ -271,16 +282,20 @@ brain_expression_plot <- function(expr_mat,
 #' @import ggplot2
 #' @import dplyr
 #'
-feature_plot <- function(expr_mat, meta, markers,
-                         plot = xy_plot,
-                         title = NULL,
-                         ncol = NULL,
-                         nrow = NULL,
-                         sort = T,
-                         scale = T){
-    meta$cell <- as.character(meta$voxel)
+feature_plot <- function(
+    expr_mat,
+    meta,
+    markers,
+    plot = xy_plot,
+    title = NULL,
+    ncol = NULL,
+    nrow = NULL,
+    sort = T,
+    scale = T
+){
+    meta$voxel <- as.character(meta$voxel)
     expr_markers <- get_markers(expr_mat, markers, scale=scale) %>%
-        mutate(cell=as.character(cell)) %>%
+        mutate(voxel=as.character(voxel)) %>%
         right_join(meta)
     plots <- map(unique(markers), function(g){
         x <- expr_markers %>%

@@ -1,6 +1,3 @@
-#### Set theme to BW ####
-theme_set(theme_bw())
-
 #### LEVEL 1 structure annotation ####
 level1_names <- c('forebrain', 'midbrain', 'hindbrain', 'spinal cord', 'ventricle')
 level1_symbol <- c('F', 'M', 'H', 'SpC', 'V')

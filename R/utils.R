@@ -6,14 +6,14 @@ load_aba_data <- function(
     dir,
     lazy = T
 ){
-    e11_path <- file.path(dir, 'grid_data_E11pt5.loom')
-    e13_path <- file.path(dir, 'grid_data_E13pt5.loom')
-    e15_path <- file.path(dir, 'grid_data_E15pt5.loom')
-    e18_path <- file.path(dir, 'grid_data_E18pt5.loom')
-    p4_path <- file.path(dir, 'grid_data_P4.loom')
-    p14_path <- file.path(dir, 'grid_data_P14.loom')
-    p28_path <- file.path(dir, 'grid_data_P28.loom')
-    p56_path <- file.path(dir, 'grid_data_P56.loom')
+    e11_path <- file.path(dir, 'E11.loom')
+    e13_path <- file.path(dir, 'E13.loom')
+    e15_path <- file.path(dir, 'E15.loom')
+    e18_path <- file.path(dir, 'E18.loom')
+    p4_path <- file.path(dir, 'P4.loom')
+    p14_path <- file.path(dir, 'P14.loom')
+    p28_path <- file.path(dir, 'P28.loom')
+    p56_path <- file.path(dir, 'P56.loom')
     PATH_LIST <<- list(
         E11 = e11_path,
         E13 = e13_path,
@@ -120,8 +120,8 @@ get_markers <- function(
     if (scale){
         expr_mat <- scale(expr_mat)
     }
-    expr_mat <- as_tibble(expr_mat, rownames="cell") %>%
-        gather(gene, expr, -cell)
+    expr_mat <- as_tibble(expr_mat, rownames="voxel") %>%
+        gather(gene, expr, -voxel)
     return(expr_mat)
 }
 
@@ -149,6 +149,40 @@ stage_name <- function(
 }
 
 
+#' Fast correlation and covariance calcualtion for sparse matrices
+#'
+sparse_covcor <- function(x, y=NULL) {
+    if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
+    if (is.null(y)) {
+        xtx <- crossprod(x)
+        n <- nrow(x)
+        cMeans <- colMeans(x)
+        covmat <- (as.matrix(xtx) - n*tcrossprod(cMeans))/(n-1)
+        sdvec <- sqrt(diag(covmat))
+        cormat <- covmat/crossprod(t(sdvec))
+        return(list(cov=covmat, cor=cormat))
+    } else {
+        if (!is(y,"dgCMatrix")) stop("y should be a dgCMatrix")
+        if (nrow(x) != nrow(y)) stop("x and y should have the same number of rows")
+        n <- nrow(x)
+        cMeansX <- colMeans(x)
+        cMeansY <- colMeans(y)
+        covmat <- (as.matrix(crossprod(x, y)) - n * tcrossprod(cMeansX, cMeansY))/(n-1)
+        sdvecX <- sqrt(diag((as.matrix(crossprod(x)) - n*tcrossprod(cMeansX))/(n-1)))
+        sdvecY <- sqrt(diag((as.matrix(crossprod(y)) - n*tcrossprod(cMeansY))/(n-1)))
+        cormat <- covmat/outer(sdvecX, sdvecY)
+        return(list(cov=covmat, cor=cormat))
+    }
+}
+
+
+#' Fast correlation for sparse matrices
+#'
+sparse_cor <- function(x, y=NULL) {
+    sparse_covcor(x, y)$cor
+}
+
+
 #' Safe correlation function which returns a sparse matrix without missing values
 #'
 safe_cor <- function(
@@ -157,7 +191,13 @@ safe_cor <- function(
     method = 'pearson',
     allow_neg = F
 ){
-    corr_mat <- stats::cor(x, y, method = method)
+    x <- Matrix::Matrix(x, sparse = T)
+    y <- Matrix::Matrix(y, sparse = T)
+    if (method == 'pearson'){
+        corr_mat <- sparse_cor(x, y)
+    } else {
+        corr_mat <- stats::cor(x, y, method = method)
+    }
     corr_mat[is.na(corr_mat)] <- 0
     corr_mat <- Matrix::Matrix(corr_mat, sparse=T)
     if (!allow_neg){
