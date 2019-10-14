@@ -21,24 +21,24 @@ plot_annotation.default <- function(
     object = 'E13',
     annotation_level = 'custom_2',
     annotation_colors = many,
+    slices = NULL,
     show_coordinates = F,
     show_legend = F,
     alpha = 0.5
 ){
     utils::data(voxel_meta, envir = environment())
     age <- stage_name(object)
-    m <- filter(voxel_meta, stage == age)
-    p <- ggplot(m, aes_string('x', 'y', fill = annotation_level)) +
-        geom_tile(alpha = alpha) +
-        scale_x_continuous(breaks = seq(0, 100, 2)) +
-        scale_y_continuous(breaks = seq(-100, 100, 2)) +
-        labs(title = age)
-    if (!show_coordinates){
-        p <- p + theme_void()
+    meta <- filter(voxel_meta, stage == age)
+    if (!is.null(slices)){
+        meta <- filter(meta, z %in% slices)
     }
-    if (!show_legend){
-        p <- p + theme(legend.position = 'none')
-    }
+    annotation_plot(
+        annot_df = meta,
+        annotation_level = annotation_level,
+        annotation_colors = annotation_colors,
+        show_coordinates = show_coordinates,
+        show_legend = show_legend
+    )
     return(p)
 }
 
@@ -56,16 +56,39 @@ plot_annotation.VoxelMap <- function(
     object,
     annotation_level = 'custom_2',
     annotation_colors = many,
+    slices = NULL,
     show_coordinates = F,
     show_legend = F,
     alpha = 0.5
 ){
-    m <- object$voxel_meta
-    age <- unique(m$stage)
-    p <- ggplot(m, aes_string('x', 'y', fill = annotation_level)) +
+    meta <- object$voxel_meta
+    if (!is.null(slices)){
+        meta <- filter(meta, z %in% slices)
+    }
+    annotation_plot(
+        annot_df = meta,
+        annotation_level = annotation_level,
+        annotation_colors = annotation_colors,
+        show_coordinates = show_coordinates,
+        show_legend = show_legend
+    )
+
+}
+
+
+annotation_plot <- function(
+    annot_df,
+    annotation_level = 'custom_2',
+    annotation_colors = many,
+    show_coordinates = F,
+    show_legend = F
+){
+    age <- unique(annot_df$stage)
+    p <- ggplot(annot_df, aes_string('x', 'y', fill = annotation_level)) +
         geom_tile(alpha = alpha) +
         scale_x_continuous(breaks = seq(0, 100, 2)) +
         scale_y_continuous(breaks = seq(-100, 100, 2)) +
+        scale_fill_manual(values = annotation_colors) +
         labs(title = age)
     if (!show_coordinates){
         p <- p + theme_void()
@@ -75,6 +98,8 @@ plot_annotation.VoxelMap <- function(
     }
     return(p)
 }
+
+
 
 
 #' Plot voxel map of single cells to voxels
@@ -143,7 +168,7 @@ plot_map.VoxelMap <- function(
     if (view == 'slice'){
         plot_df <- plot_df %>%
             filter(x%in%slices) %>%
-            mutate(slice=as.numeric(factor(x)))
+            mutate(slice=factor(x))
 
         slice_plot(
             slice_df = plot_df,
@@ -154,6 +179,7 @@ plot_map.VoxelMap <- function(
     } else {
         mapping_plot(
             map_df = plot_df,
+            slices = slices,
             view = view,
             map_colors = map_colors,
             newpage = T
@@ -177,10 +203,10 @@ slice_plot <- function(
         geom_tile() +
         theme_void() +
         scale_fill_manual(values = annotation_colors) +
-        facet_grid(slice~.) +
+        facet_grid(slice~., switch = 'both') +
         theme(
             legend.position = 'none',
-            strip.text = element_blank()
+            strip.text = element_text(angle = 180, size = 10)
         )
 
     plots <- purrr::map(levels(factor(slice_df$group)), function(g){
@@ -198,7 +224,7 @@ slice_plot <- function(
             theme(
                 legend.position = 'none',
                 strip.text = element_blank(),
-                plot.title = element_text(angle = 45, hjust = 0, vjust = 0, size = 8)
+                plot.title = element_text(angle = 60, hjust = 0.5, vjust = 0, size = 10)
                 ) +
             labs(title = g)
         return(p)
@@ -218,16 +244,26 @@ slice_plot <- function(
 mapping_plot <- function(
     map_df,
     view = 'saggital',
+    slices = NULL,
     map_colors = rdpu,
     newpage = T
 ){
     plots <- map(levels(factor(map_df$group)), function(g){
         plot_df <- filter(map_df, group==g)
         if (view %in% c('coronal', 'x')){
+            if (!is.null(slices)){
+                plot_df <- filter(plot_df, x %in% slices)
+            }
             p <- ggplot(plot_df, aes(z, y, fill = corr, alpha = corr))
         } else if (view %in% c('traverse', 'y')){
+            if (!is.null(slices)){
+                plot_df <- filter(plot_df, y %in% slices)
+            }
             p <- ggplot(plot_df, aes(x, z, fill = corr, alpha = corr))
         } else {
+            if (!is.null(slices)){
+                plot_df <- filter(plot_df, z %in% slices)
+            }
             p <- ggplot(plot_df, aes(x, y, fill = corr, alpha = corr))
         }
         p <- p +
@@ -256,7 +292,9 @@ mapping_plot <- function(
 #'
 plot_expression <- function(
     stage = 'E13',
-    genes = NULL
+    genes = NULL,
+    view = 'saggital',
+    slices = NULL
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -267,14 +305,63 @@ plot_expression <- function(
         DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
     }
 
+    possible_views <- c('saggital', 'coronal', 'traverse', 'z' , 'x', 'y')
+    if (!view %in% possible_views){
+        stop(cat(
+            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
+            paste(possible_views, collapse = ', ')
+        ))
+    }
+
     voxel_mat <- DATA_LIST[[stage]]$matrix
     voxel_meta <- DATA_LIST[[stage]]$row_meta
+
+    if (view %in% c('coronal', 'x')){
+        if (!is.null(slices)){
+            voxel_meta <- filter(voxel_meta, x %in% slices)
+        }
+        f_plot <- function(x, g){
+            ggplot(x, aes(z, y, fill=expr, alpha=expr)) +
+                geom_tile(alpha=point_alpha) +
+                dr_theme +
+                labs(title=g) +
+                feature_fill_scale +
+                feature_theme
+        }
+    } else if (view %in% c('traverse', 'y')) {
+        if (!is.null(slices)){
+            voxel_meta <- filter(voxel_meta, y %in% slices)
+        }
+        f_plot <- function(x, g){
+            ggplot(x, aes(x, z, fill=expr, alpha=expr)) +
+                geom_tile(alpha=point_alpha) +
+                dr_theme +
+                labs(title=g) +
+                feature_fill_scale +
+                feature_theme
+        }
+    } else {
+        if (!is.null(slices)){
+            voxel_meta <- filter(voxel_meta, z %in% slices)
+        }
+        f_plot <- function(x, g){
+            ggplot(x, aes(x, y, fill=expr, alpha=expr)) +
+                geom_tile(alpha=point_alpha) +
+                dr_theme +
+                labs(title=g) +
+                feature_fill_scale +
+                feature_theme
+        }
+    }
 
     feature_plot(
         expr_mat = voxel_mat,
         meta = voxel_meta,
-        markers = genes
+        markers = genes,
+        plot = f_plot
     )
+
+
 }
 
 #' Feature plot
@@ -306,20 +393,6 @@ feature_plot <- function(
         plot(x, g)
     })
     do.call(grid.arrange, args=c(plots, top=title, ncol=ncol, nrow=nrow))
-}
-
-#' Plotting xy coordinates
-#'
-#' @import ggplot2
-#' @import dplyr
-#'
-xy_plot <- function(x, g){
-    ggplot(x, aes(x, y, fill=expr, alpha=expr)) +
-        geom_tile(alpha=point_alpha) +
-        dr_theme +
-        labs(title=g) +
-        feature_fill_scale +
-        feature_theme
 }
 
 
