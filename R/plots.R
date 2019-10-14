@@ -10,7 +10,6 @@ plot_annotation <- function(object = 'E13', ...){
 
 #' Plot brain structure annotation
 #'
-#' @import ggplot2
 #' @import dplyr
 #'
 #' @rdname plot_annotation
@@ -32,12 +31,13 @@ plot_annotation.default <- function(
     if (!is.null(slices)){
         meta <- filter(meta, z %in% slices)
     }
-    annotation_plot(
+    p <- annotation_plot(
         annot_df = meta,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         show_coordinates = show_coordinates,
-        show_legend = show_legend
+        show_legend = show_legend,
+        alpha = alpha
     )
     return(p)
 }
@@ -45,7 +45,6 @@ plot_annotation.default <- function(
 
 #' Plot brain structure annotation
 #'
-#' @import ggplot2
 #' @import dplyr
 #'
 #' @rdname plot_annotation
@@ -65,23 +64,28 @@ plot_annotation.VoxelMap <- function(
     if (!is.null(slices)){
         meta <- filter(meta, z %in% slices)
     }
-    annotation_plot(
+    p <- annotation_plot(
         annot_df = meta,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         show_coordinates = show_coordinates,
-        show_legend = show_legend
+        show_legend = show_legend,
+        alpha = alpha
     )
-
+    return(p)
 }
 
-
+#' Plot brain structure annotation
+#'
+#' @import ggplot2
+#'
 annotation_plot <- function(
     annot_df,
     annotation_level = 'custom_2',
     annotation_colors = many,
     show_coordinates = F,
-    show_legend = F
+    show_legend = F,
+    alpha = 0.5
 ){
     age <- unique(annot_df$stage)
     p <- ggplot(annot_df, aes_string('x', 'y', fill = annotation_level)) +
@@ -170,14 +174,14 @@ plot_map.VoxelMap <- function(
             filter(x%in%slices) %>%
             mutate(slice=factor(x))
 
-        slice_plot(
+        p <- slice_plot(
             slice_df = plot_df,
             annotation_colors = annotation_colors,
             map_colors = map_colors,
             newpage = newpage
         )
     } else {
-        mapping_plot(
+        p <- mapping_plot(
             map_df = plot_df,
             slices = slices,
             view = view,
@@ -185,6 +189,7 @@ plot_map.VoxelMap <- function(
             newpage = T
         )
     }
+    return(p)
 }
 
 
@@ -354,14 +359,13 @@ plot_expression <- function(
         }
     }
 
-    feature_plot(
+    p <- feature_plot(
         expr_mat = voxel_mat,
         meta = voxel_meta,
         markers = genes,
         plot = f_plot
     )
-
-
+    return(p)
 }
 
 #' Feature plot
