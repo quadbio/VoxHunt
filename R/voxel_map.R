@@ -48,7 +48,7 @@ voxel_map.default <- function(
     } else {
         cell_meta <- tibble(
             cell = rownames(corr_mat),
-            groups = groups
+            group = groups
         )
     }
     utils::data(voxel_meta, envir = environment())

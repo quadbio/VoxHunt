@@ -6,9 +6,9 @@
 \alias{plot_annotation.VoxelMap}
 \title{Plot brain structure annotation}
 \usage{
-plot_annotation(object, ...)
+plot_annotation(object = "E13", ...)
 
-\method{plot_annotation}{default}(stage = "E13pt5",
+\method{plot_annotation}{default}(object = "E13",
   annotation_level = "custom_2", annotation_colors = many,
   show_coordinates = F, show_legend = F, alpha = 0.5)
 

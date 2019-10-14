@@ -77,38 +77,123 @@ plot_annotation.VoxelMap <- function(
 }
 
 
+#' Plot voxel map of single cells to voxels
+#'
+#' @rdname plot_map
+#' @export plot_map
+#'
+plot_map <- function(object, ...){
+    UseMethod(generic = 'plot_map', object = object)
+}
+
+
+#' Plot voxel map of single cells to voxels
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @rdname plot_map
+#' @export
+#' @method plot_map VoxelMap
+#'
+plot_map.VoxelMap <- function(
+    object,
+    view = 'saggital',
+    groups = NULL,
+    annotation_level = 'custom_2',
+    annotation_colors = many,
+    map_colors = gyrdpu,
+    show_coordinates = F,
+    show_legend = F,
+    newpage = T
+){
+    possible_views <- c('saggital', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
+    if (!view %in% possible_views){
+        stop(cat(
+            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
+            paste(possible_views, collapse = ', ')
+            ))
+    }
+
+    if (is.null(groups) & !is.null(object$cell_meta$group)){
+        groups <- object$cell_meta$group
+    }
+
+    if (view == 'slice'){
+        slice_df <- object$slices
+        slice_plot(
+            slice_df = slice_df,
+            annotation_colors = annotation_colors,
+            map_colors = map_colors,
+            newpage = newpage
+        )
+    } else {
+
+        if (is.null(groups) & !is.null(object$cell_meta$group)){
+            groups <- object$cell_meta$group
+        }
+
+        if (is.null(groups)){
+            grouping_levels <- ' '
+        } else{
+            grouping_levels <- levels(factor(groups))
+        }
+
+        cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=colMeans)
+
+        plot_df <- cluster_cor %>%
+            as.matrix() %>%
+            as_tibble(rownames='voxel') %>%
+            tidyr::gather(group, corr, -voxel) %>%
+            mutate(group=factor(group, levels=grouping_levels))
+
+        meta <- column_to_rownames(object$voxel_meta, 'voxel')
+        plot_df$struct <- meta[plot_df$voxel, ][[annotation_level]]
+        plot_df$x <- meta[plot_df$voxel, ]$x
+        plot_df$y <- meta[plot_df$voxel, ]$y
+        plot_df$z <- meta[plot_df$voxel, ]$z
+
+        mapping_plot(
+            map_df = plot_df,
+            view = view,
+            map_colors = map_colors,
+            newpage = T
+        )
+    }
+}
+
+
 #' Plot correlation to brain slices and structure annotation
 #'
 #' @import ggplot2
 #' @import dplyr
 #'
-#' @export
-#'
-slice_plot <- function(slice_df,
-                       struct_colors = many,
-                       corr_colors = gyrdpu,
-                       newpage = T){
-
+slice_plot <- function(
+    slice_df,
+    annotation_colors = many,
+    map_colors = gyrdpu,
+    newpage = T
+){
     annot <- ggplot(slice_df, aes(z, y, fill = struct)) +
         geom_tile() +
         theme_void() +
-        scale_fill_manual(values = struct_colors) +
+        scale_fill_manual(values = annotation_colors) +
         facet_grid(slice~.) +
         theme(
             legend.position = 'none',
             strip.text = element_blank()
         )
 
-    plots <- purrr::map(levels(factor(slice_df$cluster)), function(x){
+    plots <- purrr::map(levels(factor(slice_df$group)), function(g){
         plot_df <- slice_df %>%
-            {.[.$cluster==x, ]} %>%
+            filter(group==g) %>%
             dplyr::group_by(z, y, slice) %>%
             dplyr::summarize(corr = mean(corr, na.rm = T))
 
         p <- ggplot(plot_df, aes(-z, y, fill = corr, alpha = corr)) +
             geom_tile() +
             theme_void() +
-            scale_fill_gradientn(colors = corr_colors) +
+            scale_fill_gradientn(colors = map_colors) +
             scale_alpha_continuous(range = c(0.5, 1)) +
             facet_grid(slice ~ .) +
             theme(
@@ -116,7 +201,7 @@ slice_plot <- function(slice_df,
                 strip.text = element_blank(),
                 plot.title = element_text(angle = 45, hjust = 0, vjust = 0, size = 8)
                 ) +
-            labs(title = x)
+            labs(title = g)
         return(p)
     })
 
@@ -125,36 +210,42 @@ slice_plot <- function(slice_df,
     print(p)
 }
 
+
 #' Plot correlation to entire brain from saggital view
 #'
 #' @import ggplot2
 #' @import dplyr
 #'
-#' @export
-#'
-brain_plot <- function(corr_df,
-                       corr_colors = rdpu,
-                       newpage = T
+mapping_plot <- function(
+    map_df,
+    view = 'saggital',
+    map_colors = rdpu,
+    newpage = T
 ){
-    plots <- map(levels(factor(corr_df$cluster)), function(x){
-        plot_df <- corr_df[corr_df$cluster==x, ]
-        p <- ggplot(plot_df, aes(x, y, fill = corr)) +
+    plots <- map(levels(factor(map_df$group)), function(g){
+        plot_df <- filter(map_df, group==g)
+        if (view %in% c('coronal', 'x')){
+            p <- ggplot(plot_df, aes(z, y, fill = corr, alpha = corr))
+        } else if (view %in% c('traverse', 'y')){
+            p <- ggplot(plot_df, aes(x, z, fill = corr, alpha = corr))
+        } else {
+            p <- ggplot(plot_df, aes(x, y, fill = corr, alpha = corr))
+        }
+        p <- p +
             geom_tile() +
             theme_void() +
             theme(
                 legend.position = 'none',
                 plot.title = element_text(angle = 45, hjust = 0, vjust = 0, size = 8)
                 ) +
-            scale_fill_gradientn(colors = corr_colors) +
-            labs(title = x)
+            scale_fill_gradientn(colors = map_colors) +
+            labs(title = g)
         return(p)
     })
 
     p <- egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
     print(p)
 }
-
-
 
 
 #' Plot gene expression across the mouse brain
