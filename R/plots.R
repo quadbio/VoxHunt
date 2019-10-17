@@ -104,8 +104,6 @@ annotation_plot <- function(
 }
 
 
-
-
 #' Plot voxel map of single cells to voxels
 #'
 #' @rdname plot_map
@@ -127,17 +125,17 @@ plot_map <- function(object, ...){
 #'
 plot_map.VoxelMap <- function(
     object,
-    view = 'saggital',
+    view = 'sagital',
     slices = c(6, 11, 23, 28, 36),
     groups = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
-    map_colors = gyrdpu,
+    map_colors = gyrdpu_flat,
     show_coordinates = F,
     show_legend = F,
     newpage = T
 ){
-    possible_views <- c('saggital', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
+    possible_views <- c('sagital', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
     if (!view %in% possible_views){
         stop(cat(
             paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
@@ -145,29 +143,7 @@ plot_map.VoxelMap <- function(
             ))
     }
 
-    if (is.null(groups) & !is.null(object$cell_meta$group)){
-        groups <- object$cell_meta$group
-    }
-
-    if (is.null(groups)){
-        grouping_levels <- ' '
-    } else{
-        grouping_levels <- levels(factor(groups))
-    }
-
-    cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=colMeans)
-
-    plot_df <- cluster_cor %>%
-        as.matrix() %>%
-        as_tibble(rownames='voxel') %>%
-        tidyr::gather(group, corr, -voxel) %>%
-        mutate(group=factor(group, levels=grouping_levels))
-
-    meta <- column_to_rownames(object$voxel_meta, 'voxel')
-    plot_df$struct <- meta[plot_df$voxel, ][[annotation_level]]
-    plot_df$x <- meta[plot_df$voxel, ]$x
-    plot_df$y <- meta[plot_df$voxel, ]$y
-    plot_df$z <- meta[plot_df$voxel, ]$z
+    plot_df <- summarise_groups(object, groups)
 
     if (view == 'slice'){
         plot_df <- plot_df %>%
@@ -177,6 +153,7 @@ plot_map.VoxelMap <- function(
         p <- slice_plot(
             slice_df = plot_df,
             annotation_colors = annotation_colors,
+            annotation_level = annotation_level,
             map_colors = map_colors,
             newpage = newpage
         )
@@ -186,7 +163,7 @@ plot_map.VoxelMap <- function(
             slices = slices,
             view = view,
             map_colors = map_colors,
-            newpage = T
+            newpage = newpage
         )
     }
     return(p)
@@ -200,11 +177,12 @@ plot_map.VoxelMap <- function(
 #'
 slice_plot <- function(
     slice_df,
+    annotation_level = 'custom_2',
     annotation_colors = many,
     map_colors = gyrdpu,
     newpage = T
 ){
-    annot <- ggplot(slice_df, aes(z, y, fill = struct)) +
+    annot <- ggplot(slice_df, aes_string('z', 'y', fill = annotation_level)) +
         geom_tile() +
         theme_void() +
         scale_fill_manual(values = annotation_colors) +
@@ -237,18 +215,18 @@ slice_plot <- function(
 
     plots <- c(list(annot), plots)
     p <- egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
-    print(p)
+    return(p)
 }
 
 
-#' Plot correlation to entire brain from saggital view
+#' Plot correlation to entire brain from sagital view
 #'
 #' @import ggplot2
 #' @import dplyr
 #'
 mapping_plot <- function(
     map_df,
-    view = 'saggital',
+    view = 'sagital',
     slices = NULL,
     map_colors = rdpu,
     newpage = T
@@ -284,7 +262,7 @@ mapping_plot <- function(
     })
 
     p <- egg::ggarrange(plots = plots, nrow = 1, newpage = newpage)
-    print(p)
+    return(p)
 }
 
 
@@ -298,7 +276,7 @@ mapping_plot <- function(
 plot_expression <- function(
     stage = 'E13',
     genes = NULL,
-    view = 'saggital',
+    view = 'sagital',
     slices = NULL
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -310,7 +288,7 @@ plot_expression <- function(
         DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
     }
 
-    possible_views <- c('saggital', 'coronal', 'traverse', 'z' , 'x', 'y')
+    possible_views <- c('sagital', 'coronal', 'traverse', 'z' , 'x', 'y')
     if (!view %in% possible_views){
         stop(cat(
             paste0('"', view, '" is not a valid view argument. Try one of these:\n'),

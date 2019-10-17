@@ -89,15 +89,19 @@ aggregate_matrix <- function(
     groups = NULL,
     fun = colMeans
 ){
-    if (!is.null(groups)){
+    if (length(groups) == nrow(x)){
         agg_mat <- sapply(levels(factor(groups)), function(g){
             fun(x[which(groups==g), ])
         })
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
+    } else if (length(groups) <= 1){
+        agg_mat <- fun(x)
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
+        colnames(agg_mat) <- groups
+        rownames(agg_mat) <- colnames(x)
     } else {
-        agg_mat <- as.matrix(fun(x))
-        colnames(agg_mat) <- ' '
+        stop('Length of groups must be either nrow(x) or 1.')
     }
-    agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
     return(agg_mat)
 }
 
@@ -162,7 +166,7 @@ sparse_covcor <- function(x, y=NULL) {
         cormat <- covmat/crossprod(t(sdvec))
         return(list(cov=covmat, cor=cormat))
     } else {
-        if (!is(y,"dgCMatrix")) stop("y should be a dgCMatrix")
+        if (!is(y, "dgCMatrix")) stop("y should be a dgCMatrix")
         if (nrow(x) != nrow(y)) stop("x and y should have the same number of rows")
         n <- nrow(x)
         cMeansX <- colMeans(x)
@@ -170,7 +174,7 @@ sparse_covcor <- function(x, y=NULL) {
         covmat <- (as.matrix(crossprod(x, y)) - n * tcrossprod(cMeansX, cMeansY))/(n-1)
         sdvecX <- sqrt(diag((as.matrix(crossprod(x)) - n*tcrossprod(cMeansX))/(n-1)))
         sdvecY <- sqrt(diag((as.matrix(crossprod(y)) - n*tcrossprod(cMeansY))/(n-1)))
-        cormat <- covmat/outer(sdvecX, sdvecY)
+        cormat <- covmat / outer(sdvecX, sdvecY)
         return(list(cov=covmat, cor=cormat))
     }
 }

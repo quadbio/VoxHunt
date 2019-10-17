@@ -114,4 +114,37 @@ print.VoxelMap <- function(object){
     ))
 }
 
+#' Correlate single-cell gene expression with in situ hybridization data
+#'
+#' @rdname summarise_groups
+#'
+summarise_groups <- function(object, ...){
+    UseMethod(generic = 'summarise_groups', object = object)
+}
 
+
+#' Summarize VoxelMap object over groups
+#'
+#' @import Matrix
+#'
+#' @rdname summarise_groups
+#' @method summarise_groups VoxelMap
+#'
+summarise_groups <- function(object, groups, fun=colMeans){
+
+    if (is.null(groups) & !is.null(object$cell_meta$group)){
+        groups <- object$cell_meta$group
+    } else if (is.null(groups) & is.null(object$cell_meta$group)){
+        groups <- ' '
+    }
+
+    cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=fun)
+
+    plot_df <- cluster_cor %>%
+        as.matrix() %>%
+        as_tibble(rownames='voxel') %>%
+        tidyr::gather(group, corr, -voxel) %>%
+        left_join(object$voxel_meta)
+
+    return(plot_df)
+}
