@@ -115,12 +115,9 @@ get_markers <- function(
     markers,
     scale = T
 ){
-    if (str_detect(class(expr_mat), 'atrix')){
-        data <- expr_mat
-    } else {
-        data <- t(expr_mat@assays$RNA@data)
-    }
-    expr_mat <- as.matrix(data[, colnames(data)%in%markers])
+    genes_use <- colnames(expr_mat)[colnames(expr_mat)%in%markers]
+    expr_mat <- as.matrix(expr_mat[, genes_use])
+    colnames(expr_mat) <- genes_use
     if (scale){
         expr_mat <- scale(expr_mat)
     }
