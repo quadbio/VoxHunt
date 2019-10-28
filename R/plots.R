@@ -301,9 +301,7 @@ plot_expression <- function(
     voxel_meta <- DATA_LIST[[stage]]$row_meta
 
     if (view == 'slice'){
-        if (is.null(slices)){
-            stop('To view slices you have to define a set of sections with the "slices" argument.')
-        }
+        slices <- seq(1, 40, 2)
         voxel_meta$voxel <- as.character(voxel_meta$voxel)
         expr_markers <- get_markers(voxel_mat, genes, scale=T) %>%
             mutate(voxel=as.character(voxel))
