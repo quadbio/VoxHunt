@@ -132,11 +132,12 @@ plot_map.VoxelMap <- function(
     groups = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
+    show_group = NULL,
     map_colors = gyrdpu_flat,
     show_coordinates = F,
     show_legend = F
 ){
-    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
+    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D')
     if (!view %in% possible_views){
         stop(cat(
             paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
@@ -168,6 +169,7 @@ plot_map.VoxelMap <- function(
             map_colors = map_colors
         )
     }
+    return(p)
 }
 
 
@@ -397,6 +399,43 @@ feature_plot <- function(
         plot(x, g)
     })
     p <- egg::ggarrange(plots = plots, ncol = ncol, nrow = nrow, draw = F)
+    return(p)
+}
+
+
+
+#' 3D intensity plot
+#'
+three_dim_plot <- function(
+    int_df,
+    annotation_level = NULL,
+    annotation_colors = many,
+    intensity_colors = inferno
+){
+
+    if (is.null(annotation_level)){
+        p <- plotly::plot_ly(
+            meta,
+            x=~x,
+            y=~y,
+            z=~z,
+            size=~intensity,
+            color=~intensity,
+            sizes = c(10, 1000),
+            colors=intensity_colors
+        )
+    } else {
+        p <- plotly::plot_ly(
+            meta,
+            x=~x,
+            y=~y,
+            z=~z,
+            size=~intensity,
+            color=meta[[annotation_level]],
+            sizes = c(10, 1000),
+            colors=annotation_colors
+        )
+    }
     return(p)
 }
 
