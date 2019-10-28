@@ -197,16 +197,16 @@ plot_map_3d.VoxelMap <- function(
     show_group = NULL,
     annotation_level = NULL,
     annotation_colors = many,
-    map_colors = inferno,
-    sizes = c(10, 1000)
+    map_colors = inferno_flat,
+    sizes = c(1, 1000)
 ){
 
     plot_df <- summarise_groups(object, groups)
 
     if (is.null(show_group) & is.null(groups)){
-        show_group <- levels(factor(groups))[1]
-    } else if (is.null(show_group) & !is.null(groups)){
         show_group <- levels(factor(object$cell_meta$group))[1]
+    } else if (is.null(show_group) & !is.null(groups)){
+        show_group <- levels(factor(groups))[1]
     }
 
     plot_df <- filter(plot_df, group==show_group) %>%
