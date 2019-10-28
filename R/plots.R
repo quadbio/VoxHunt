@@ -199,7 +199,7 @@ plot_map_3d.VoxelMap <- function(
     annotation_colors = many,
     map_colors = inferno
 ){
-    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D')
+    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
     if (!view %in% possible_views){
         stop(cat(
             paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
