@@ -218,6 +218,7 @@ plot_map_3d.VoxelMap <- function(
     plot_df <- filter(plot_df, group==show_group) %>%
         mutate(intensity=corr)
     p <- three_dim_plot(
+        int_df = plot_df,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         intensity_colors = map_colors
@@ -423,6 +424,60 @@ plot_expression <- function(
         return(p)
     }
 }
+
+
+#' Plot gene expression across the mouse brain in 3D
+#'
+#' @import dplyr
+#'
+#' @export
+#'
+plot_expression_3d <- function(
+    stage,
+    gene,
+    annotation_level = NULL,
+    annotation_colors = many,
+    expression_colors = inferno
+){
+    if (!exists('DATA_LIST') | !exists('PATH_LIST')){
+        stop('Data has not been loaded. Please run load_aba_data() first.')
+    }
+
+    stage <- stage_name(stage)
+    if (is.null(DATA_LIST[[stage]])){
+        DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
+    }
+
+    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
+    if (!view %in% possible_views){
+        stop(cat(
+            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
+            paste(possible_views, collapse = ', '), '\n'
+        ))
+    }
+
+    voxel_mat <- DATA_LIST[[stage]]$matrix
+    voxel_meta <- DATA_LIST[[stage]]$row_meta
+
+    voxel_meta$voxel <- as.character(voxel_meta$voxel)
+    expr_markers <- get_markers(voxel_mat, gene, scale=T) %>%
+        mutate(voxel=as.character(voxel))
+    expr_markers <- suppressMessages(right_join(expr_markers, voxel_meta))
+    plot_df <- mutate(expr_markers, intensity=expr)
+    p <- three_dim_plot(
+        int_df = plot_df,
+        annotation_level = annotation_level,
+        annotation_colors = annotation_colors,
+        intensity_colors = expression_colors
+    )
+    return(p)
+
+}
+
+
+
+
+
 
 #' Feature plot
 #'
