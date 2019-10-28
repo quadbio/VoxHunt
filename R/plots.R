@@ -197,7 +197,8 @@ plot_map_3d.VoxelMap <- function(
     show_group = NULL,
     annotation_level = NULL,
     annotation_colors = many,
-    map_colors = inferno
+    map_colors = inferno,
+    sizes = c(10, 1000)
 ){
     possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
     if (!view %in% possible_views){
@@ -221,7 +222,8 @@ plot_map_3d.VoxelMap <- function(
         int_df = plot_df,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
-        intensity_colors = map_colors
+        intensity_colors = map_colors,
+        sizes = sizes
     )
     return(p)
 }
@@ -437,7 +439,8 @@ plot_expression_3d <- function(
     gene,
     annotation_level = NULL,
     annotation_colors = many,
-    expression_colors = inferno
+    expression_colors = inferno,
+    sizes = c(10, 1000)
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -448,27 +451,23 @@ plot_expression_3d <- function(
         DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
     }
 
-    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
-    if (!view %in% possible_views){
-        stop(cat(
-            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
-            paste(possible_views, collapse = ', '), '\n'
-        ))
-    }
-
     voxel_mat <- DATA_LIST[[stage]]$matrix
     voxel_meta <- DATA_LIST[[stage]]$row_meta
 
     voxel_meta$voxel <- as.character(voxel_meta$voxel)
     expr_markers <- get_markers(voxel_mat, gene, scale=T) %>%
         mutate(voxel=as.character(voxel))
-    expr_markers <- suppressMessages(right_join(expr_markers, voxel_meta))
-    plot_df <- mutate(expr_markers, intensity=expr)
+    expr_markers <- suppressMessages(right_join(expr_markers, voxel_meta)) %>%
+        mutate(intensity=expr)
+    plot_df <- expr_markers %>%
+        mutate(z=-z+max(z)*2) %>%
+        bind_rows(expr_markers, .id = 'hemisphere')
     p <- three_dim_plot(
         int_df = plot_df,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
-        intensity_colors = expression_colors
+        intensity_colors = expression_colors,
+        sizes = sizes
     )
     return(p)
 
@@ -514,29 +513,30 @@ three_dim_plot <- function(
     int_df,
     annotation_level = NULL,
     annotation_colors = many,
-    intensity_colors = inferno
+    intensity_colors = inferno,
+    sizes = c(10, 1000)
 ){
 
     if (is.null(annotation_level)){
         p <- plotly::plot_ly(
-            meta,
+            int_df,
             x=~x,
             y=~y,
             z=~z,
             size=~intensity,
             color=~intensity,
-            sizes = c(10, 1000),
+            sizes = sizes,
             colors=intensity_colors
         )
     } else {
         p <- plotly::plot_ly(
-            meta,
+            int_df,
             x=~x,
             y=~y,
             z=~z,
             size=~intensity,
             color=meta[[annotation_level]],
-            sizes = c(10, 1000),
+            sizes = sizes,
             colors=annotation_colors
         )
     }
