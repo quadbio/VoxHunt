@@ -172,6 +172,59 @@ plot_map.VoxelMap <- function(
     return(p)
 }
 
+#' Plot voxel map of single cells to voxels in 3D
+#'
+#' @rdname plot_map_3d
+#' @export plot_map_3d
+#'
+plot_map_3d <- function(object, ...){
+    UseMethod(generic = 'plot_map_3d', object = object)
+}
+
+
+#' Plot voxel map of single cells to voxels in 3D
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @rdname plot_map_3d
+#' @export
+#' @method plot_map_3d VoxelMap
+#'
+plot_map_3d.VoxelMap <- function(
+    object,
+    groups = NULL,
+    show_group = NULL,
+    annotation_level = NULL,
+    annotation_colors = many,
+    map_colors = inferno
+){
+    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D')
+    if (!view %in% possible_views){
+        stop(cat(
+            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
+            paste(possible_views, collapse = ', '), '\n'
+        ))
+    }
+
+    plot_df <- summarise_groups(object, groups)
+
+    if (is.null(show_group) & is.null(groups)){
+        show_group <- levels(factor(groups))[1]
+    } else if (is.null(show_group) & !is.null(groups)){
+        show_group <- levels(factor(object$cell_meta$group))[1]
+    }
+
+    plot_df <- filter(plot_df, group==show_group) %>%
+        mutate(intensity=corr)
+    p <- three_dim_plot(
+        annotation_level = annotation_level,
+        annotation_colors = annotation_colors,
+        intensity_colors = map_colors
+    )
+    return(p)
+}
+
 
 #' Plot correlation to brain slices and structure annotation
 #'
