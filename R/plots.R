@@ -200,13 +200,6 @@ plot_map_3d.VoxelMap <- function(
     map_colors = inferno,
     sizes = c(10, 1000)
 ){
-    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
-    if (!view %in% possible_views){
-        stop(cat(
-            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
-            paste(possible_views, collapse = ', '), '\n'
-        ))
-    }
 
     plot_df <- summarise_groups(object, groups)
 
