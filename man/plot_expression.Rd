@@ -4,7 +4,9 @@
 \alias{plot_expression}
 \title{Plot gene expression across the mouse brain}
 \usage{
-plot_expression(stage = "E13", genes = NULL)
+plot_expression(stage = "E13", genes = NULL, view = "sagittal",
+  slices = NULL, annotation_level = "custom_2",
+  annotation_colors = many)
 }
 \description{
 Plot gene expression across the mouse brain

@@ -2,11 +2,11 @@
 % Please edit documentation in R/plots.R
 \name{mapping_plot}
 \alias{mapping_plot}
-\title{Plot correlation to entire brain from saggital view}
+\title{Plot correlation to entire brain from sagital view}
 \usage{
-mapping_plot(map_df, view = "saggital", map_colors = rdpu,
-  newpage = T)
+mapping_plot(map_df, view = "sagittal", slices = NULL,
+  map_colors = rdpu)
 }
 \description{
-Plot correlation to entire brain from saggital view
+Plot correlation to entire brain from sagital view
 }

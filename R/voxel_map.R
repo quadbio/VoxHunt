@@ -143,8 +143,8 @@ summarise_groups <- function(object, groups, fun=colMeans){
     plot_df <- cluster_cor %>%
         as.matrix() %>%
         as_tibble(rownames='voxel') %>%
-        tidyr::gather(group, corr, -voxel) %>%
-        left_join(object$voxel_meta)
+        tidyr::gather(group, corr, -voxel)
+    plot_df <- suppressMessages(left_join(plot_df, object$voxel_meta))
 
     return(plot_df)
 }

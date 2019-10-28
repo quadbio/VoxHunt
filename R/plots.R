@@ -94,6 +94,7 @@ annotation_plot <- function(
         scale_y_continuous(breaks = seq(-100, 100, 2)) +
         scale_fill_manual(values = annotation_colors, na.value='gray') +
         labs(title = age, fill= 'Structure') +
+        theme_bw() +
         dr_guides
     if (!show_coordinates){
         p <- p + theme_void()
@@ -127,14 +128,13 @@ plot_map <- function(object, ...){
 plot_map.VoxelMap <- function(
     object,
     view = 'sagittal',
-    slices = c(6, 11, 23, 28, 36),
+    slices = NULL,
     groups = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
     map_colors = gyrdpu_flat,
     show_coordinates = F,
-    show_legend = F,
-    newpage = T
+    show_legend = F
 ){
     possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
     if (!view %in% possible_views){
@@ -147,6 +147,9 @@ plot_map.VoxelMap <- function(
     plot_df <- summarise_groups(object, groups)
 
     if (view == 'slice'){
+        if (is.null(slices)){
+            stop('To view slices you have to define a set of sections with the "slices" argument.')
+        }
         plot_df <- plot_df %>%
             filter(x%in%slices) %>%
             mutate(slice=factor(x))
@@ -184,6 +187,7 @@ slice_plot <- function(
         theme_void() +
         scale_fill_manual(values = annotation_colors) +
         facet_grid(slice~., switch = 'both') +
+        theme_bw() +
         theme(
             legend.position = 'none',
             strip.text = element_text(angle = 180, size = 10)
@@ -200,6 +204,7 @@ slice_plot <- function(
             scale_fill_gradientn(colors = map_colors) +
             scale_alpha_continuous(range = c(0.5, 1)) +
             facet_grid(slice ~ .) +
+            theme_bw() +
             theme(
                 legend.position = 'none',
                 strip.text = element_blank(),
@@ -245,10 +250,11 @@ mapping_plot <- function(
         }
         p <- p +
             geom_tile() +
+            theme_bw() +
             theme_void() +
             theme(
                 legend.position = 'none',
-                plot.title = element_text(angle = 45, hjust = 0, vjust = 0, size = 8)
+                plot.title = element_text(size = 8)
                 ) +
             scale_fill_gradientn(colors = map_colors) +
             labs(title = g)
@@ -267,8 +273,8 @@ mapping_plot <- function(
 #' @export
 #'
 plot_expression <- function(
-    stage = 'E13',
-    genes = NULL,
+    stage,
+    genes,
     view = 'sagittal',
     slices = NULL,
     annotation_level = 'custom_2',
@@ -322,6 +328,7 @@ plot_expression <- function(
             f_plot <- function(x, g){
                 ggplot(x, aes(z, y, fill=expr)) +
                     geom_tile() +
+                    theme_bw() +
                     dr_theme +
                     labs(title=g) +
                     feature_fill_scale +
@@ -334,6 +341,7 @@ plot_expression <- function(
             f_plot <- function(x, g){
                 ggplot(x, aes(x, z, fill=expr)) +
                     geom_tile() +
+                    theme_bw() +
                     dr_theme +
                     labs(title=g) +
                     feature_fill_scale +
@@ -346,6 +354,7 @@ plot_expression <- function(
             f_plot <- function(x, g){
                 ggplot(x, aes(x, y, fill=expr)) +
                     geom_tile() +
+                    theme_bw() +
                     dr_theme +
                     labs(title=g) +
                     feature_fill_scale +
