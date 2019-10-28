@@ -218,8 +218,11 @@ plot_map_3d.VoxelMap <- function(
 
     plot_df <- filter(plot_df, group==show_group) %>%
         mutate(intensity=corr)
+    plot_df_3d <- plot_df %>%
+        mutate(z=-z+max(z)*2) %>%
+        bind_rows(plot_df, .id = 'hemisphere')
     p <- three_dim_plot(
-        int_df = plot_df,
+        int_df = plot_df_3d,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         intensity_colors = map_colors,
