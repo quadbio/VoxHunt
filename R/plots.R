@@ -538,7 +538,7 @@ three_dim_plot <- function(
             y=~y,
             z=~z,
             size=~intensity,
-            color=meta[[annotation_level]],
+            color=int_df[[annotation_level]],
             sizes = sizes,
             colors=annotation_colors
         )
