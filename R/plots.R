@@ -198,7 +198,8 @@ plot_map_3d.VoxelMap <- function(
     annotation_level = NULL,
     annotation_colors = many,
     map_colors = inferno_flat,
-    sizes = c(1, 1000)
+    sizes = c(1, 1000),
+    both_hemispheres = T
 ){
 
     plot_df <- summarise_groups(object, groups)
@@ -211,11 +212,13 @@ plot_map_3d.VoxelMap <- function(
 
     plot_df <- filter(plot_df, group==show_group) %>%
         mutate(intensity=corr)
-    plot_df_3d <- plot_df %>%
-        mutate(z=-z+max(z)*2) %>%
-        bind_rows(plot_df, .id = 'hemisphere')
+    if (both_hemispheres){
+        plot_df <- plot_df %>%
+            mutate(z=-z+max(z)*2) %>%
+            bind_rows(plot_df, .id = 'hemisphere')
+    }
     p <- three_dim_plot(
-        int_df = plot_df_3d,
+        int_df = plot_df,
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         intensity_colors = map_colors,
@@ -438,7 +441,8 @@ plot_expression_3d <- function(
     annotation_level = NULL,
     annotation_colors = many,
     expression_colors = inferno,
-    sizes = c(10, 1000)
+    sizes = c(10, 1000),
+    both_hemispheres = T
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -455,11 +459,13 @@ plot_expression_3d <- function(
     voxel_meta$voxel <- as.character(voxel_meta$voxel)
     expr_markers <- get_markers(voxel_mat, gene, scale=T) %>%
         mutate(voxel=as.character(voxel))
-    expr_markers <- suppressMessages(right_join(expr_markers, voxel_meta)) %>%
+    plot_df <- suppressMessages(right_join(expr_markers, voxel_meta)) %>%
         mutate(intensity=expr)
-    plot_df <- expr_markers %>%
-        mutate(z=-z+max(z)*2) %>%
-        bind_rows(expr_markers, .id = 'hemisphere')
+    if (both_hemispheres){
+        plot_df <- plot_df %>%
+            mutate(z=-z+max(z)*2) %>%
+            bind_rows(plot_df, .id = 'hemisphere')
+    }
     p <- three_dim_plot(
         int_df = plot_df,
         annotation_level = annotation_level,
