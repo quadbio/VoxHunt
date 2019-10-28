@@ -199,7 +199,8 @@ plot_map_3d.VoxelMap <- function(
     annotation_colors = many,
     map_colors = inferno_flat,
     sizes = c(1, 1000),
-    both_hemispheres = T
+    both_hemispheres = T,
+    ...
 ){
 
     plot_df <- summarise_groups(object, groups)
@@ -222,7 +223,8 @@ plot_map_3d.VoxelMap <- function(
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         intensity_colors = map_colors,
-        sizes = sizes
+        sizes = sizes,
+        ...
     )
     return(p)
 }
@@ -442,7 +444,8 @@ plot_expression_3d <- function(
     annotation_colors = many,
     expression_colors = inferno,
     sizes = c(10, 1000),
-    both_hemispheres = T
+    both_hemispheres = T,
+    ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -471,7 +474,8 @@ plot_expression_3d <- function(
         annotation_level = annotation_level,
         annotation_colors = annotation_colors,
         intensity_colors = expression_colors,
-        sizes = sizes
+        sizes = sizes,
+        ...
     )
     return(p)
 
@@ -518,7 +522,8 @@ three_dim_plot <- function(
     annotation_level = NULL,
     annotation_colors = many,
     intensity_colors = inferno,
-    sizes = c(10, 1000)
+    sizes = c(10, 1000),
+    ...
 ){
 
     if (is.null(annotation_level)){
@@ -530,7 +535,8 @@ three_dim_plot <- function(
             size=~intensity,
             color=~intensity,
             sizes = sizes,
-            colors=intensity_colors
+            colors=intensity_colors,
+            ...
         )
     } else {
         p <- plotly::plot_ly(
@@ -541,7 +547,8 @@ three_dim_plot <- function(
             size=~intensity,
             color=int_df[[annotation_level]],
             sizes = sizes,
-            colors=annotation_colors
+            colors=annotation_colors,
+            ...
         )
     }
     return(p)
