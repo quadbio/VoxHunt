@@ -475,10 +475,6 @@ plot_expression_3d <- function(
 }
 
 
-
-
-
-
 #' Feature plot
 #'
 #' @import ggplot2
