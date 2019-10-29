@@ -81,7 +81,7 @@ voxel_map.Seurat <- function(
 ){
     expr_mat <- t(GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
-        groups <- Idents(org_srt)
+        groups <- Idents(object)
     } else {
         groups <- object[[group_name]][, 1]
     }
