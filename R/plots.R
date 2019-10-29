@@ -319,7 +319,7 @@ mapping_plot <- function(
             labs(title = g)
         return(p)
     })
-    p <- egg::ggarrange(plots = plots, nrow = 1, draw = F)
+    p <- egg::ggarrange(plots = plots, draw = F)
     return(p)
 }
 
