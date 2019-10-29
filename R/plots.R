@@ -529,28 +529,40 @@ three_dim_plot <- function(
     if (is.null(annotation_level)){
         p <- plotly::plot_ly(
             int_df,
-            x=~x,
-            y=~y,
-            z=~z,
-            size=~intensity,
-            color=~intensity,
+            x = ~x,
+            y = ~y,
+            z = ~z,
+            size = ~intensity,
+            color = ~intensity,
             sizes = sizes,
-            colors=intensity_colors,
-            ...
+            colors = intensity_colors,
+            type = 'scatter3d',
+            mode = 'markers'
         )
     } else {
         p <- plotly::plot_ly(
             int_df,
-            x=~x,
-            y=~y,
-            z=~z,
-            size=~intensity,
-            color=int_df[[annotation_level]],
+            x = ~x,
+            y = ~y,
+            z = ~z,
+            size = ~intensity,
+            color = int_df[[annotation_level]],
             sizes = sizes,
-            colors=annotation_colors,
-            ...
+            colors = annotation_colors,
+            type = 'scatter3d',
+            mode = 'markers'
         )
     }
+    axis <- list(
+        showgrid = F
+    )
+    scene <- list(
+        aspectmode='data',
+        xaxis = axis,
+        yaxis = axis,
+        zaxix = axis
+    )
+    p <- plotly::layout(p, scene=scene, ...)
     return(p)
 }
 
