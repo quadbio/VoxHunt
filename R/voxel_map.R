@@ -40,7 +40,7 @@ voxel_map.default <- function(
     voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- t(voxel_mat[, inter_genes])
 
-    corr_mat <- safe_cor(expr_mat, voxel_mat)
+    corr_mat <- safe_cor(expr_mat, voxel_mat, method = method)
     if (is.null(groups)){
         cell_meta <- tibble(
             cell = rownames(corr_mat)

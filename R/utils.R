@@ -192,11 +192,13 @@ safe_cor <- function(
     method = 'pearson',
     allow_neg = F
 ){
-    x <- Matrix::Matrix(x, sparse = T)
-    y <- Matrix::Matrix(y, sparse = T)
     if (method == 'pearson'){
+        x <- Matrix::Matrix(x, sparse = T)
+        y <- Matrix::Matrix(y, sparse = T)
         corr_mat <- sparse_cor(x, y)
     } else {
+        x <- as.matrix(x)
+        y <- as.matrix(y)
         corr_mat <- stats::cor(x, y, method = method)
     }
     corr_mat[is.na(corr_mat)] <- 0
