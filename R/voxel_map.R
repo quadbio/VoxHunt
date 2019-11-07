@@ -145,7 +145,8 @@ summarise_groups.VoxelMap <- function(object, groups, fun=colMeans){
     plot_df <- cluster_cor %>%
         as.matrix() %>%
         as_tibble(rownames='voxel') %>%
-        tidyr::gather(group, corr, -voxel)
+        tidyr::gather(group, corr, -voxel) %>%
+        mutate(group=factor(group, levels=levels(factor(groups))))
     plot_df <- suppressMessages(left_join(plot_df, object$voxel_meta))
 
     return(plot_df)
