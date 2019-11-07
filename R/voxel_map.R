@@ -150,3 +150,41 @@ summarise_groups.VoxelMap <- function(object, groups, fun=colMeans){
 
     return(plot_df)
 }
+
+
+#' Assign cells to structure
+#'
+#' @rdname assign_cells
+#' @export assign_cells
+#'
+assign_cells <- function(object, ...){
+    UseMethod(generic = 'assign_cells', object = object)
+}
+
+
+#' Assign cells to structure
+#'
+#' @import Matrix
+#'
+#' @rdname assign_cells
+#' @export
+#' @method assign_cells VoxelMap
+#'
+assign_cells.VoxelMap <- function(object, groups=NULL, fun=colMeans){
+
+    if (is.null(groups) & !is.null(object$cell_meta$group)){
+        groups <- object$cell_meta$group
+    } else if (is.null(groups) & is.null(object$cell_meta$group)){
+        groups <- ' '
+    }
+
+    cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=fun)
+
+    plot_df <- cluster_cor %>%
+        as.matrix() %>%
+        as_tibble(rownames='voxel') %>%
+        tidyr::gather(group, corr, -voxel)
+    plot_df <- suppressMessages(left_join(plot_df, object$voxel_meta))
+
+    return(plot_df)
+}
