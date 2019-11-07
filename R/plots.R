@@ -135,7 +135,8 @@ plot_map.VoxelMap <- function(
     show_group = NULL,
     map_colors = gyrdpu_flat,
     show_coordinates = F,
-    show_legend = F
+    show_legend = F,
+    ...
 ){
     possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D')
     if (!view %in% possible_views){
@@ -159,14 +160,16 @@ plot_map.VoxelMap <- function(
             slice_df = plot_df,
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
-            map_colors = map_colors
+            map_colors = map_colors,
+            ...
         )
     } else {
         p <- mapping_plot(
             map_df = plot_df,
             slices = slices,
             view = view,
-            map_colors = map_colors
+            map_colors = map_colors,
+            ...
         )
     }
     return(p)
@@ -239,7 +242,8 @@ slice_plot <- function(
     slice_df,
     annotation_level = 'custom_2',
     annotation_colors = many,
-    map_colors = gyrdpu
+    map_colors = gyrdpu,
+    ...
 ){
     annot <- ggplot(slice_df, aes_string('z', 'y', fill = annotation_level)) +
         geom_tile() +
@@ -273,8 +277,7 @@ slice_plot <- function(
         return(p)
     })
     plots <- c(list(annot), plots)
-    p <- egg::ggarrange(plots = plots, nrow = 1, draw = F)
-    return(p)
+    return(egg::ggarrange(plots = plots, nrow = 1, draw = F, ...))
 }
 
 
@@ -287,7 +290,8 @@ mapping_plot <- function(
     map_df,
     view = 'sagittal',
     slices = NULL,
-    map_colors = rdpu
+    map_colors = rdpu,
+    ...
 ){
     plots <- map(levels(factor(map_df$group)), function(g){
         plot_df <- filter(map_df, group==g)
@@ -295,19 +299,19 @@ mapping_plot <- function(
             if (!is.null(slices)){
                 plot_df <- filter(plot_df, x %in% slices)
             }
-            p <- ggplot(plot_df, aes(z, y, fill = corr, alpha = corr))
+            coords <- c('y', 'z')
         } else if (view %in% c('traverse', 'y')){
             if (!is.null(slices)){
                 plot_df <- filter(plot_df, y %in% slices)
             }
-            p <- ggplot(plot_df, aes(x, z, fill = corr, alpha = corr))
+            coords <- c('x', 'z')
         } else {
             if (!is.null(slices)){
                 plot_df <- filter(plot_df, z %in% slices)
             }
-            p <- ggplot(plot_df, aes(x, y, fill = corr, alpha = corr))
+            coords <- c('x', 'y')
         }
-        p <- p +
+        p <- ggplot(plot_df, aes_string(coords[1], coords[2], fill = 'corr', alpha = 'corr')) +
             geom_tile() +
             theme_bw() +
             theme_void() +
@@ -319,8 +323,11 @@ mapping_plot <- function(
             labs(title = g)
         return(p)
     })
-    p <- egg::ggarrange(plots = plots, draw = F)
-    return(p)
+    if (length(plots)>1){
+        return(egg::ggarrange(plots = plots, draw = F, ...))
+    } else {
+        return(plots[[1]])
+    }
 }
 
 
@@ -337,7 +344,8 @@ plot_expression <- function(
     view = 'sagittal',
     slices = NULL,
     annotation_level = 'custom_2',
-    annotation_colors = many
+    annotation_colors = many,
+    ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -376,7 +384,8 @@ plot_expression <- function(
             slice_df = plot_df,
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
-            map_colors = gyrdpu
+            map_colors = gyrdpu,
+            ...
         )
         return(p)
     } else {
@@ -384,47 +393,33 @@ plot_expression <- function(
             if (!is.null(slices)){
                 voxel_meta <- filter(voxel_meta, x %in% slices)
             }
-            f_plot <- function(x, g){
-                ggplot(x, aes(z, y, fill=expr)) +
-                    geom_tile() +
-                    theme_bw() +
-                    dr_theme +
-                    labs(title=g) +
-                    feature_fill_scale +
-                    feature_theme
-            }
+            coords <- c('z', 'y')
         } else if (view %in% c('traverse', 'y')) {
             if (!is.null(slices)){
                 voxel_meta <- filter(voxel_meta, y %in% slices)
             }
-            f_plot <- function(x, g){
-                ggplot(x, aes(x, z, fill=expr)) +
-                    geom_tile() +
-                    theme_bw() +
-                    dr_theme +
-                    labs(title=g) +
-                    feature_fill_scale +
-                    feature_theme
-            }
+            coords <- c('x', 'z')
         } else if (view %in% c('sagittal', 'z')){
             if (!is.null(slices)){
                 voxel_meta <- filter(voxel_meta, z %in% slices)
             }
-            f_plot <- function(x, g){
-                ggplot(x, aes(x, y, fill=expr)) +
-                    geom_tile() +
-                    theme_bw() +
-                    dr_theme +
-                    labs(title=g) +
-                    feature_fill_scale +
-                    feature_theme
-            }
+            coords <- c('x', 'y')
+        }
+        f_plot <- function(x, g){
+            ggplot(x, aes_string(coords[1], coords[2], fill='expr')) +
+                geom_tile() +
+                theme_bw() +
+                dr_theme +
+                labs(title=g) +
+                feature_fill_scale +
+                feature_theme
         }
         p <- feature_plot(
             expr_mat = voxel_mat,
             meta = voxel_meta,
             markers = genes,
-            plot = f_plot
+            plot = f_plot,
+            ...
         )
         return(p)
     }
@@ -492,10 +487,9 @@ feature_plot <- function(
     meta,
     markers,
     plot = xy_plot,
-    ncol = NULL,
-    nrow = NULL,
     sort = T,
-    scale = T
+    scale = T,
+    ...
 ){
     meta$voxel <- as.character(meta$voxel)
     expr_markers <- get_markers(expr_mat, markers, scale=scale) %>%
@@ -509,7 +503,7 @@ feature_plot <- function(
         }
         plot(x, g)
     })
-    p <- egg::ggarrange(plots = plots, ncol = ncol, nrow = nrow, draw = F)
+    p <- egg::ggarrange(plots = plots, draw = F, ...)
     return(p)
 }
 
