@@ -250,7 +250,6 @@ slice_plot <- function(
         theme_void() +
         scale_fill_manual(values = annotation_colors) +
         facet_grid(slice~., switch = 'both') +
-        theme_bw() +
         theme(
             legend.position = 'none',
             strip.text = element_text(angle = 180, size = 10)
@@ -267,7 +266,6 @@ slice_plot <- function(
             scale_fill_gradientn(colors = map_colors) +
             scale_alpha_continuous(range = c(0.5, 1)) +
             facet_grid(slice ~ .) +
-            theme_bw() +
             theme(
                 legend.position = 'none',
                 strip.text = element_blank(),
@@ -409,6 +407,7 @@ plot_expression <- function(
             ggplot(x, aes_string(coords[1], coords[2], fill='expr')) +
                 geom_tile() +
                 theme_bw() +
+                theme_void() +
                 dr_theme +
                 labs(title=g) +
                 feature_fill_scale +
