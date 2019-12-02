@@ -37,7 +37,9 @@ voxel_map.default <- function(
         inter_genes <- intersect(inter_genes, genes_use)
     }
     expr_mat <- t(object[, inter_genes])
-    voxel_mat[voxel_mat < 1] <- 0
+    if (!allow_neg){
+        voxel_mat[voxel_mat < 1] <- 0
+    }
     voxel_mat <- t(voxel_mat[, inter_genes])
 
     corr_mat <- safe_cor(expr_mat, voxel_mat, method = method)

@@ -106,7 +106,7 @@ annotation_plot <- function(
 }
 
 
-#' Plot voxel map of single cells to voxels
+#' Plot similarity map of single cells to voxels
 #'
 #' @rdname plot_map
 #' @export plot_map
@@ -116,7 +116,7 @@ plot_map <- function(object, ...){
 }
 
 
-#' Plot voxel map of single cells to voxels
+#' Plot similarity map of single cells to voxels
 #'
 #' @import ggplot2
 #' @import dplyr
@@ -175,7 +175,7 @@ plot_map.VoxelMap <- function(
     return(p)
 }
 
-#' Plot voxel map of single cells to voxels in 3D
+#' Plot similarity map of single cells to voxels in 3D
 #'
 #' @rdname plot_map_3d
 #' @export plot_map_3d
@@ -185,7 +185,7 @@ plot_map_3d <- function(object, ...){
 }
 
 
-#' Plot voxel map of single cells to voxels in 3D
+#' Plot similarity map of single cells to voxels in 3D
 #'
 #' @import ggplot2
 #' @import dplyr
