@@ -5,7 +5,7 @@
 \title{Plot gene expression across the mouse brain}
 \usage{
 plot_expression(stage, genes, view = "sagittal", slices = NULL,
-  annotation_level = "custom_2", annotation_colors = many)
+  annotation_level = "custom_2", annotation_colors = many, ...)
 }
 \description{
 Plot gene expression across the mouse brain

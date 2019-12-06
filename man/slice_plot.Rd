@@ -5,7 +5,7 @@
 \title{Plot correlation to brain slices and structure annotation}
 \usage{
 slice_plot(slice_df, annotation_level = "custom_2",
-  annotation_colors = many, map_colors = gyrdpu)
+  annotation_colors = many, map_colors = gyrdpu, ...)
 }
 \description{
 Plot correlation to brain slices and structure annotation

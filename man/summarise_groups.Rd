@@ -2,14 +2,15 @@
 % Please edit documentation in R/voxel_map.R
 \name{summarise_groups}
 \alias{summarise_groups}
-\title{Correlate single-cell gene expression with in situ hybridization data}
+\alias{summarise_groups.VoxelMap}
+\title{Summarize VoxelMap object over groups}
 \usage{
-summarise_groups(object, groups, fun = colMeans)
+summarise_groups(object, ...)
 
 \method{summarise_groups}{VoxelMap}(object, groups, fun = colMeans)
 }
 \description{
-Correlate single-cell gene expression with in situ hybridization data
+Summarize VoxelMap object over groups
 
 Summarize VoxelMap object over groups
 }

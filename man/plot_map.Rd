@@ -3,17 +3,18 @@
 \name{plot_map}
 \alias{plot_map}
 \alias{plot_map.VoxelMap}
-\title{Plot voxel map of single cells to voxels}
+\title{Plot similarity map of single cells to voxels}
 \usage{
 plot_map(object, ...)
 
 \method{plot_map}{VoxelMap}(object, view = "sagittal", slices = NULL,
   groups = NULL, annotation_level = "custom_2",
   annotation_colors = many, show_group = NULL,
-  map_colors = gyrdpu_flat, show_coordinates = F, show_legend = F)
+  map_colors = gyrdpu_flat, show_coordinates = F, show_legend = F,
+  ...)
 }
 \description{
-Plot voxel map of single cells to voxels
+Plot similarity map of single cells to voxels
 
-Plot voxel map of single cells to voxels
+Plot similarity map of single cells to voxels
 }

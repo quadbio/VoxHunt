@@ -5,7 +5,8 @@
 \title{3D intensity plot}
 \usage{
 three_dim_plot(int_df, annotation_level = NULL,
-  annotation_colors = many, intensity_colors = inferno)
+  annotation_colors = many, intensity_colors = inferno, sizes = c(10,
+  1000), ...)
 }
 \description{
 3D intensity plot

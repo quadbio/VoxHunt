@@ -4,8 +4,8 @@
 \alias{feature_plot}
 \title{Feature plot}
 \usage{
-feature_plot(expr_mat, meta, markers, plot = xy_plot, ncol = NULL,
-  nrow = NULL, sort = T, scale = T)
+feature_plot(expr_mat, meta, markers, plot = xy_plot, sort = T,
+  scale = T, ...)
 }
 \description{
 Feature plot

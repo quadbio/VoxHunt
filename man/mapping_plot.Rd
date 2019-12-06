@@ -5,7 +5,7 @@
 \title{Plot correlation to entire brain from sagital view}
 \usage{
 mapping_plot(map_df, view = "sagittal", slices = NULL,
-  map_colors = rdpu)
+  map_colors = rdpu, ...)
 }
 \description{
 Plot correlation to entire brain from sagital view

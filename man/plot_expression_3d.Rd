@@ -5,7 +5,8 @@
 \title{Plot gene expression across the mouse brain in 3D}
 \usage{
 plot_expression_3d(stage, gene, annotation_level = NULL,
-  annotation_colors = many, expression_colors = inferno)
+  annotation_colors = many, expression_colors = inferno,
+  sizes = c(10, 1000), both_hemispheres = T, ...)
 }
 \description{
 Plot gene expression across the mouse brain in 3D

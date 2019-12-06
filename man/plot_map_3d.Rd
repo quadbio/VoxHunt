@@ -3,16 +3,17 @@
 \name{plot_map_3d}
 \alias{plot_map_3d}
 \alias{plot_map_3d.VoxelMap}
-\title{Plot voxel map of single cells to voxels in 3D}
+\title{Plot similarity map of single cells to voxels in 3D}
 \usage{
 plot_map_3d(object, ...)
 
 \method{plot_map_3d}{VoxelMap}(object, groups = NULL,
   show_group = NULL, annotation_level = NULL,
-  annotation_colors = many, map_colors = inferno)
+  annotation_colors = many, map_colors = inferno_flat, sizes = c(1,
+  1000), both_hemispheres = T, ...)
 }
 \description{
-Plot voxel map of single cells to voxels in 3D
+Plot similarity map of single cells to voxels in 3D
 
-Plot voxel map of single cells to voxels in 3D
+Plot similarity map of single cells to voxels in 3D
 }
