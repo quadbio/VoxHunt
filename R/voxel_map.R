@@ -191,3 +191,46 @@ assign_cells.VoxelMap <- function(object, groups=NULL, fun=colMeans){
 
     return(plot_df)
 }
+
+
+#' Summarize VoxelMap object over structures
+#'
+#' @rdname summarise_structures
+#' @export summarise_structures
+#'
+summarise_structures <- function(object, ...){
+    UseMethod(generic = 'summarise_structures', object = object)
+}
+
+
+#' Summarize VoxelMap object over groups
+#'
+#' @import Matrix
+#'
+#' @rdname summarise_structures
+#' @export
+#' @method summarise_structures VoxelMap
+#'
+summarise_structures.VoxelMap <- function(object, annotation_level='custom_3', fun=Matrix::colMeans){
+
+    utils::data(voxel_meta, envir = environment())
+    corr_mat <- t(object$corr_mat)
+    voxel_meta <- dplyr::group_by_(voxel_meta, annotation_level) %>%
+        dplyr::filter(voxel%in%rownames(corr_mat)) %>%
+        dplyr::filter(dplyr::n() > 5)
+    cluster_cor <- aggregate_matrix(
+        corr_mat[voxel_meta$voxel, ],
+        groups = voxel_meta[[annotation_level]],
+        fun = fun
+    )
+    plot_df <- cluster_cor %>%
+        as.matrix() %>%
+        tibble::as_tibble(rownames='cell') %>%
+        tidyr::gather(struct, corr, -cell) %>%
+        dplyr::mutate(struct=factor(struct, levels=levels(factor(voxel_meta[[annotation_level]]))))
+    plot_df <- suppressWarnings(suppressMessages(
+        dplyr::left_join(plot_df, object$voxel_meta, by=c(struct=annotation_level)
+    )))
+
+    return(plot_df)
+}
