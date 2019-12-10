@@ -4,7 +4,7 @@
 \alias{aggregate_matrix}
 \title{Aggregate matrix over groups}
 \usage{
-aggregate_matrix(x, groups = NULL, fun = colMeans)
+aggregate_matrix(x, groups = NULL, fun = Matrix::colMeans)
 }
 \description{
 Aggregate matrix over groups

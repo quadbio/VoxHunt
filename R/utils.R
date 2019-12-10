@@ -87,7 +87,7 @@ read_loom <- function(
 aggregate_matrix <- function(
     x,
     groups = NULL,
-    fun = colMeans
+    fun = Matrix::colMeans
 ){
     if (length(groups) == nrow(x)){
         agg_mat <- sapply(levels(factor(groups)), function(g){
