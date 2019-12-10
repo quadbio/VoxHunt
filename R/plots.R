@@ -1,3 +1,5 @@
+#### ANNOTATION PLOTS ####
+
 #' Plot brain structure annotation
 #'
 #' @rdname plot_annotation
@@ -105,6 +107,7 @@ annotation_plot <- function(
     return(p)
 }
 
+#### PLOTS FOR VOXEL MAPS ####
 
 #' Plot similarity map of single cells to voxels
 #'
@@ -329,6 +332,113 @@ mapping_plot <- function(
 }
 
 
+
+#### STRUCTURE SIMILARITY PLOTS ####
+
+#' Plot similarity to brain structures
+#'
+#' @rdname plot_structure_similarity
+#' @export plot_structure_similarity
+#'
+plot_structure_similarity <- function(object, ...){
+    UseMethod(generic = 'plot_structure_similarity', object = object)
+}
+
+#' Plot similarity to brain structures
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @rdname plot_structure_similarity
+#' @export
+#' @method plot_structure_similarity VoxelMap
+#'
+plot_structure_similarity.VoxelMap <- function(
+    object,
+    annotation_level = 'custom_3',
+    annotation_groups = 'custom_2',
+    annotation_colors = many,
+    type = 'box'
+){
+    plot_df <- summarise_structures(object, 'custom_3') %>%
+        group_by_(annotation_groups) %>%
+        mutate(sorter = median(corr)) %>%
+        arrange_(annotation_groups, 'sorter')
+    plot_df$struct <- factor(plot_df$struct, levels=unique(plot_df$struct))
+
+    if (type == 'box'){
+        p <- similarity_box_plot(
+            plot_df,
+            annotation_level = annotation_groups,
+            annotation_colors = annotation_colors
+        )
+    } else if (type == 'bar'){
+        p <- similarity_bar_plot(
+            plot_df,
+            annotation_level = annotation_groups,
+            annotation_colors = annotation_colors
+        )
+    }
+    return(p)
+}
+
+
+#' Plot correlation to individual brain structures as bar plot
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+similarity_bar_plot <- function(
+    similarity_df,
+    annotation_level = 'custom_3',
+    annotation_colors = many
+){
+    p <- ggplot(similarity_df, aes_string('struct', 'corr', fill=annotation_level)) +
+        scale_fill_manual(values=annotation_colors) +
+        geom_bar(stat='summary', fun.y='median') +
+        theme_bw() +
+        theme(
+            axis.text.x = element_text(angle=60, hjust=1),
+            panel.grid = element_blank(),
+            panel.border = element_blank(),
+            axis.title = element_blank(),
+            plot.title = element_blank(),
+            strip.text = element_text()
+        ) +
+        labs(y = 'Correlation')
+    return(p)
+}
+
+
+#' Plot correlation to individual brain structures as box plot
+#'
+#' @import ggplot2
+#' @import dplyr
+#'
+similarity_box_plot <- function(
+    similarity_df,
+    annotation_level = 'custom_3',
+    annotation_colors = many
+){
+    p <- ggplot(similarity_df, aes_string('struct', 'corr', fill=annotation_level)) +
+        scale_fill_manual(values=annotation_colors) +
+        geom_boxplot(outlier.shape = NA) +
+        theme_bw() +
+        theme(
+            axis.text.x = element_text(angle=60, hjust=1),
+            panel.grid = element_blank(),
+            panel.border = element_blank(),
+            axis.title.x = element_blank(),
+            plot.title = element_blank(),
+            strip.text = element_text()
+        ) +
+        labs(y = 'Correlation')
+    return(p)
+}
+
+
+#### EXPRESSION PLOTS ####
+
 #' Plot gene expression across the mouse brain
 #'
 #' @import ggplot2
@@ -506,7 +616,7 @@ feature_plot <- function(
     return(p)
 }
 
-
+#### 3D PLOT ####
 
 #' 3D intensity plot
 #'
