@@ -355,6 +355,7 @@ plot_structure_similarity <- function(object, ...){
 #'
 plot_structure_similarity.VoxelMap <- function(
     object,
+    groups = NULL,
     annotation_level = 'custom_3',
     annotation_groups = 'custom_2',
     annotation_colors = many,
