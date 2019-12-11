@@ -136,9 +136,9 @@ summarise_groups <- function(object, ...){
 #'
 summarise_groups.VoxelMap <- function(object, groups, fun=colMeans){
 
-    if (is.null(groups) & !'group'%in%colnames(object$cell_meta)){
+    if (is.null(groups) & 'group'%in%colnames(object$cell_meta)){
         groups <- object$cell_meta$group
-    } else if (is.null(groups) & 'group'%in%colnames(object$cell_meta)){
+    } else if (is.null(groups) & !'group'%in%colnames(object$cell_meta)){
         groups <- ' '
     }
 
