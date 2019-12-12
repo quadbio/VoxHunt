@@ -6,6 +6,13 @@
 \usage{
 get_markers(expr_mat, markers, scale = T)
 }
+\arguments{
+\item{expr_mat}{A samples x genes gene expression matrix.}
+
+\item{markers}{A character vector with the names of the genes to obtain.}
+
+\item{scale}{Logicel. Whether to scale the expression values.}
+}
 \description{
 Get gene expression from matrix and return data frame
 }

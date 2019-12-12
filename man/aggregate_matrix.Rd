@@ -6,6 +6,11 @@
 \usage{
 aggregate_matrix(x, groups = NULL, fun = Matrix::colMeans)
 }
+\arguments{
+\item{groups}{A character vector with the groups to aggregate over.}
+
+\item{fun}{The aggregation function to be applied to each chunk of the matrix.}
+}
 \description{
 Aggregate matrix over groups
 }

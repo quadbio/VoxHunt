@@ -9,9 +9,31 @@ plot_map(object, ...)
 
 \method{plot_map}{VoxelMap}(object, view = "sagittal", slices = NULL,
   groups = NULL, annotation_level = "custom_2",
-  annotation_colors = many, show_group = NULL,
-  map_colors = gyrdpu_flat, show_coordinates = F, show_legend = F,
-  ...)
+  annotation_colors = many, map_colors = gyrdpu_flat,
+  show_coordinates = F, show_legend = F, ...)
+}
+\arguments{
+\item{...}{Other arguments passed to egg::ggarrange().}
+
+\item{view}{String indicating the perspective to show. Valid values are
+'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{groups}{A metadata column or character vector to group the cells,
+e.g. clusters, cell types.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{map_colors}{Color map for correlation values.}
+
+\item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
+
+\item{show_legend}{Logical. Whether to show a color legend or not.}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
 }
 \description{
 Plot similarity map of single cells to voxels

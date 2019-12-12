@@ -2,11 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{read_loom}
 \alias{read_loom}
-\title{Aggregate matrix over groups}
+\title{Read loom files to list}
 \usage{
 read_loom(filename, layer = "matrix", row_id = "voxel",
   col_id = "gene")
 }
+\arguments{
+\item{filename}{The name of the loom file}
+
+\item{layer}{The name of the layer to load as matrix}
+
+\item{row_id}{A name for the colum in the row_meta indicating the row names.}
+
+\item{col_id}{A name for the colum in the col_meta indicating the column names.}
+}
 \description{
-Aggregate matrix over groups
+Read loom files to list
 }

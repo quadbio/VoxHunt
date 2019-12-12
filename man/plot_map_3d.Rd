@@ -12,6 +12,24 @@ plot_map_3d(object, ...)
   annotation_colors = many, map_colors = inferno_flat, sizes = c(1,
   1000), both_hemispheres = T, ...)
 }
+\arguments{
+\item{...}{Other arguments passed to plotly::plot_ly().}
+
+\item{groups}{A metadata column or character vector to group the cells,
+e.g. clusters, cell types.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{map_colors}{Color map for correlation values.}
+
+\item{sizes}{The size range for points.}
+
+\item{both_hemispheres}{Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).}
+
+\item{group_show}{The nameof the group to show in the plot.}
+}
 \description{
 Plot similarity map of single cells to voxels in 3D
 

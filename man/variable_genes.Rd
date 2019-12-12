@@ -4,7 +4,12 @@
 \alias{variable_genes}
 \title{Finds differentially expressed features for all structures on a given annotation level}
 \usage{
-variable_genes(stage = "E13pt5", method = "vst", nfeatures = 2000)
+variable_genes(stage = "E13", nfeatures = 2000)
+}
+\arguments{
+\item{stage}{A string indicating the developmental stage in the ABA.}
+
+\item{nfeatures}{The number of features to return.}
 }
 \description{
 Finds differentially expressed features for all structures on a given annotation level

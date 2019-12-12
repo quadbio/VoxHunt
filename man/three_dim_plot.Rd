@@ -8,6 +8,19 @@ three_dim_plot(int_df, annotation_level = NULL,
   annotation_colors = many, intensity_colors = inferno, sizes = c(10,
   1000), ...)
 }
+\arguments{
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{sizes}{The size range for points.}
+
+\item{...}{Other arguments passed to plotly::plot_ly().}
+
+\item{intnesity_colors}{Colors for intensity scale.}
+
+\item{both_hemispheres}{Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).}
+}
 \description{
 3D intensity plot
 }

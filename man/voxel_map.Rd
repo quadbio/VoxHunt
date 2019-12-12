@@ -9,10 +9,26 @@
 voxel_map(object, ...)
 
 \method{voxel_map}{default}(object, stage = "E13", groups = NULL,
-  method = "pearson", allow_neg = F, genes_use = NULL)
+  method = "pearson", genes_use = NULL, allow_neg = F)
 
 \method{voxel_map}{Seurat}(object, stage = "E13", group_name = NULL,
-  method = "pearson", allow_neg = F, genes_use = NULL)
+  method = "pearson", genes_use = NULL, allow_neg = F)
+}
+\arguments{
+\item{stage}{The developmental stage in the ABA to map single cells to.}
+
+\item{groups}{A character or factor vector or for grouping of cells,
+e.g. clusters, cell types.}
+
+\item{method}{A character string indicating which correlation coefficient to compute.}
+
+\item{genes_use}{A character vector with genes to use for computing the correlation.
+We recommend to use 150 - 500 genes.}
+
+\item{allow_neg}{Logical. Whether to allow negative correlations or set them to 0.}
+
+\item{group_name}{A string indicating the metadata column for grouping the cells,
+e.g. clusters, cell types.}
 }
 \description{
 Correlate single-cell gene expression with in situ hybridization data

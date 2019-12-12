@@ -7,7 +7,7 @@
 \usage{
 plot_structure_similarity(object, ...)
 
-\method{plot_structure_similarity}{VoxelMap}(object,
+\method{plot_structure_similarity}{VoxelMap}(object, groups = NULL,
   annotation_level = "custom_3", annotation_groups = "custom_2",
   annotation_colors = many, type = "box")
 }

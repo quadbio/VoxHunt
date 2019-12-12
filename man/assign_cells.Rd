@@ -7,10 +7,10 @@
 \usage{
 assign_cells(object, ...)
 
-\method{assign_cells}{VoxelMap}(object, groups = NULL, fun = colMeans)
+\method{assign_cells}{VoxelMap}(object)
 }
 \description{
 Assign cells to structure
 
-Assign cells to structure
+Assign cells to structure based on maximum correlation voxel
 }

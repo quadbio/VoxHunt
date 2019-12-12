@@ -7,6 +7,20 @@
 plot_expression(stage, genes, view = "sagittal", slices = NULL,
   annotation_level = "custom_2", annotation_colors = many, ...)
 }
+\arguments{
+\item{stage}{The developmental stage to plot.}
+
+\item{genes}{A character vector with the genes to plot.}
+
+\item{view}{String indicating the perspective to show. Valid values are
+'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+}
 \description{
 Plot gene expression across the mouse brain
 }

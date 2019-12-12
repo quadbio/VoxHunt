@@ -17,6 +17,21 @@ plot_annotation(object = "E13", ...)
   annotation_colors = many, slices = NULL, show_coordinates = F,
   show_legend = F, alpha = 0.5)
 }
+\arguments{
+\item{object}{String indicating the developmental stage from the ABA.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{A character vector with the color scale}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
+
+\item{show_legend}{Logical. Whether to show a color legend or not.}
+
+\item{alpha}{Float. The alpha value for grid tiles.}
+}
 \description{
 Plot brain structure annotation
 

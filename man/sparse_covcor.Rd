@@ -6,6 +6,11 @@
 \usage{
 sparse_covcor(x, y = NULL)
 }
+\arguments{
+\item{x}{Sparse matrix or character vector}
+
+\item{y}{Sparse matrix or character vector}
+}
 \description{
 Fast correlation and covariance calcualtion for sparse matrices
 }

@@ -7,6 +7,13 @@
 slice_plot(slice_df, annotation_level = "custom_2",
   annotation_colors = many, map_colors = gyrdpu, ...)
 }
+\arguments{
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{map_colors}{Color map for correlation values.}
+}
 \description{
 Plot correlation to brain slices and structure annotation
 }

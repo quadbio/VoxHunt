@@ -6,6 +6,12 @@
 \usage{
 load_aba_data(dir, lazy = T)
 }
+\arguments{
+\item{dir}{The directory with loom files for each stage.}
+
+\item{lazy}{Logical. If TRUE, the data is only loaded into memory when required,
+if FALSE, the data is loaded right away.}
+}
 \description{
 Define the path to voxel data and load lazily if required
 }
