@@ -22,7 +22,7 @@ plot_annotation(object = "E13", ...)
 
 \item{annotation_level}{The structure annotation level to color code.}
 
-\item{annotation_colors}{A character vector with the color scale}
+\item{annotation_colors}{A character vector with the color scale.}
 
 \item{slices}{A numeric vector indicating the slices to plot.}
 
@@ -31,6 +31,9 @@ plot_annotation(object = "E13", ...)
 \item{show_legend}{Logical. Whether to show a color legend or not.}
 
 \item{alpha}{Float. The alpha value for grid tiles.}
+}
+\value{
+An annotation plot.
 }
 \description{
 Plot brain structure annotation

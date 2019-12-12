@@ -14,6 +14,10 @@ slice_plot(slice_df, annotation_level = "custom_2",
 
 \item{map_colors}{Color map for correlation values.}
 }
+\value{
+A similarity map with one row per slice and one
+column per cell group.
+}
 \description{
 Plot correlation to brain slices and structure annotation
 }

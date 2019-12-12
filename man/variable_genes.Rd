@@ -2,7 +2,7 @@
 % Please edit documentation in R/differential_expression.R
 \name{variable_genes}
 \alias{variable_genes}
-\title{Finds differentially expressed features for all structures on a given annotation level}
+\title{Finds variable features for all structures on a given annotation level}
 \usage{
 variable_genes(stage = "E13", nfeatures = 2000)
 }
@@ -11,6 +11,9 @@ variable_genes(stage = "E13", nfeatures = 2000)
 
 \item{nfeatures}{The number of features to return.}
 }
+\value{
+A tibble with variable features.
+}
 \description{
-Finds differentially expressed features for all structures on a given annotation level
+Finds variable features for all structures on a given annotation level
 }

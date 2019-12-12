@@ -28,6 +28,9 @@ plot_expression_3d(stage, gene, annotation_level = NULL,
 \item{view}{String indicating the perspective to show. Valid values are
 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.}
 }
+\value{
+A gene expression plot in 3D.
+}
 \description{
 Plot gene expression across the mouse brain in 3D
 }

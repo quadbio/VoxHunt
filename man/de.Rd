@@ -6,6 +6,9 @@
 \usage{
 de(expr_mat, groups)
 }
+\value{
+A tibble with p-values and AUROC values.
+}
 \description{
 Performs differential expression analysis on a sample x feature matrix
 }

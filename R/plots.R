@@ -16,11 +16,13 @@ plot_annotation <- function(object = 'E13', ...){
 #'
 #' @param object String indicating the developmental stage from the ABA.
 #' @param annotation_level The structure annotation level to color code.
-#' @param annotation_colors A character vector with the color scale
+#' @param annotation_colors A character vector with the color scale.
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
 #' @param alpha Float. The alpha value for grid tiles.
+#'
+#' @return An annotation plot.
 #'
 #' @rdname plot_annotation
 #' @export
@@ -90,10 +92,12 @@ plot_annotation.VoxelMap <- function(
 #' @import ggplot2
 #'
 #' @param annotation_level The structure annotation level to color code.
-#' @param annotation_colors A character vector with the color scale
+#' @param annotation_colors A character vector with the color scale.
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
 #' @param alpha Float. The alpha value for grid tiles.
+#'
+#' @return An annotation plot.
 #'
 annotation_plot <- function(
     annot_df,
@@ -150,6 +154,8 @@ plot_map <- function(object, ...){
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
 #' @param ... Other arguments passed to egg::ggarrange().
+#'
+#' @return A similarity map.
 #'
 #' @rdname plot_map
 #' @export
@@ -229,6 +235,8 @@ plot_map_3d <- function(object, ...){
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
 #' @param ... Other arguments passed to plotly::plot_ly().
 #'
+#' @return A similarity map in 3D.
+#'
 #' @rdname plot_map_3d
 #' @export
 #' @method plot_map_3d VoxelMap
@@ -281,6 +289,9 @@ plot_map_3d.VoxelMap <- function(
 #' @param annotation_colors Color map for structure annotation.
 #' @param map_colors Color map for correlation values.
 #'
+#' @return A similarity map with one row per slice and one
+#' column per cell group.
+#'
 slice_plot <- function(
     slice_df,
     annotation_level = 'custom_2',
@@ -322,7 +333,7 @@ slice_plot <- function(
 }
 
 
-#' Plot correlation to entire brain from sagital view
+#' Plot correlation to entire brain or selected slices.
 #'
 #' @import ggplot2
 #' @import dplyr
@@ -331,6 +342,8 @@ slice_plot <- function(
 #' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param map_colors Color map for correlation values.
+#'
+#' @return A similarity map.
 #'
 mapping_plot <- function(
     map_df,
@@ -394,6 +407,8 @@ plot_structure_similarity <- function(object, ...){
 #' @import ggplot2
 #' @import dplyr
 #'
+#' @return A plot showing average correlation to each brain structure.
+#'
 #' @rdname plot_structure_similarity
 #' @export
 #' @method plot_structure_similarity VoxelMap
@@ -437,6 +452,8 @@ plot_structure_similarity.VoxelMap <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #'
+#' @return A barplot showing average correlation to each brain structure.
+#'
 similarity_bar_plot <- function(
     similarity_df,
     annotation_level = 'custom_3',
@@ -466,6 +483,8 @@ similarity_bar_plot <- function(
 #'
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
+#'
+#' @return A boxplot showing average correlation to each brain structure.
 #'
 similarity_box_plot <- function(
     similarity_df,
@@ -503,6 +522,8 @@ similarity_box_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
+#'
+#' @return A gene expression plot.
 #'
 #' @export
 #'
@@ -610,6 +631,8 @@ plot_expression <- function(
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
 #' @param ... Other arguments passed to plotly::plot_ly().
 #'
+#' @return A gene expression plot in 3D.
+#'
 #' @export
 #'
 plot_expression_3d <- function(
@@ -669,6 +692,8 @@ plot_expression_3d <- function(
 #' @param sort Logical. Whether to sort highest expressing cells up.
 #' @param scale Logical. Whether to scale the expression values.
 #'
+#' @return A panel of feature plots for each gene.
+#'
 feature_plot <- function(
     expr_mat,
     meta,
@@ -696,7 +721,7 @@ feature_plot <- function(
 
 #### 3D PLOT ####
 
-#' 3D intensity plot
+#' General 3D plotting function
 #'
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
@@ -704,6 +729,8 @@ feature_plot <- function(
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
 #' @param ... Other arguments passed to plotly::plot_ly().
+#'
+#' @return A three-dimensional plot.
 #'
 three_dim_plot <- function(
     int_df,

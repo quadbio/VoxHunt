@@ -35,6 +35,9 @@ e.g. clusters, cell types.}
 
 \item{slices}{A numeric vector indicating the slices to plot.}
 }
+\value{
+A similarity map.
+}
 \description{
 Plot similarity map of single cells to voxels
 

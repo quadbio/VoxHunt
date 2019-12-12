@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{mapping_plot}
 \alias{mapping_plot}
-\title{Plot correlation to entire brain from sagital view}
+\title{Plot correlation to entire brain or selected slices.}
 \usage{
 mapping_plot(map_df, view = "sagittal", slices = NULL,
   map_colors = rdpu, ...)
@@ -15,6 +15,9 @@ mapping_plot(map_df, view = "sagittal", slices = NULL,
 
 \item{map_colors}{Color map for correlation values.}
 }
+\value{
+A similarity map.
+}
 \description{
-Plot correlation to entire brain from sagital view
+Plot correlation to entire brain or selected slices.
 }

@@ -20,6 +20,9 @@ feature_plot(expr_mat, meta, markers, plot = xy_plot, sort = T,
 
 \item{scale}{Logical. Whether to scale the expression values.}
 }
+\value{
+A panel of feature plots for each gene.
+}
 \description{
 Feature plot
 }

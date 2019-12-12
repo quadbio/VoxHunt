@@ -30,6 +30,9 @@ e.g. clusters, cell types.}
 
 \item{group_show}{The nameof the group to show in the plot.}
 }
+\value{
+A similarity map in 3D.
+}
 \description{
 Plot similarity map of single cells to voxels in 3D
 

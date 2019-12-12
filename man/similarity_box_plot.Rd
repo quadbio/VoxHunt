@@ -12,6 +12,9 @@ similarity_box_plot(similarity_df, annotation_level = "custom_3",
 
 \item{annotation_colors}{Color map for structure annotation.}
 }
+\value{
+A boxplot showing average correlation to each brain structure.
+}
 \description{
 Plot correlation to individual brain structures as box plot
 }

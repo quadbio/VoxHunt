@@ -4,6 +4,8 @@
 #' @param annotation_level The structure annotation level to perform DE an analysis between.
 #' @param structure_groups A character or factor vector to provide custom grouping of voxels.
 #'
+#' @return A tibble with p-values and AUROC values.
+#'
 #' @export
 #'
 structure_markers <- function(
@@ -41,6 +43,8 @@ structure_markers <- function(
 
 #' Performs differential expression analysis on a sample x feature matrix
 #'
+#' @return A tibble with p-values and AUROC values.
+#'
 de <- function(expr_mat, groups){
     de_df <- presto::wilcoxauc(t(expr_mat), groups)
     de_df <- dplyr::select(de_df, 'gene'=feature, group, 'avg_exp'=avgExpr, 'fc'=logFC, auc,
@@ -48,10 +52,12 @@ de <- function(expr_mat, groups){
     return(tibble::as_tibble(de_df))
 }
 
-#' Finds differentially expressed features for all structures on a given annotation level
+#' Finds variable features for all structures on a given annotation level
 #'
 #' @param stage A string indicating the developmental stage in the ABA.
 #' @param nfeatures The number of features to return.
+#'
+#' @return A tibble with variable features.
 #'
 #' @export
 #'

@@ -11,6 +11,9 @@ plot_structure_similarity(object, ...)
   annotation_level = "custom_3", annotation_groups = "custom_2",
   annotation_colors = many, type = "box")
 }
+\value{
+A plot showing average correlation to each brain structure.
+}
 \description{
 Plot similarity to brain structures
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{three_dim_plot}
 \alias{three_dim_plot}
-\title{3D intensity plot}
+\title{General 3D plotting function}
 \usage{
 three_dim_plot(int_df, annotation_level = NULL,
   annotation_colors = many, intensity_colors = inferno, sizes = c(10,
@@ -21,6 +21,9 @@ three_dim_plot(int_df, annotation_level = NULL,
 
 \item{both_hemispheres}{Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).}
 }
+\value{
+A three-dimensional plot.
+}
 \description{
-3D intensity plot
+General 3D plotting function
 }

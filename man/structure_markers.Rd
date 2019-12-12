@@ -14,6 +14,9 @@ structure_markers(stage = "E13", annotation_level = "custom_3",
 
 \item{structure_groups}{A character or factor vector to provide custom grouping of voxels.}
 }
+\value{
+A tibble with p-values and AUROC values.
+}
 \description{
 Finds differentially expressed features for all structures on a given annotation level
 }

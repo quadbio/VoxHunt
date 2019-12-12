@@ -21,6 +21,9 @@ plot_expression(stage, genes, view = "sagittal", slices = NULL,
 
 \item{annotation_colors}{Color map for structure annotation.}
 }
+\value{
+A gene expression plot.
+}
 \description{
 Plot gene expression across the mouse brain
 }
