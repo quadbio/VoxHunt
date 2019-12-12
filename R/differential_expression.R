@@ -1,9 +1,13 @@
 #' Finds differentially expressed features for all structures on a given annotation level
 #'
+#' @param stage The developmental stage from the ABA.
+#' @param annotation_level The structure annotation level to perform DE an analysis between.
+#' @param structure_groups A character or factor vector to provide custom grouping of voxels.
+#'
 #' @export
 #'
 structure_markers <- function(
-    stage = 'E13pt5',
+    stage = 'E13',
     annotation_level = 'custom_3',
     structure_groups = NULL
 ){
@@ -46,11 +50,13 @@ de <- function(expr_mat, groups){
 
 #' Finds differentially expressed features for all structures on a given annotation level
 #'
+#' @param stage A string indicating the developmental stage in the ABA.
+#' @param nfeatures The number of features to return.
+#'
 #' @export
 #'
 variable_genes <- function(
-    stage = 'E13pt5',
-    method = 'vst',
+    stage = 'E13',
     nfeatures = 2000
 ){
 
