@@ -1,5 +1,9 @@
 #' Define the path to voxel data and load lazily if required
 #'
+#' @param dir The directory with loom files for each stage.
+#' @param lazy Logical. If TRUE, the data is only loaded into memory when required,
+#' if FALSE, the data is loaded right away.
+#'
 #' @export
 #'
 load_aba_data <- function(
@@ -49,9 +53,14 @@ load_aba_data <- function(
 }
 
 
-#' Aggregate matrix over groups
+#' Read loom files to list
 #'
 #' @import loomR
+#'
+#' @param filename The name of the loom file
+#' @param layer The name of the layer to load as matrix
+#' @param row_id A name for the colum in the row_meta indicating the row names.
+#' @param col_id A name for the colum in the col_meta indicating the column names.
 #'
 read_loom <- function(
     filename,
@@ -82,7 +91,9 @@ read_loom <- function(
 #' Aggregate matrix over groups
 #'
 #' @import Matrix
-#' @import dplyr
+#'
+#' @param groups A character vector with the groups to aggregate over.
+#' @param fun The aggregation function to be applied to each chunk of the matrix.
 #'
 aggregate_matrix <- function(
     x,
@@ -110,6 +121,10 @@ aggregate_matrix <- function(
 #'
 #' @import dplyr
 #'
+#' @param expr_mat A samples x genes gene expression matrix.
+#' @param markers A character vector with the names of the genes to obtain.
+#' @param scale Logicel. Whether to scale the expression values.
+#'
 get_markers <- function(
     expr_mat,
     markers,
@@ -129,9 +144,7 @@ get_markers <- function(
 
 #' Pick proper stage name
 #'
-stage_name <- function(
-    stage
-){
+stage_name <- function(stage){
     stage_names <- list(
         E11 = c('E11pt5', 'E11.5', 'E11', 11, '11'),
         E13 = c('E13pt5', 'E13.5', 'E13', 13, '13'),
@@ -151,6 +164,9 @@ stage_name <- function(
 
 
 #' Fast correlation and covariance calcualtion for sparse matrices
+#'
+#' @param x Sparse matrix or character vector
+#' @param y Sparse matrix or character vector
 #'
 sparse_covcor <- function(x, y=NULL) {
     if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
@@ -185,6 +201,11 @@ sparse_cor <- function(x, y=NULL) {
 
 
 #' Safe correlation function which returns a sparse matrix without missing values
+#'
+#' @param x Sparse matrix or character vector
+#' @param y Sparse matrix or character vector
+#' @param method Method to use for calculating the correlation coefficient.
+#' @param allow_neg Logical. Whether to allow negative values or set them to 0.
 #'
 safe_cor <- function(
     x,
