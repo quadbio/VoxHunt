@@ -39,7 +39,6 @@ e.g. clusters, cell types.}
 A similarity map.
 }
 \description{
-Plot similarity map of single cells to voxels
-
-Plot similarity map of single cells to voxels
+To visualise the similarity of single cells to voxel maps, correlation maps
+can be plotted from multiple perspectives or for panels of individual brain slices.
 }

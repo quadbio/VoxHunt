@@ -2,7 +2,7 @@
 % Please edit documentation in R/differential_expression.R
 \name{structure_markers}
 \alias{structure_markers}
-\title{Finds differentially expressed features for all structures on a given annotation level}
+\title{Find differentially expressed features for all structures on a given annotation level}
 \usage{
 structure_markers(stage = "E13", annotation_level = "custom_3",
   structure_groups = NULL)
@@ -15,8 +15,8 @@ structure_markers(stage = "E13", annotation_level = "custom_3",
 \item{structure_groups}{A character or factor vector to provide custom grouping of voxels.}
 }
 \value{
-A tibble with p-values and AUROC values.
+A tibble with AUROC and p-values.
 }
 \description{
-Finds differentially expressed features for all structures on a given annotation level
+Performs DE analysis between structure annotation levels and returns a tibble.
 }

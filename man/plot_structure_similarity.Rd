@@ -16,6 +16,4 @@ A plot showing average correlation to each brain structure.
 }
 \description{
 Plot similarity to brain structures
-
-Plot similarity to brain structures
 }

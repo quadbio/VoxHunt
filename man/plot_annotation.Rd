@@ -36,9 +36,5 @@ plot_annotation(object = "E13", ...)
 An annotation plot.
 }
 \description{
-Plot brain structure annotation
-
-Plot brain structure annotation
-
-Plot brain structure annotation
+Plot the voxel map of the developing mouse brain colorcoded by structure annotation.
 }

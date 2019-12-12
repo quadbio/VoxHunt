@@ -2,6 +2,8 @@
 
 #' Plot brain structure annotation
 #'
+#' Plot the voxel map of the developing mouse brain colorcoded by structure annotation.
+#'
 #' @rdname plot_annotation
 #' @export plot_annotation
 #'
@@ -10,8 +12,6 @@ plot_annotation <- function(object = 'E13', ...){
 }
 
 
-#' Plot brain structure annotation
-#'
 #' @import dplyr
 #'
 #' @param object String indicating the developmental stage from the ABA.
@@ -54,9 +54,6 @@ plot_annotation.default <- function(
     return(p)
 }
 
-
-#' Plot brain structure annotation
-#'
 #' @import dplyr
 #'
 #' @rdname plot_annotation
@@ -129,6 +126,9 @@ annotation_plot <- function(
 
 #' Plot similarity map of single cells to voxels
 #'
+#' To visualise the similarity of single cells to voxel maps, correlation maps
+#' can be plotted from multiple perspectives or for panels of individual brain slices.
+#'
 #' @rdname plot_map
 #' @export plot_map
 #'
@@ -136,9 +136,6 @@ plot_map <- function(object, ...){
     UseMethod(generic = 'plot_map', object = object)
 }
 
-
-#' Plot similarity map of single cells to voxels
-#'
 #' @import ggplot2
 #' @import dplyr
 #'
@@ -219,9 +216,6 @@ plot_map_3d <- function(object, ...){
     UseMethod(generic = 'plot_map_3d', object = object)
 }
 
-
-#' Plot similarity map of single cells to voxels in 3D
-#'
 #' @import ggplot2
 #' @import dplyr
 #'
@@ -402,8 +396,6 @@ plot_structure_similarity <- function(object, ...){
     UseMethod(generic = 'plot_structure_similarity', object = object)
 }
 
-#' Plot similarity to brain structures
-#'
 #' @import ggplot2
 #' @import dplyr
 #'

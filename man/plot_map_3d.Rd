@@ -35,6 +35,4 @@ A similarity map in 3D.
 }
 \description{
 Plot similarity map of single cells to voxels in 3D
-
-Plot similarity map of single cells to voxels in 3D
 }

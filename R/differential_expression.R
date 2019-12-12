@@ -1,10 +1,12 @@
-#' Finds differentially expressed features for all structures on a given annotation level
+#' Find differentially expressed features for all structures on a given annotation level
+#'
+#' Performs DE analysis between structure annotation levels and returns a tibble.
 #'
 #' @param stage The developmental stage from the ABA.
 #' @param annotation_level The structure annotation level to perform DE an analysis between.
 #' @param structure_groups A character or factor vector to provide custom grouping of voxels.
 #'
-#' @return A tibble with p-values and AUROC values.
+#' @return A tibble with AUROC and p-values.
 #'
 #' @export
 #'
