@@ -9,6 +9,14 @@ voxel_map <- function(object, ...){
 
 #' Correlate single-cell gene expression with in situ hybridization data
 #'
+#' @param stage The developmental stage in the ABA to map single cells to.
+#' @param groups A character or factor vector or for grouping of cells,
+#' e.g. clusters, cell types.
+#' @param method A character string indicating which correlation coefficient to compute.
+#' @param genes_use A character vector with genes to use for computing the correlation.
+#' We recommend to use 150 - 500 genes.
+#' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
+#'
 #' @rdname voxel_map
 #' @export
 #' @method voxel_map default
@@ -18,8 +26,8 @@ voxel_map.default <- function(
     stage = 'E13',
     groups = NULL,
     method = 'pearson',
-    allow_neg = F,
-    genes_use = NULL
+    genes_use = NULL,
+    allow_neg = F
 ){
 
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -69,6 +77,9 @@ voxel_map.default <- function(
 
 #' Correlate single-cell gene expression with in situ hybridization data
 #'
+#' @param group_name A string indicating the metadata column for grouping the cells,
+#' e.g. clusters, cell types.
+#'
 #' @rdname voxel_map
 #' @export
 #' @method voxel_map Seurat
@@ -78,8 +89,8 @@ voxel_map.Seurat <- function(
     stage = 'E13',
     group_name = NULL,
     method = 'pearson',
-    allow_neg = F,
-    genes_use = NULL
+    genes_use = NULL,
+    allow_neg = F
 ){
     expr_mat <- t(GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
@@ -118,11 +129,11 @@ print.VoxelMap <- function(object){
 
 #' Summarize VoxelMap object over groups
 #'
-#' @rdname summarise_groups
-#' @export summarise_groups
+#' @rdname summarize_groups
+#' @export summarize_groups
 #'
-summarise_groups <- function(object, ...){
-    UseMethod(generic = 'summarise_groups', object = object)
+summarize_groups <- function(object, ...){
+    UseMethod(generic = 'summarize_groups', object = object)
 }
 
 
@@ -130,11 +141,19 @@ summarise_groups <- function(object, ...){
 #'
 #' @import Matrix
 #'
-#' @rdname summarise_groups
-#' @export
-#' @method summarise_groups VoxelMap
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param fun Function used to aggregate the groups.
 #'
-summarise_groups.VoxelMap <- function(object, groups, fun=colMeans){
+#' @rdname summarize_groups
+#' @export
+#' @method summarize_groups VoxelMap
+#'
+summarize_groups.VoxelMap <- function(
+    object,
+    groups = NULL,
+    fun = colMeans
+){
 
     if (is.null(groups) & 'group'%in%colnames(object$cell_meta)){
         groups <- object$cell_meta$group
@@ -165,7 +184,7 @@ assign_cells <- function(object, ...){
 }
 
 
-#' Assign cells to structure
+#' Assign cells to structure based on maximum correlation voxel
 #'
 #' @import Matrix
 #'
@@ -173,33 +192,29 @@ assign_cells <- function(object, ...){
 #' @export
 #' @method assign_cells VoxelMap
 #'
-assign_cells.VoxelMap <- function(object, groups=NULL, fun=colMeans){
+assign_cells.VoxelMap <- function(object){
 
-    if (is.null(groups) & !is.null(object$cell_meta$group)){
-        groups <- object$cell_meta$group
-    } else if (is.null(groups) & is.null(object$cell_meta$group)){
-        groups <- ' '
-    }
+    which_max_corr <- colnames(object$corr_mat)[apply(object$corr_mat, 1, which.max)]
+    max_corr <- apply(object$corr_mat, 1, max)
+    max_corr_df <- tibble(
+        voxel = which_max_corr,
+        corr = max_corr,
+        cluster = rownames(object$corr_mat)
+    )
 
-    cluster_cor <- aggregate_matrix(object$corr_mat, groups=groups, fun=fun)
+    max_corr_df <- suppressMessages(left_join(max_corr_df, object$voxel_meta))
 
-    plot_df <- cluster_cor %>%
-        as.matrix() %>%
-        as_tibble(rownames='voxel') %>%
-        tidyr::gather(group, corr, -voxel)
-    plot_df <- suppressMessages(left_join(plot_df, object$voxel_meta))
-
-    return(plot_df)
+    return(max_corr_df)
 }
 
 
 #' Summarize VoxelMap object over structures
 #'
-#' @rdname summarise_structures
-#' @export summarise_structures
+#' @rdname summarize_structures
+#' @export summarize_structures
 #'
-summarise_structures <- function(object, ...){
-    UseMethod(generic = 'summarise_structures', object = object)
+summarize_structures <- function(object, ...){
+    UseMethod(generic = 'summarize_structures', object = object)
 }
 
 
@@ -207,11 +222,18 @@ summarise_structures <- function(object, ...){
 #'
 #' @import Matrix
 #'
-#' @rdname summarise_structures
-#' @export
-#' @method summarise_structures VoxelMap
+#' @param annotation_level The structure annotation level to summarize voxels to.
+#' @param fun Function to use for summarizing voxels.
 #'
-summarise_structures.VoxelMap <- function(object, annotation_level='custom_3', fun=Matrix::colMeans){
+#' @rdname summarize_structures
+#' @export
+#' @method summarize_structures VoxelMap
+#'
+summarize_structures.VoxelMap <- function(
+    object,
+    annotation_level = 'custom_3',
+    fun = colMeans
+){
 
     utils::data(voxel_meta, envir = environment())
     corr_mat <- t(object$corr_mat)
