@@ -11,6 +11,9 @@ aggregate_matrix(x, groups = NULL, fun = Matrix::colMeans)
 
 \item{fun}{The aggregation function to be applied to each chunk of the matrix.}
 }
+\value{
+A summary matrix.
+}
 \description{
 Aggregate matrix over groups
 }

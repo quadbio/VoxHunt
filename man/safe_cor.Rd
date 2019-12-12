@@ -7,13 +7,16 @@
 safe_cor(x, y, method = "pearson", allow_neg = F)
 }
 \arguments{
-\item{x}{Sparse matrix or character vector}
+\item{x}{Sparse matrix or character vector.}
 
-\item{y}{Sparse matrix or character vector}
+\item{y}{Sparse matrix or character vector.}
 
 \item{method}{Method to use for calculating the correlation coefficient.}
 
 \item{allow_neg}{Logical. Whether to allow negative values or set them to 0.}
+}
+\value{
+A correlation matrix.
 }
 \description{
 Safe correlation function which returns a sparse matrix without missing values

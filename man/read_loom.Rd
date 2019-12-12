@@ -8,13 +8,16 @@ read_loom(filename, layer = "matrix", row_id = "voxel",
   col_id = "gene")
 }
 \arguments{
-\item{filename}{The name of the loom file}
+\item{filename}{The name of the loom file.}
 
-\item{layer}{The name of the layer to load as matrix}
+\item{layer}{The name of the layer to load as matrix.}
 
 \item{row_id}{A name for the colum in the row_meta indicating the row names.}
 
 \item{col_id}{A name for the colum in the col_meta indicating the column names.}
+}
+\value{
+A list with matrix, row_meta and col_meta.
 }
 \description{
 Read loom files to list

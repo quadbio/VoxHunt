@@ -57,10 +57,12 @@ load_aba_data <- function(
 #'
 #' @import loomR
 #'
-#' @param filename The name of the loom file
-#' @param layer The name of the layer to load as matrix
+#' @param filename The name of the loom file.
+#' @param layer The name of the layer to load as matrix.
 #' @param row_id A name for the colum in the row_meta indicating the row names.
 #' @param col_id A name for the colum in the col_meta indicating the column names.
+#'
+#' @return A list with matrix, row_meta and col_meta.
 #'
 read_loom <- function(
     filename,
@@ -95,6 +97,8 @@ read_loom <- function(
 #' @param groups A character vector with the groups to aggregate over.
 #' @param fun The aggregation function to be applied to each chunk of the matrix.
 #'
+#' @return A summary matrix.
+#'
 aggregate_matrix <- function(
     x,
     groups = NULL,
@@ -117,13 +121,15 @@ aggregate_matrix <- function(
 }
 
 
-#' Get gene expression from matrix and return data frame
+#' Get gene expression values from matrix
 #'
 #' @import dplyr
 #'
 #' @param expr_mat A samples x genes gene expression matrix.
 #' @param markers A character vector with the names of the genes to obtain.
-#' @param scale Logicel. Whether to scale the expression values.
+#' @param scale Logical. Whether to scale the expression values.
+#'
+#' @return A tibble with expression of selected genes.
 #'
 get_markers <- function(
     expr_mat,
@@ -143,6 +149,10 @@ get_markers <- function(
 
 
 #' Pick proper stage name
+#'
+#' @param stage An alias for the developmental stage.
+#'
+#' @return A valid stage name.
 #'
 stage_name <- function(stage){
     stage_names <- list(
@@ -165,8 +175,10 @@ stage_name <- function(stage){
 
 #' Fast correlation and covariance calcualtion for sparse matrices
 #'
-#' @param x Sparse matrix or character vector
-#' @param y Sparse matrix or character vector
+#' @param x Sparse matrix or character vector.
+#' @param y Sparse matrix or character vector.
+#'
+#' @return A list containing a covariance and correlation matrix.
 #'
 sparse_covcor <- function(x, y=NULL) {
     if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
@@ -202,10 +214,12 @@ sparse_cor <- function(x, y=NULL) {
 
 #' Safe correlation function which returns a sparse matrix without missing values
 #'
-#' @param x Sparse matrix or character vector
-#' @param y Sparse matrix or character vector
+#' @param x Sparse matrix or character vector.
+#' @param y Sparse matrix or character vector.
 #' @param method Method to use for calculating the correlation coefficient.
 #' @param allow_neg Logical. Whether to allow negative values or set them to 0.
+#'
+#' @return A correlation matrix.
 #'
 safe_cor <- function(
     x,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{get_markers}
 \alias{get_markers}
-\title{Get gene expression from matrix and return data frame}
+\title{Get gene expression values from matrix}
 \usage{
 get_markers(expr_mat, markers, scale = T)
 }
@@ -11,8 +11,11 @@ get_markers(expr_mat, markers, scale = T)
 
 \item{markers}{A character vector with the names of the genes to obtain.}
 
-\item{scale}{Logicel. Whether to scale the expression values.}
+\item{scale}{Logical. Whether to scale the expression values.}
+}
+\value{
+A tibble with expression of selected genes.
 }
 \description{
-Get gene expression from matrix and return data frame
+Get gene expression values from matrix
 }

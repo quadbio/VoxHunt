@@ -7,9 +7,12 @@
 sparse_covcor(x, y = NULL)
 }
 \arguments{
-\item{x}{Sparse matrix or character vector}
+\item{x}{Sparse matrix or character vector.}
 
-\item{y}{Sparse matrix or character vector}
+\item{y}{Sparse matrix or character vector.}
+}
+\value{
+A list containing a covariance and correlation matrix.
 }
 \description{
 Fast correlation and covariance calcualtion for sparse matrices
