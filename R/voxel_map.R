@@ -49,12 +49,10 @@ voxel_map.default <- function(
         inter_genes <- intersect(inter_genes, genes_use)
     }
     expr_mat <- t(object[, inter_genes])
-    if (!allow_neg){
-        voxel_mat[voxel_mat < 1] <- 0
-    }
+    voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- t(voxel_mat[, inter_genes])
 
-    corr_mat <- safe_cor(expr_mat, voxel_mat, method = method)
+    corr_mat <- safe_cor(expr_mat, voxel_mat, method = method, allow_neg = allow_neg)
     if (is.null(groups)){
         cell_meta <- tibble(
             cell = rownames(corr_mat)
