@@ -9,8 +9,12 @@ assign_cells(object, ...)
 
 \method{assign_cells}{VoxelMap}(object)
 }
+\arguments{
+\item{object}{A VoxelMap opject}
+}
+\value{
+A tibble with cells assigned to voxels
+}
 \description{
 Assign cells to structure
-
-Assign cells to structure based on maximum correlation voxel
 }

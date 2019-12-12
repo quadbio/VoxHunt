@@ -16,8 +16,9 @@ e.g. clusters, cell types.}
 
 \item{fun}{Function used to aggregate the groups.}
 }
+\value{
+A tibble with group summaries
+}
 \description{
-Summarize VoxelMap object over groups
-
 Summarize VoxelMap object over groups
 }

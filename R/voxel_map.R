@@ -1,4 +1,8 @@
-#' Correlate single-cell gene expression with in situ hybridization data
+#' Project single cell gene expression data to spatial expression patterns in the mouse brain
+#'
+#' Calculates correlation between single-cell gene expression and
+#' in situ hybridization data of the developing mouse brain from
+#' the Allen Brain Atlas.
 #'
 #' @rdname voxel_map
 #' @export voxel_map
@@ -7,8 +11,6 @@ voxel_map <- function(object, ...){
     UseMethod(generic = 'voxel_map', object = object)
 }
 
-#' Correlate single-cell gene expression with in situ hybridization data
-#'
 #' @param stage The developmental stage in the ABA to map single cells to.
 #' @param groups A character or factor vector or for grouping of cells,
 #' e.g. clusters, cell types.
@@ -16,6 +18,8 @@ voxel_map <- function(object, ...){
 #' @param genes_use A character vector with genes to use for computing the correlation.
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
+#'
+#' @return A VoxelMap object with a cell x voxel correlation matrix and metadata.
 #'
 #' @rdname voxel_map
 #' @export
@@ -75,8 +79,6 @@ voxel_map.default <- function(
     return(vox_map)
 }
 
-#' Correlate single-cell gene expression with in situ hybridization data
-#'
 #' @param group_name A string indicating the metadata column for grouping the cells,
 #' e.g. clusters, cell types.
 #'
@@ -136,14 +138,13 @@ summarize_groups <- function(object, ...){
     UseMethod(generic = 'summarize_groups', object = object)
 }
 
-
-#' Summarize VoxelMap object over groups
-#'
 #' @import Matrix
 #'
 #' @param groups A metadata column or character vector to group the cells,
 #' e.g. clusters, cell types.
 #' @param fun Function used to aggregate the groups.
+#'
+#' @return A tibble with group summaries
 #'
 #' @rdname summarize_groups
 #' @export
@@ -184,9 +185,11 @@ assign_cells <- function(object, ...){
 }
 
 
-#' Assign cells to structure based on maximum correlation voxel
-#'
 #' @import Matrix
+#'
+#' @param object A VoxelMap opject
+#'
+#' @return A tibble with cells assigned to voxels
 #'
 #' @rdname assign_cells
 #' @export
@@ -224,6 +227,8 @@ summarize_structures <- function(object, ...){
 #'
 #' @param annotation_level The structure annotation level to summarize voxels to.
 #' @param fun Function to use for summarizing voxels.
+#'
+#' @return A tibble with structure summaries
 #'
 #' @rdname summarize_structures
 #' @export

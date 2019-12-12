@@ -4,7 +4,7 @@
 \alias{voxel_map}
 \alias{voxel_map.default}
 \alias{voxel_map.Seurat}
-\title{Correlate single-cell gene expression with in situ hybridization data}
+\title{Project single cell gene expression data to spatial expression patterns in the mouse brain}
 \usage{
 voxel_map(object, ...)
 
@@ -30,10 +30,11 @@ We recommend to use 150 - 500 genes.}
 \item{group_name}{A string indicating the metadata column for grouping the cells,
 e.g. clusters, cell types.}
 }
+\value{
+A VoxelMap object with a cell x voxel correlation matrix and metadata.
+}
 \description{
-Correlate single-cell gene expression with in situ hybridization data
-
-Correlate single-cell gene expression with in situ hybridization data
-
-Correlate single-cell gene expression with in situ hybridization data
+Calculates correlation between single-cell gene expression and
+in situ hybridization data of the developing mouse brain from
+the Allen Brain Atlas.
 }

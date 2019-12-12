@@ -15,6 +15,9 @@ summarize_structures(object, ...)
 
 \item{fun}{Function to use for summarizing voxels.}
 }
+\value{
+A tibble with structure summaries
+}
 \description{
 Summarize VoxelMap object over structures
 
