@@ -178,7 +178,7 @@ plot_map.VoxelMap <- function(
             ))
     }
 
-    plot_df <- summarise_groups(object, groups)
+    plot_df <- summarize_groups(object, groups)
 
     if (view == 'slice'){
         if (is.null(slices)){
@@ -247,7 +247,7 @@ plot_map_3d.VoxelMap <- function(
     ...
 ){
 
-    plot_df <- summarise_groups(object, groups)
+    plot_df <- summarize_groups(object, groups)
 
     if (is.null(show_group) & is.null(groups)){
         show_group <- levels(factor(object$cell_meta$group))[1]
@@ -413,7 +413,7 @@ plot_structure_similarity.VoxelMap <- function(
     annotation_colors = many,
     type = 'box'
 ){
-    plot_df <- summarise_structures(object, 'custom_3') %>%
+    plot_df <- summarize_structures(object, 'custom_3') %>%
         group_by_(annotation_groups) %>%
         mutate(sorter = median(corr)) %>%
         arrange_(annotation_groups, 'sorter')
