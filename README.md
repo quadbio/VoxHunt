@@ -1,4 +1,4 @@
-# VoxHunt <img src="figures/logo.png" align="right" width="150" />
+# VoxHunt <img src="figures/logo.png" align="right" width="100" />
 
 
 An R package for projecting single cell transcriptomes to spatial brain maps.
