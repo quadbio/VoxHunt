@@ -1,6 +1,5 @@
-# VoxHunt
+# VoxHunt <img src="figures/logo.png" align="right" width="150" />
 
-<img src="figures/logo.png" align="right" width="120" />
 
 ## Introduction 
 
