@@ -1,8 +1,0 @@
----
-title: "Find markers for specific brain regions"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Find markers for specific brain regions}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
----

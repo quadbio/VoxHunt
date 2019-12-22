@@ -1,0 +1,147 @@
+---
+title: "VoxHunt Showcase"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+<style type="text/css">
+body{
+  font-family: Helvetica;
+  font-size: 12pt;
+}
+</style>
+
+
+
+VoxHunt is an R package now, yay! If you like, you can actually install it from our ETH GitLab accout (will also be on GitHub soon). Here, I am installing it locally from the cloned GitLab repo:
+
+```{r, results='hide'}
+devtools::install_local('~/projects/VoxHunt/voxhunt/')
+library(voxhunt)
+theme_set(theme_bw())
+```
+
+
+VoxHunt provides a number of convenient functions to explore the Allen Developing Mouse Brain Atlas data using R. The expression data is pretty big, so I cannot store them on GitHub and I'll provide them as loom files separately. So first, we'll point VoxHunt to the location of these files:  
+```{r}
+load_aba_data('~/projects/VoxHunt/data/voxhunt_package/')
+```
+Per default, VoxHunt will not load all of the data at once, but only when we require it. 
+
+Alright, now we can start exploring! For instance, you can plot the E13.5 and P14 mouse brain with annotated brain structures:
+```{r, results='asis', fig.height=4, fig.width=12}
+p1 <- plot_annotation('E13')
+p2 <- plot_annotation('P4')
+grid.arrange(p1, p2, nrow=1)
+```
+
+We can also plot the expression of different genes over these voxel maps:
+
+```{r, results='asis'}
+genes <- c('NEUROD6', 'EOMES', 'DCN', 'DLX1', 'DLX2', 'GBX2', 'OTX2', 'GATA3', 'PAX8')
+p <- plot_expression('E15', genes = genes)
+p
+```
+
+Here we plotted just the sagittal view with all voxels, sometimes this hides the expression of certain genes. VoxHunt also allows you to define the sections that will be used in the plot:
+
+```{r, results='asis'}
+p <- plot_expression('E15', genes = 'DCN', slices = 5:10)
+p
+```
+
+We can even plot the expression of multiple genes for many coronal sections at the same time:
+
+```{r, include=FALSE, results='hide'}
+p <- plot_expression('E15', genes = genes, view='slice', slices = c(4, 12, 24, 30, 35, 40))
+p
+```
+
+```{r, fig.height=8, fig.width=6}
+p <- plot_expression('E15', genes = genes, view='slice', slices = c(4, 12, 24, 30, 35, 40))
+p
+```
+
+
+Now, these are markers we are already familiar with, but we can also find new markers for brain structures we are interested in:
+
+```{r, fig.width=4, fig.height=5}
+marker_df <- structure_markers('E15', annotation_level = 'custom_4')
+hippo_markers <- marker_df %>% 
+    filter(group=='hippocampus') %>% 
+    top_n(2, auc)
+plot_expression('E15', genes = hippo_markers$gene)
+```
+
+
+
+Ok, now to the interesting part: mapping single cells. Finding a hand full of marker genes is well and good, but projecting single cells to these spatial maps based on several hundred genes would be even better in some cases. First, we load an Seurat object 
+
+
+
+```{r}
+seurat_object <- readRDS('~/projects/VoxHunt/data/example_seurat.rds')
+seurat_object
+head(seurat_object@meta.data)
+```
+
+Before we start mapping the cells, we'll do some feature selection to get region specific genes from the ABA:
+
+```{r}
+regional_markers <- structure_markers('E13') %>%
+    group_by(group) %>%
+    top_n(10, auc) %>% 
+    {unique(.$gene)}
+regional_markers
+```
+
+Now let's use these markers to map our single cells to the brain:
+
+```{r}
+vox_map <- voxel_map(seurat_object, stage = 'E13', group_name = 'cluster', genes_use = regional_markers)
+vox_map
+```
+
+
+The `plot_map()` function lets us plot this voxel map in a number of different ways. Per default, it will show us a sagittal view of the projection:
+
+```{r, fig.height=2, fig.width=8}
+p <- plot_map(vox_map)
+p
+```
+
+
+However, as we have seen with the expression plots, we can also slice this plot however we want. For instance, the highest correlation for the ventral neurons seem to be hidden somewhere inside the brain, so lets look at fewer sagittal sections: 
+
+
+```{r, fig.height=2, fig.width=8}
+p <- plot_map(vox_map, slices=c(2:6))
+p
+```
+
+
+Instead of looking at the entire sagittal view, we can pick some coronal sections that might be interesting. For this, we can use the `plot_annotation()` function again, which also works with a VoxelMap as input. This time, we want to have coordinates to be able to pick the sections:
+
+```{r, fig.height=4, fig.width=9}
+p <- plot_annotation(vox_map, show_coordinates = T, show_legend = T)
+p
+```
+
+
+From this plot and the one above, it seems like sections 4, 8 and 20 are probably quite infomative about our clusters. For completeness sake, we'll also through in some more sections to cover other brain regions.
+
+
+```{r}
+p <- plot_map(vox_map, view = 'slice', slices = c(4, 8, 14, 20, 28, 38))
+p
+```
+
+```{r, fig.width=3, fig.height=8}
+p <- plot_map(vox_map, view = 'slice', slices = c(4, 8, 14, 20, 28, 38))
+p
+```
+
+
+
+
