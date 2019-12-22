@@ -1,7 +1,7 @@
 # VoxHunt <img src="figures/logo.png" align="right" width="100" />
 
 
-An R package for projecting single cell transcriptomes to spatial brain maps.
+You want to validate your new brain organoid protocol, find out which cell types emerge in your current batch of cerebral organoids or just find very specific markers for a tiny brain structure? You have come to the right place.
 
 
 ## Introduction 
@@ -27,6 +27,17 @@ devtools::install_github('quadbiolab/voxhunt')
 
 If you have a `seurat_object` with single cell transcriptomic data of your organoid ready, you can start right away with projecting them to the brain:
 ```{r}
-genes_use <- variable_genes('E13', 300)$gene
-
+library(voxhunt)
+genes_use <- voxhunt::variable_genes('E13', 300)$gene
+vox_map <- voxhunt::voxel_map(seurat_object, genes_use=genes_use)
+voxhunt::plot_map(vox_map)
+voxhunt::plot_map(vox_map, view='slice')
 ```
+Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view and as coronal sections. 
+
+If you want to find out about 
+
+
+
+
+
