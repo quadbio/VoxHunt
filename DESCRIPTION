@@ -4,7 +4,7 @@ Title: Projecting single-cell transcriptomes to spatial brain maps
 Version: 0.5
 Author: Jonas Simon Fleck
 Maintainer: Jonas Simon Fleck <jonas.fleck@bsse.ethz.ch>
-Description: Take your organoid cells and see what they are.
+Description: Find out which brain regions emerge in your organoids.
 License: MIT
 Encoding: UTF-8
 LazyData: true
