@@ -1,4 +1,4 @@
-# VoxHunt <img src="figures/logo.png" align="right" width="100" margin="10"/>
+# VoxHunt <img src="figures/logo.png" align="right" width="100" margin="100"/>
 
 
 You want to validate your new brain organoid protocol, find out which cell types emerge in your current batch of cerebral organoids or just find a very specific markers for a tiny brain structure? You have come to the right place.
