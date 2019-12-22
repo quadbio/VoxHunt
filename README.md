@@ -15,7 +15,7 @@ Brain organoids are complex and can contain cells at various stages of different
 
 ## Installation
 
-Presto, one of VoxHunt dependencies is not on CRAN and has to be installed from GitHub:
+Presto, one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
 ```{r}
 # install.packages('devtools')
 devtools::install_github('immunogenomics/presto')
@@ -37,7 +37,7 @@ voxhunt::plot_map(vox_map, view='slice')
 ```
 Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view and as coronal sections. 
 
-If you want to find out about VoxHunt's functionality, have a look into our [vignette](http://htmlpreview.github.io/?https://gitlab.ethz.ch/quadbio-lab/voxhunt/blob/master/vignettes/marker_discovery.Rmd)
+If you want to find out about VoxHunt's functionality, have a look into our [vignette](http://htmlpreview.github.io/?https://gitlab.ethz.ch/quadbio-lab/voxhunt/blob/master/vignettes/marker_discovery.Rmd).
 
 
 
