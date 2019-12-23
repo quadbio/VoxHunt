@@ -35,7 +35,7 @@ voxhunt::plot_map(vox_map, view='slice')
 ```
 Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view and as coronal sections. 
 
-If you want to find out about VoxHunt's functionality, have a look into our [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
+If you want to find out more about VoxHunt's functionality, have a look into our [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
 
 
 
