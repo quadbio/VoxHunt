@@ -31,9 +31,8 @@ library(voxhunt)
 genes_use <- variable_genes('E13', 300)$gene
 vox_map <- voxel_map(seurat_object, genes_use=genes_use)
 plot_map(vox_map)
-plot_map(vox_map, view='slice')
 ```
-Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view and as coronal sections. 
+Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view. 
 
 If you want to find out more about VoxHunt's functionality, have a look into our [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
 
