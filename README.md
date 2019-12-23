@@ -28,10 +28,10 @@ devtools::install_github('quadbiolab/voxhunt')
 If you have a `seurat_object` with single cell transcriptomic data of your organoid ready, you can start right away with projecting them to the brain:
 ```{r}
 library(voxhunt)
-genes_use <- voxhunt::variable_genes('E13', 300)$gene
-vox_map <- voxhunt::voxel_map(seurat_object, genes_use=genes_use)
-voxhunt::plot_map(vox_map)
-voxhunt::plot_map(vox_map, view='slice')
+genes_use <- variable_genes('E13', 300)$gene
+vox_map <- voxel_map(seurat_object, genes_use=genes_use)
+plot_map(vox_map)
+plot_map(vox_map, view='slice')
 ```
 Here, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. We then plot these maps in the saggital view and as coronal sections. 
 
