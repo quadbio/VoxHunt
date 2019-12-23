@@ -3,4 +3,5 @@
 .RData
 .Ruserdata
 Meta
-.DS_Store
+*.DS_Store
+*.build.timestamp
