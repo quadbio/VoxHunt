@@ -92,9 +92,9 @@ voxel_map.Seurat <- function(
     genes_use = NULL,
     allow_neg = F
 ){
-    expr_mat <- t(GetAssayData(object, slot = 'data'))
+    expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
-        groups <- Idents(object)
+        groups <- Seurat::Idents(object)
     } else {
         groups <- object[[group_name]][, 1]
     }
