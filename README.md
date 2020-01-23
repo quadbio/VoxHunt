@@ -52,6 +52,10 @@ After loading VoxHunt, we first point it to the directory with the unpacked [ABA
 If you want to find out more about VoxHunt's functionality, have a look into the [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
 
 
+## Citation
+
+If you find VoxHunt useful for your research, please consider citing out bioRxiv preprint:
+[Fleck, J.S., et al., Resolving brain organoid heterogeneity by mapping single cell genomic data to a spatial reference. bioRxiv, 2020](https://www.biorxiv.org/content/10.1101/2020.01.06.896282v1)
 
 
 
