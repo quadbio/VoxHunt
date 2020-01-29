@@ -13,10 +13,12 @@ Brain organoids are complex and can contain cells at various stages of different
 
 ## Installation
 
-Presto, one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
+Some of VoxHunt's dependencies such as [presto](https://github.com/immunogenomics/presto) and [loomR](https://github.com/mojaveazure/loomR) is not on CRAN and has to be installed from GitHub:
 
 ```{r}
 # install.packages('devtools')
+devtools::install_github(repo = "hhoeflin/hdf5r")
+devtools::install_github(repo = "mojaveazure/loomR")
 devtools::install_github('immunogenomics/presto')
 ```
 
