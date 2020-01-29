@@ -17,8 +17,8 @@ Some of VoxHunt's dependencies such as [presto](https://github.com/immunogenomic
 
 ```{r}
 # install.packages('devtools')
-devtools::install_github(repo = "hhoeflin/hdf5r")
-devtools::install_github(repo = "mojaveazure/loomR")
+devtools::install_github(repo = 'hhoeflin/hdf5r')
+devtools::install_github(repo = 'mojaveazure/loomR')
 devtools::install_github('immunogenomics/presto')
 ```
 
