@@ -534,7 +534,7 @@ plot_expression <- function(
 
     stage <- stage_name(stage)
     if (is.null(DATA_LIST[[stage]])){
-        DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
+        DATA_LIST[[stage]] <<- readRDS(PATH_LIST[[stage]])
     }
 
     possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice')
@@ -643,7 +643,7 @@ plot_expression_3d <- function(
 
     stage <- stage_name(stage)
     if (is.null(DATA_LIST[[stage]])){
-        DATA_LIST[[stage]] <<- read_loom(PATH_LIST[[stage]])
+        DATA_LIST[[stage]] <<- readRDS(PATH_LIST[[stage]])
     }
 
     voxel_mat <- DATA_LIST[[stage]]$matrix

@@ -10,14 +10,14 @@ load_aba_data <- function(
     dir,
     lazy = T
 ){
-    e11_path <- file.path(dir, 'E11.loom')
-    e13_path <- file.path(dir, 'E13.loom')
-    e15_path <- file.path(dir, 'E15.loom')
-    e18_path <- file.path(dir, 'E18.loom')
-    p4_path <- file.path(dir, 'P4.loom')
-    p14_path <- file.path(dir, 'P14.loom')
-    p28_path <- file.path(dir, 'P28.loom')
-    p56_path <- file.path(dir, 'P56.loom')
+    e11_path <- file.path(dir, 'E11.rds')
+    e13_path <- file.path(dir, 'E13.rds')
+    e15_path <- file.path(dir, 'E15.rds')
+    e18_path <- file.path(dir, 'E18.rds')
+    p4_path <- file.path(dir, 'P4.rds')
+    p14_path <- file.path(dir, 'P14.rds')
+    p28_path <- file.path(dir, 'P28.rds')
+    p56_path <- file.path(dir, 'P56.rds')
     PATH_LIST <<- list(
         E11 = e11_path,
         E13 = e13_path,
@@ -40,53 +40,16 @@ load_aba_data <- function(
     )
     if (!lazy){
         DATA_LIST <<- list(
-            E11 = read_loom(e11_path),
-            E13 = read_loom(e13_path),
-            E15 = read_loom(e15_path),
-            E18 = read_loom(e18_path),
-            P4 = read_loom(p4_path),
-            P14 = read_loom(p14_path),
-            P28 = read_loom(p28_path),
-            P56 = read_loom(p56_path)
+            E11 = readRDS(e11_path),
+            E13 = readRDS(e13_path),
+            E15 = readRDS(e15_path),
+            E18 = readRDS(e18_path),
+            P4 = readRDS(p4_path),
+            P14 = readRDS(p14_path),
+            P28 = readRDS(p28_path),
+            P56 = readRDS(p56_path)
         )
     }
-}
-
-
-#' Read loom files to list
-#'
-#' @import loomR
-#'
-#' @param filename The name of the loom file.
-#' @param layer The name of the layer to load as matrix.
-#' @param row_id A name for the colum in the row_meta indicating the row names.
-#' @param col_id A name for the colum in the col_meta indicating the column names.
-#'
-#' @return A list with matrix, row_meta and col_meta.
-#'
-read_loom <- function(
-    filename,
-    layer = 'matrix',
-    row_id = 'voxel',
-    col_id = 'gene'
-){
-    loom_file <- connect(filename)
-    row_meta <- tibble::as_tibble(loom_file$get.attribute.df(2))
-    colnames(row_meta)[1] <- row_id
-    col_meta <- tibble::as_tibble(loom_file$get.attribute.df(1))
-    colnames(col_meta)[1] <- col_id
-    mat <- t(loom_file$get.sparse(layer))
-    colnames(mat) <- col_meta[[col_id]]
-    rownames(mat) <- row_meta[[row_id]]
-    loom_file$close_all()
-
-    out_list <- list(
-        matrix = mat,
-        row_meta = row_meta,
-        col_meta = col_meta
-    )
-
-    return(out_list)
 }
 
 
