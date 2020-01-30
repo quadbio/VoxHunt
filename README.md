@@ -13,12 +13,10 @@ Brain organoids are complex and can contain cells at various stages of different
 
 ## Installation
 
-Some of VoxHunt's dependencies such as [presto](https://github.com/immunogenomics/presto) and [loomR](https://github.com/mojaveazure/loomR) are not on CRAN and has to be installed from GitHub:
+[presto](https://github.com/immunogenomics/presto), one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
 
 ```{r}
 # install.packages('devtools')
-devtools::install_github(repo = 'hhoeflin/hdf5r')
-devtools::install_github(repo = 'mojaveazure/loomR')
 devtools::install_github('immunogenomics/presto')
 ```
 
@@ -49,7 +47,7 @@ vox_map <- voxel_map(seurat_object, genes_use=genes_use)
 # Plot the result
 plot_map(vox_map)
 ```
-After loading VoxHunt, we first point it to the directory with the unpacked [ABA expression data](http://doi.org/10.17632/n6488nxzbh.1). Then, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. Finally, we plot these maps in the sagittal view.
+After loading VoxHunt, we first point it to the directory with the unpacked [ABA expression data](http://dx.doi.org/10.17632/g4xg38mwcn.1). Then, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. Finally, we plot these maps in the sagittal view.
 
 If you want to find out more about VoxHunt's functionality, have a look into the [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
 
