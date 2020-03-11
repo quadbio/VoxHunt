@@ -219,8 +219,6 @@ summarize_structures <- function(object, ...){
 }
 
 
-#' Summarize VoxelMap object over groups
-#'
 #' @import Matrix
 #'
 #' @param annotation_level The structure annotation level to summarize voxels to.
@@ -238,9 +236,8 @@ summarize_structures.VoxelMap <- function(
     fun = colMeans
 ){
 
-    utils::data(voxel_meta, envir = environment())
     corr_mat <- t(object$corr_mat)
-    voxel_meta <- dplyr::group_by_(voxel_meta, annotation_level) %>%
+    voxel_meta <- dplyr::group_by_(object$voxel_meta, annotation_level) %>%
         dplyr::filter(voxel%in%rownames(corr_mat)) %>%
         dplyr::filter(dplyr::n() > 5)
     cluster_cor <- aggregate_matrix(
