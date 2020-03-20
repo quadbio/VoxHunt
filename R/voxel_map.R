@@ -200,7 +200,7 @@ assign_cells.VoxelMap <- function(object){
     max_corr_df <- tibble(
         voxel = which_max_corr,
         corr = max_corr,
-        cluster = rownames(object$corr_mat)
+        cell = rownames(object$corr_mat)
     )
 
     max_corr_df <- suppressMessages(left_join(max_corr_df, object$voxel_meta))
