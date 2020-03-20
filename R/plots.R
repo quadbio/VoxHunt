@@ -323,7 +323,7 @@ slice_plot <- function(
         return(p)
     })
     plots <- c(list(annot), plots)
-    return(egg::ggarrange(plots = plots, nrow = 1, draw = F, ...))
+    return(egg::ggarrange(plots = plots, nrow = 1, ...))
 }
 
 
@@ -377,7 +377,7 @@ mapping_plot <- function(
         return(p)
     })
     if (length(plots)>1){
-        return(egg::ggarrange(plots = plots, draw = F, ...))
+        return(egg::ggarrange(plots = plots, ...))
     } else {
         return(plots[[1]])
     }
@@ -707,7 +707,7 @@ feature_plot <- function(
         }
         plot(x, g)
     })
-    p <- egg::ggarrange(plots = plots, draw = F, ...)
+    p <- egg::ggarrange(plots = plots, ...)
     return(p)
 }
 
@@ -770,7 +770,7 @@ three_dim_plot <- function(
         zaxix = axis
     )
     p <- plotly::layout(p, scene=scene, ...)
-    return(p)
+    suppressWarnings(print(p))
 }
 
 
