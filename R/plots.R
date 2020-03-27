@@ -136,7 +136,7 @@ annotation_plot <- function(
 #'
 plot_map.VoxelMap <- function(
     object,
-    view = 'sagittal',
+    view = c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'),
     slices = NULL,
     groups = NULL,
     annotation_level = 'custom_2',
@@ -146,13 +146,7 @@ plot_map.VoxelMap <- function(
     show_legend = F,
     ...
 ){
-    possible_views <- c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D')
-    if (!view %in% possible_views){
-        stop(cat(
-            paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
-            paste(possible_views, collapse = ', '), '\n'
-            ))
-    }
+    view <- match.arg(view)
 
     plot_df <- summarize_groups(object, groups)
 

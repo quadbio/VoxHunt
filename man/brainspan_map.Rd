@@ -33,7 +33,7 @@ We recommend to use 150 - 500 genes.}
 e.g. clusters, cell types.}
 }
 \value{
-A ReferenceMap object with a cell x voxel correlation matrix and metadata.
+A ReferenceMap object with a cell x ref correlation matrix and metadata.
 }
 \description{
 Calculates correlation between single-cell gene expression reference samples from

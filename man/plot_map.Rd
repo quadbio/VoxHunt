@@ -7,7 +7,8 @@
 \usage{
 plot_map(object, ...)
 
-\method{plot_map}{VoxelMap}(object, view = "sagittal", slices = NULL,
+\method{plot_map}{VoxelMap}(object, view = c("sagittal", "coronal",
+  "traverse", "z", "x", "y", "slice", "3D"), slices = NULL,
   groups = NULL, annotation_level = "custom_2",
   annotation_colors = many, map_colors = gyrdpu_flat,
   show_coordinates = F, show_legend = F, ...)

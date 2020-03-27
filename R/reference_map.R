@@ -6,7 +6,7 @@
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
 #'
-#' @return A ReferenceMap object with a cell x voxel correlation matrix and metadata.
+#' @return A ReferenceMap object with a cell x ref correlation matrix and metadata.
 #'
 #' @rdname brainspan_map
 #' @export
@@ -158,17 +158,20 @@ summarize_groups.ReferenceMap <- function(
 #'
 summarize_structures.ReferenceMap <- function(
     object,
-    annotation_level = 'custom_3',
+    annotation_level = c('structure_group', 'structure_name'),
     fun = colMeans
 ){
-
+    annotation_level <- match.arg(annotation_level)
+    if (annotation_level == 'structure_name'){
+        annotation_level <- 'structure_acronym'
+    }
     corr_mat <- t(object$corr_mat)
-    voxel_meta <- dplyr::group_by_(object$voxel_meta, annotation_level) %>%
-        dplyr::filter(voxel%in%rownames(corr_mat)) %>%
+    ref_meta <- dplyr::group_by_(object$ref_meta, annotation_level) %>%
+        dplyr::filter(ref%in%rownames(corr_mat)) %>%
         dplyr::filter(dplyr::n() > 5)
     cluster_cor <- aggregate_matrix(
-        corr_mat[voxel_meta$voxel, ],
-        groups = voxel_meta[[annotation_level]],
+        corr_mat[ref_meta$ref, ],
+        groups = ref_meta[[annotation_level]],
         fun = fun
     )
     plot_df <- cluster_cor %>%
