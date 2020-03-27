@@ -1,16 +1,3 @@
-#' Project single cell gene expression data to spatial expression patterns in the mouse brain
-#'
-#' Calculates correlation between single-cell gene expression and
-#' in situ hybridization data of the developing mouse brain from
-#' the Allen Brain Atlas.
-#'
-#' @rdname voxel_map
-#' @export voxel_map
-#'
-voxel_map <- function(object, ...){
-    UseMethod(generic = 'voxel_map', object = object)
-}
-
 #' @param stage The developmental stage in the ABA to map single cells to.
 #' @param groups A character or factor vector or for grouping of cells,
 #' e.g. clusters, cell types.
@@ -106,6 +93,7 @@ voxel_map.Seurat <- function(
         method = method,
         genes_use = genes_use
     )
+    return(vox_cor)
 }
 
 
@@ -127,14 +115,6 @@ print.VoxelMap <- function(object){
     ))
 }
 
-#' Summarize VoxelMap object over groups
-#'
-#' @rdname summarize_groups
-#' @export summarize_groups
-#'
-summarize_groups <- function(object, ...){
-    UseMethod(generic = 'summarize_groups', object = object)
-}
 
 #' @import Matrix
 #'
@@ -173,16 +153,6 @@ summarize_groups.VoxelMap <- function(
 }
 
 
-#' Assign cells to structure
-#'
-#' @rdname assign_cells
-#' @export assign_cells
-#'
-assign_cells <- function(object, ...){
-    UseMethod(generic = 'assign_cells', object = object)
-}
-
-
 #' @import Matrix
 #'
 #' @param object A VoxelMap opject
@@ -206,16 +176,6 @@ assign_cells.VoxelMap <- function(object){
     max_corr_df <- suppressMessages(left_join(max_corr_df, object$voxel_meta))
 
     return(max_corr_df)
-}
-
-
-#' Summarize VoxelMap object over structures
-#'
-#' @rdname summarize_structures
-#' @export summarize_structures
-#'
-summarize_structures <- function(object, ...){
-    UseMethod(generic = 'summarize_structures', object = object)
 }
 
 
