@@ -158,7 +158,7 @@ summarize_groups.ReferenceMap <- function(
 #'
 summarize_structures.ReferenceMap <- function(
     object,
-    annotation_level = c('structure_group', 'structure_name'),
+    annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
     fun = colMeans
 ){
     annotation_level <- match.arg(annotation_level)

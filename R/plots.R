@@ -731,18 +731,9 @@ three_dim_plot <- function(
 #' @import ggplot2
 #' @import dplyr
 #'
-#' @param view String indicating the perspective to show. Valid values are
-#' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
-#' @param slices A numeric vector indicating the slices to plot.
 #' @param groups A metadata column or character vector to group the cells,
 #' e.g. clusters, cell types.
-#' @param annotation_level The structure annotation level to color code.
-#' @param annotation_colors Color map for structure annotation.
-#' @param map_colors Color map for correlation values.
-#' @param slices A numeric vector indicating the slices to plot.
-#' @param show_coordinates Logical. Whether to show slice coordinates or not.
-#' @param show_legend Logical. Whether to show a color legend or not.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param annotation_level The structure annotation level to summarize to.
 #'
 #' @return A similarity map.
 #'
@@ -752,44 +743,33 @@ three_dim_plot <- function(
 #'
 plot_map.ReferenceMap <- function(
     object,
-    view = c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'),
-    slices = NULL,
     groups = NULL,
-    annotation_level = 'custom_2',
-    annotation_colors = many,
-    map_colors = gyrdpu_flat,
-    show_coordinates = F,
-    show_legend = F,
-    ...
+    annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
+    map_colors = blues_flat
 ){
-    view <- match.arg(view)
-
-    plot_df <- summarize_groups(object, groups)
-
-    if (view == 'slice'){
-        if (is.null(slices)){
-            slices <- seq(1, 40, 2)
-        }
-        plot_df <- plot_df %>%
-            filter(x%in%slices) %>%
-            mutate(slice=factor(x))
-
-        p <- slice_plot(
-            slice_df = plot_df,
-            annotation_colors = annotation_colors,
-            annotation_level = annotation_level,
-            map_colors = map_colors,
-            ...
-        )
-    } else {
-        p <- mapping_plot(
-            map_df = plot_df,
-            slices = slices,
-            view = view,
-            map_colors = map_colors,
-            ...
-        )
+    annotation_level <- match.arg(annotation_level)
+    if (annotation_level == 'structure_name'){
+        annotation_level <- 'structure_acronym'
     }
+
+    plot_df <- summarize_groups(object, groups) %>%
+        group_by_('group', annotation_level) %>%
+        dplyr::summarize(corr=mean(corr)) %>%
+        ungroup() %>%
+        group_by(group) %>%
+        mutate(corr=zscale(corr))
+
+    p <- ggplot(plot_df, aes_string('group', annotation_level, fill='corr')) +
+        geom_tile() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_gradientn(colors=blues_flat) +
+        theme_article() +
+        theme(
+            axis.text.x = element_text(angle=45, hjust=1)
+        ) +
+        labs(x = 'Group', y = 'Structure', fill = 'Scaled\ncorrelation')
+
     return(p)
 }
 

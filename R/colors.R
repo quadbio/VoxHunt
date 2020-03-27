@@ -4,6 +4,8 @@ gyrdpu <- grDevices::colorRampPalette(c('#e5e7e9', RColorBrewer::brewer.pal(n=9,
 gyrdpu_flat <- grDevices::colorRampPalette(c('#e5e7e9', RColorBrewer::brewer.pal(n=9, name="RdPu")), bias = 0.5)(100)
 inferno <- grDevices::colorRampPalette(viridis::viridis(n=10, option = 'inferno'))(100)
 inferno_flat <- grDevices::colorRampPalette(viridis::viridis(n=10, option = 'inferno'), bias = 0.5)(100)
+blues <- colorRampPalette(c('white', brewer.pal(n=9, name='Blues')))(100)
+blues_flat <- colorRampPalette(c('white', brewer.pal(n=9, name='Blues')), bias=0.8)(100)
 
 #### Themes for plots ####
 feature_color_scale <- scale_color_gradientn(colours=gyrdpu)
