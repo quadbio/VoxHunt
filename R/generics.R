@@ -41,7 +41,7 @@ assign_cells <- function(object, ...){
     UseMethod(generic = 'assign_cells', object = object)
 }
 
-#' Summarize VoxelMap object over structures
+#' Summarize data over structures
 #'
 #' @rdname summarize_structures
 #' @export summarize_structures

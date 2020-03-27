@@ -24,7 +24,7 @@ brainspan_map.default <- function(
     utils::data(brainspan, envir = environment())
 
     ref_meta <- filter(brainspan$row_meta, age_num%in%stages)
-    ref_mat <- brainspan$matrix[ref_meta$cell, ]
+    ref_mat <- brainspan$matrix[ref_meta$ref, ]
 
     inter_genes <- intersect(colnames(object), colnames(ref_mat))
     if (!is.null(genes_use)){
@@ -140,6 +140,43 @@ summarize_groups.ReferenceMap <- function(
         tidyr::gather(group, corr, -ref) %>%
         dplyr::mutate(group=factor(group, levels=levels(factor(groups))))
     plot_df <- suppressMessages(dplyr::left_join(plot_df, object$ref_meta))
+
+    return(plot_df)
+}
+
+
+#' @import Matrix
+#'
+#' @param annotation_level The structure annotation level to summarize samples to.
+#' @param fun Function to use for summarizing samples.
+#'
+#' @return A tibble with structure summaries
+#'
+#' @rdname summarize_structures
+#' @export
+#' @method summarize_structures ReferenceMap
+#'
+summarize_structures.ReferenceMap <- function(
+    object,
+    annotation_level = 'custom_3',
+    fun = colMeans
+){
+
+    corr_mat <- t(object$corr_mat)
+    voxel_meta <- dplyr::group_by_(object$voxel_meta, annotation_level) %>%
+        dplyr::filter(voxel%in%rownames(corr_mat)) %>%
+        dplyr::filter(dplyr::n() > 5)
+    cluster_cor <- aggregate_matrix(
+        corr_mat[voxel_meta$voxel, ],
+        groups = voxel_meta[[annotation_level]],
+        fun = fun
+    )
+    plot_df <- cluster_cor %>%
+        as.matrix() %>%
+        tibble::as_tibble(rownames='cell') %>%
+        tidyr::gather(struct, corr, -cell) %>%
+        dplyr::mutate(struct=factor(struct, levels=levels(factor(voxel_meta[[annotation_level]]))))
+    plot_df <- suppressWarnings(suppressMessages(dplyr::left_join(plot_df, object$cell_meta)))
 
     return(plot_df)
 }
