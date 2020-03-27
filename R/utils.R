@@ -210,3 +210,20 @@ safe_cor <- function(
     }
     return(corr_mat)
 }
+
+#' Fast correlation for sparse matrices
+#'
+sparse_cor <- function(x, y=NULL) {
+    sparse_covcor(x, y)$cor
+}
+
+
+#' Scale function that works for vectors and grouped dataframes
+#'
+#' @param x A numeric vector.
+#'
+#' @return A scales numeric vector.
+#'
+zscale <- function(x){
+    return((x - mean(x, na.rm=TRUE)) / sd(x, na.rm=TRUE))
+}

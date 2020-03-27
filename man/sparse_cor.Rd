@@ -5,7 +5,11 @@
 \title{Fast correlation for sparse matrices}
 \usage{
 sparse_cor(x, y = NULL)
+
+sparse_cor(x, y = NULL)
 }
 \description{
+Fast correlation for sparse matrices
+
 Fast correlation for sparse matrices
 }

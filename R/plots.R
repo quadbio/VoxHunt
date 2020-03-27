@@ -727,3 +727,69 @@ three_dim_plot <- function(
 }
 
 
+#### PLOTS FOR BRAINSPAN MAPS ####
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @param view String indicating the perspective to show. Valid values are
+#' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
+#' @param slices A numeric vector indicating the slices to plot.
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param annotation_level The structure annotation level to color code.
+#' @param annotation_colors Color map for structure annotation.
+#' @param map_colors Color map for correlation values.
+#' @param slices A numeric vector indicating the slices to plot.
+#' @param show_coordinates Logical. Whether to show slice coordinates or not.
+#' @param show_legend Logical. Whether to show a color legend or not.
+#' @param ... Other arguments passed to egg::ggarrange().
+#'
+#' @return A similarity map.
+#'
+#' @rdname plot_map
+#' @export
+#' @method plot_map ReferenceMap
+#'
+plot_map.ReferenceMap <- function(
+    object,
+    view = c('sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'),
+    slices = NULL,
+    groups = NULL,
+    annotation_level = 'custom_2',
+    annotation_colors = many,
+    map_colors = gyrdpu_flat,
+    show_coordinates = F,
+    show_legend = F,
+    ...
+){
+    view <- match.arg(view)
+
+    plot_df <- summarize_groups(object, groups)
+
+    if (view == 'slice'){
+        if (is.null(slices)){
+            slices <- seq(1, 40, 2)
+        }
+        plot_df <- plot_df %>%
+            filter(x%in%slices) %>%
+            mutate(slice=factor(x))
+
+        p <- slice_plot(
+            slice_df = plot_df,
+            annotation_colors = annotation_colors,
+            annotation_level = annotation_level,
+            map_colors = map_colors,
+            ...
+        )
+    } else {
+        p <- mapping_plot(
+            map_df = plot_df,
+            slices = slices,
+            view = view,
+            map_colors = map_colors,
+            ...
+        )
+    }
+    return(p)
+}
+

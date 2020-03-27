@@ -3,11 +3,18 @@
 \name{plot_map}
 \alias{plot_map}
 \alias{plot_map.VoxelMap}
+\alias{plot_map.ReferenceMap}
 \title{Plot similarity map of single cells}
 \usage{
 plot_map(object, ...)
 
 \method{plot_map}{VoxelMap}(object, view = c("sagittal", "coronal",
+  "traverse", "z", "x", "y", "slice", "3D"), slices = NULL,
+  groups = NULL, annotation_level = "custom_2",
+  annotation_colors = many, map_colors = gyrdpu_flat,
+  show_coordinates = F, show_legend = F, ...)
+
+\method{plot_map}{ReferenceMap}(object, view = c("sagittal", "coronal",
   "traverse", "z", "x", "y", "slice", "3D"), slices = NULL,
   groups = NULL, annotation_level = "custom_2",
   annotation_colors = many, map_colors = gyrdpu_flat,
@@ -35,8 +42,32 @@ e.g. clusters, cell types.}
 \item{show_legend}{Logical. Whether to show a color legend or not.}
 
 \item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{view}{String indicating the perspective to show. Valid values are
+'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{groups}{A metadata column or character vector to group the cells,
+e.g. clusters, cell types.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{map_colors}{Color map for correlation values.}
+
+\item{slices}{A numeric vector indicating the slices to plot.}
+
+\item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
+
+\item{show_legend}{Logical. Whether to show a color legend or not.}
+
+\item{...}{Other arguments passed to egg::ggarrange().}
 }
 \value{
+A similarity map.
+
 A similarity map.
 }
 \description{

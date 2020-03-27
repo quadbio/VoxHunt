@@ -178,7 +178,7 @@ summarize_structures.ReferenceMap <- function(
         as.matrix() %>%
         tibble::as_tibble(rownames='cell') %>%
         tidyr::gather(struct, corr, -cell) %>%
-        dplyr::mutate(struct=factor(struct, levels=levels(factor(voxel_meta[[annotation_level]]))))
+        dplyr::mutate(struct=factor(struct, levels=levels(factor(ref_meta[[annotation_level]]))))
     plot_df <- suppressWarnings(suppressMessages(dplyr::left_join(plot_df, object$cell_meta)))
 
     return(plot_df)
