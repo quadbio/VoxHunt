@@ -227,3 +227,15 @@ sparse_cor <- function(x, y=NULL) {
 zscale <- function(x){
     return((x - mean(x, na.rm=TRUE)) / sd(x, na.rm=TRUE))
 }
+
+#' Convert dataframe to matrix
+#'
+#' @param df A dataframe.
+#'
+#' @return A matrix.
+#'
+as_matrix <- function(df){
+    mat <- as.matrix(df[2:ncol(df)])
+    rownames(mat) <- df[[1]]
+    return(mat)
+}
