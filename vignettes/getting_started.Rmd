@@ -65,13 +65,13 @@ plot_expression('E15', genes = 'DCN', slices = 5:10)
 
 We can also plot the expression of multiple genes for many coronal sections at the same time:
 
-```{r, results='hide'}
+```{r}
 plot_expression(
     'E15', 
     genes = genes, 
     view = 'slice', 
     slices = c(4, 12, 24, 30, 35, 40), 
-    newpage = F
+    newpage = FALSE
 )
 ```
 ```{r, fig.height=10, fig.width=7}

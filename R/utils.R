@@ -8,7 +8,7 @@
 #'
 load_aba_data <- function(
     dir,
-    lazy = T
+    lazy = TRUE
 ){
     e11_path <- file.path(dir, 'E11.rds')
     e13_path <- file.path(dir, 'E13.rds')
@@ -75,10 +75,10 @@ aggregate_matrix <- function(
         agg_mat <- sapply(levels(factor(groups)), function(g){
             fun(x[which(groups==g), ])
         })
-        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=TRUE)
     } else if (length(groups) <= 1){
         agg_mat <- fun(x)
-        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=TRUE)
         colnames(agg_mat) <- groups
         rownames(agg_mat) <- colnames(x)
     } else {
@@ -101,7 +101,7 @@ aggregate_matrix <- function(
 get_markers <- function(
     expr_mat,
     markers,
-    scale = T
+    scale = TRUE
 ){
     genes_use <- colnames(expr_mat)[colnames(expr_mat)%in%markers]
     expr_mat <- as.matrix(expr_mat[, genes_use])
@@ -147,7 +147,7 @@ stage_name <- function(stage){
 #'
 #' @return A list containing a covariance and correlation matrix.
 #'
-sparse_covcor <- function(x, y=NULL) {
+sparse_covcor <- function(x, y=NULLRUE) {
     if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
     if (is.null(y)) {
         xtx <- crossprod(x)
@@ -195,8 +195,8 @@ safe_cor <- function(
     allow_neg = F
 ){
     if (method == 'pearson'){
-        x <- Matrix::Matrix(x, sparse = T)
-        y <- Matrix::Matrix(y, sparse = T)
+        x <- Matrix::Matrix(x, sparse = TRUE)
+        y <- Matrix::Matrix(y, sparse = TRUE)
         corr_mat <- sparse_cor(x, y)
     } else {
         x <- as.matrix(x)
@@ -204,7 +204,7 @@ safe_cor <- function(
         corr_mat <- stats::cor(x, y, method = method)
     }
     corr_mat[is.na(corr_mat)] <- 0
-    corr_mat <- Matrix::Matrix(corr_mat, sparse=T)
+    corr_mat <- Matrix::Matrix(corr_mat, sparse=TRUE)
     if (!allow_neg){
         corr_mat[corr_mat < 0] <- 0
     }

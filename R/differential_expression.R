@@ -79,7 +79,7 @@ variable_genes <- function(
 
     voxel_mat <- DATA_LIST[[stage]]$matrix
 
-    var_feat <- Seurat::FindVariableFeatures(t(voxel_mat), verbose=F) %>%
+    var_feat <- Seurat::FindVariableFeatures(t(voxel_mat), verbose=FALSE) %>%
         dplyr::as_tibble(rownames='gene') %>%
         dplyr::arrange(dplyr::desc(vst.variance.standardized)) %>%
         dplyr::filter(dplyr::row_number() <= nfeatures) %>%

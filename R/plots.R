@@ -21,8 +21,8 @@ plot_annotation.default <- function(
     annotation_level = 'custom_2',
     annotation_colors = many,
     slices = NULL,
-    show_coordinates = F,
-    show_legend = F,
+    show_coordinates = FALSE,
+    show_legend = FALSE,
     alpha = 0.5
 ){
     utils::data(voxel_meta, envir = environment())
@@ -53,8 +53,8 @@ plot_annotation.VoxelMap <- function(
     annotation_level = 'custom_2',
     annotation_colors = many,
     slices = NULL,
-    show_coordinates = F,
-    show_legend = F,
+    show_coordinates = FALSE,
+    show_legend = FALSE,
     alpha = 0.5
 ){
     meta <- object$voxel_meta
@@ -88,8 +88,8 @@ annotation_plot <- function(
     annot_df,
     annotation_level = 'custom_2',
     annotation_colors = many,
-    show_coordinates = F,
-    show_legend = F,
+    show_coordinates = FALSE,
+    show_legend = FALSE,
     alpha = 0.5
 ){
     age <- unique(annot_df$stage)
@@ -126,7 +126,7 @@ annotation_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
-#' @param newpage Logical. Draw on a new page.
+#' @param return_plot Logical. Return plot.
 #' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A similarity map.
@@ -143,9 +143,9 @@ plot_map.VoxelMap <- function(
     annotation_level = 'custom_2',
     annotation_colors = many,
     map_colors = gyrdpu_flat,
-    show_coordinates = F,
-    show_legend = F,
-    newpage = TRUE,
+    show_coordinates = FALSE,
+    show_legend = FALSE,
+    return_plot = FALSE,
     ...
 ){
     view <- match.arg(view)
@@ -209,7 +209,7 @@ plot_map_3d.VoxelMap <- function(
     annotation_colors = many,
     map_colors = inferno_flat,
     sizes = c(1, 1000),
-    both_hemispheres = T,
+    both_hemispheres = TRUE,
     ...
 ){
 
@@ -599,7 +599,7 @@ plot_expression_3d <- function(
     annotation_colors = many,
     expression_colors = inferno,
     sizes = c(10, 1000),
-    both_hemispheres = T,
+    both_hemispheres = TRUE,
     ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -615,7 +615,7 @@ plot_expression_3d <- function(
     voxel_meta <- DATA_LIST[[stage]]$row_meta
 
     voxel_meta$voxel <- as.character(voxel_meta$voxel)
-    expr_markers <- get_markers(voxel_mat, gene, scale=T) %>%
+    expr_markers <- get_markers(voxel_mat, gene, scale=TRUE) %>%
         mutate(voxel=as.character(voxel))
     plot_df <- suppressMessages(right_join(expr_markers, voxel_meta)) %>%
         mutate(intensity=expr)
