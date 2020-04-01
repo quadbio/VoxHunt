@@ -195,7 +195,7 @@ plot_map.VoxelMap <- function(
 #' @param map_colors Color map for correlation values.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::layout().
+#' @param ... Other arguments passed to plotly::plot_ly().
 #'
 #' @return A similarity map in 3D.
 #'
@@ -589,7 +589,7 @@ plot_expression <- function(
 #' @param expression_colors Colors for expression scale.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::layout().
+#' @param ... Other arguments passed to plotly::plot_ly().
 #'
 #' @return A gene expression plot in 3D.
 #'
@@ -687,7 +687,7 @@ feature_plot <- function(
 #' @param intnesity_colors Colors for intensity scale.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::layout().
+#' @param ... Other arguments passed to plotly::plot_ly().
 #'
 #' @return A three-dimensional plot.
 #'
@@ -710,7 +710,8 @@ three_dim_plot <- function(
             sizes = sizes,
             colors = intensity_colors,
             type = 'scatter3d',
-            mode = 'markers'
+            mode = 'markers',
+            ...
         )
     } else {
         p <- plotly::plot_ly(
@@ -723,7 +724,8 @@ three_dim_plot <- function(
             sizes = sizes,
             colors = annotation_colors,
             type = 'scatter3d',
-            mode = 'markers'
+            mode = 'markers',
+            ...
         )
     }
     axis <- list(
@@ -735,7 +737,7 @@ three_dim_plot <- function(
         yaxis = axis,
         zaxix = axis
     )
-    p <- plotly::layout(p, scene=scene, ...)
+    p <- plotly::layout(p, scene=scene)
     suppressWarnings(print(p))
 }
 
