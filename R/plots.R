@@ -232,7 +232,7 @@ plot_map_3d.VoxelMap <- function(
         sizes = sizes,
         ...
     )
-    return(p)
+    return(invisible())
 }
 
 
@@ -620,8 +620,7 @@ plot_expression_3d <- function(
         sizes = sizes,
         ...
     )
-    return(p)
-
+    return(invisible())
 }
 
 
@@ -685,7 +684,6 @@ three_dim_plot <- function(
     sizes = c(10, 1000),
     ...
 ){
-
     if (is.null(annotation_level)){
         p <- plotly::plot_ly(
             int_df,
