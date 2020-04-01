@@ -165,7 +165,6 @@ plot_map.VoxelMap <- function(
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
             map_colors = map_colors,
-            newpage = newpage,
             ...
         )
     } else {
@@ -174,7 +173,6 @@ plot_map.VoxelMap <- function(
             slices = slices,
             view = view,
             map_colors = map_colors,
-            newpage = newpage,
             ...
         )
     }
@@ -316,7 +314,6 @@ mapping_plot <- function(
     view = 'sagittal',
     slices = NULL,
     map_colors = rdpu,
-    newpage = TRUE,
     ...
 ){
     plots <- map(levels(factor(map_df$group)), function(g){
@@ -534,7 +531,6 @@ plot_expression <- function(
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
             map_colors = gyrdpu,
-            newpage = newpage,
             ...
         )
     } else {
@@ -569,7 +565,6 @@ plot_expression <- function(
             meta = voxel_meta,
             markers = genes,
             plot = f_plot,
-            newpage = newpage,
             ...
         )
     }
