@@ -54,21 +54,19 @@ We can also plot the expression of different genes over these voxel maps:
 
 ```{r, fig.height=4, fig.width=6}
 genes <- c('NEUROD6', 'EOMES', 'DCN', 'DLX1', 'DLX2', 'GBX2', 'OTX2', 'GATA3', 'PAX8')
-p <- plot_expression('E15', genes = genes)
-print(p)
+plot_expression('E15', genes = genes, newpage = F)
 ```
 
 Here we plotted just the sagittal view with a maximum intensity projection for all voxels, sometimes this hides the expression of certain genes. VoxHunt also allows you to define the sections that will be used in the plot:
 
 ```{r, fig.height=1.2, fig.width=2}
-p <- plot_expression('E15', genes = 'DCN', slices = 5:10)
-print(p)
+plot_expression('E15', genes = 'DCN', slices = 5:10)
 ```
 
 We can also plot the expression of multiple genes for many coronal sections at the same time:
 
 ```{r, results='hide'}
-p <- plot_expression(
+plot_expression(
     'E15', 
     genes = genes, 
     view = 'slice', 

@@ -126,6 +126,7 @@ annotation_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
+#' @param newpage Logical. Draw on a new page.
 #' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A similarity map.
@@ -144,6 +145,7 @@ plot_map.VoxelMap <- function(
     map_colors = gyrdpu_flat,
     show_coordinates = F,
     show_legend = F,
+    newpage = TRUE,
     ...
 ){
     view <- match.arg(view)
@@ -163,6 +165,7 @@ plot_map.VoxelMap <- function(
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
             map_colors = map_colors,
+            newpage = newpage,
             ...
         )
     } else {
@@ -171,6 +174,7 @@ plot_map.VoxelMap <- function(
             slices = slices,
             view = view,
             map_colors = map_colors,
+            newpage = newpage,
             ...
         )
     }
@@ -244,6 +248,7 @@ plot_map_3d.VoxelMap <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #' @param map_colors Color map for correlation values.
+#' @param newpage Logical. Draw on a new page.
 #'
 #' @return A similarity map with one row per slice and one
 #' column per cell group.
@@ -253,6 +258,7 @@ slice_plot <- function(
     annotation_level = 'custom_2',
     annotation_colors = many,
     map_colors = gyrdpu,
+    newpage = TRUE,
     ...
 ){
     annot <- ggplot(slice_df, aes_string('z', 'y', fill = annotation_level)) +
@@ -285,7 +291,7 @@ slice_plot <- function(
         return(p)
     })
     plots <- c(list(annot), plots)
-    return(egg::ggarrange(plots = plots, nrow = 1, ...))
+    return(egg::ggarrange(plots = plots, nrow = 1, draw = FALSE, newpage = newpage, ...))
 }
 
 
@@ -298,6 +304,7 @@ slice_plot <- function(
 #' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param map_colors Color map for correlation values.
+#' @param newpage Logical. Draw on a new page.
 #'
 #' @return A similarity map.
 #'
@@ -306,6 +313,7 @@ mapping_plot <- function(
     view = 'sagittal',
     slices = NULL,
     map_colors = rdpu,
+    newpage = TRUE,
     ...
 ){
     plots <- map(levels(factor(map_df$group)), function(g){
@@ -339,7 +347,7 @@ mapping_plot <- function(
         return(p)
     })
     if (length(plots)>1){
-        return(egg::ggarrange(plots = plots, ...))
+        return(egg::ggarrange(plots = plots, draw = FALSE, newpage = newpage, ...))
     } else {
         return(plots[[1]])
     }
@@ -467,6 +475,7 @@ similarity_box_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
+#' @param newpage Logical. Draw on a new page.
 #'
 #' @return A gene expression plot.
 #'
@@ -479,6 +488,7 @@ plot_expression <- function(
     slices = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
+    newpage = TRUE,
     ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -519,6 +529,7 @@ plot_expression <- function(
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
             map_colors = gyrdpu,
+            newpage = newpage,
             ...
         )
         return(p)
@@ -554,6 +565,7 @@ plot_expression <- function(
             meta = voxel_meta,
             markers = genes,
             plot = f_plot,
+            newpage = newpage,
             ...
         )
         return(p)
@@ -635,6 +647,7 @@ plot_expression_3d <- function(
 #' @param plot Function to use for generating individual plots.
 #' @param sort Logical. Whether to sort highest expressing cells up.
 #' @param scale Logical. Whether to scale the expression values.
+#' @param newpage Logical. Draw on a new page.
 #'
 #' @return A panel of feature plots for each gene.
 #'
@@ -643,8 +656,9 @@ feature_plot <- function(
     meta,
     markers,
     plot = xy_plot,
-    sort = T,
-    scale = T,
+    sort = TRUE,
+    scale = TRUE,
+    newpage = TRUE,
     ...
 ){
     meta$voxel <- as.character(meta$voxel)
@@ -659,7 +673,7 @@ feature_plot <- function(
         }
         plot(x, g)
     })
-    p <- egg::ggarrange(plots = plots, ...)
+    p <- egg::ggarrange(plots = plots, draw = FALSE, newpage = newpage, ...)
     return(p)
 }
 
