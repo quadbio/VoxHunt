@@ -54,7 +54,7 @@ We can also plot the expression of different genes over these voxel maps:
 
 ```{r, fig.height=4, fig.width=6}
 genes <- c('NEUROD6', 'EOMES', 'DCN', 'DLX1', 'DLX2', 'GBX2', 'OTX2', 'GATA3', 'PAX8')
-plot_expression('E15', genes = genes, newpage = F)
+plot_expression('E15', genes = genes)
 ```
 
 Here we plotted just the sagittal view with a maximum intensity projection for all voxels, sometimes this hides the expression of certain genes. VoxHunt also allows you to define the sections that will be used in the plot:
@@ -65,18 +65,15 @@ plot_expression('E15', genes = 'DCN', slices = 5:10)
 
 We can also plot the expression of multiple genes for many coronal sections at the same time:
 
-```{r}
+```{r, fig.height=8, fig.width=6}
 plot_expression(
     'E15', 
     genes = genes, 
     view = 'slice', 
-    slices = c(4, 12, 24, 30, 35, 40), 
-    newpage = FALSE
+    slices = c(4, 12, 24, 30, 35, 40)
 )
 ```
-```{r, fig.height=10, fig.width=7}
-print(p)
-```
+
 
 
 In addition to plotting well-known canonical markers, we can also perform DE to find specific markers for brain structures we are interested in:
@@ -93,7 +90,7 @@ print(p)
 
 ## Transcriptomic similarity maps
 
-Ok, now to the really interesting part: mapping single cells transcriptomes. Projecting single cells to these spatial maps based on several hundred genes can be very informative about cell type composition of the organoid. First, we load an Seurat object. The example case we use here contains 2300 cells from cerebral organoids.
+Ok, now to the interesting part: mapping single cell transcriptomes. Projecting single cells to these spatial maps based on several hundred genes can be very informative about cell type composition of the organoid. First, we load an Seurat object. The example case we use here contains 2300 cells from cerebral organoids.
 
 ```{r}
 data(example_seurat)
@@ -125,22 +122,16 @@ print(vox_map)
 
 The `plot_map()` function lets us plot this voxel map in a number of different ways. Per default, it will show us a sagittal view of the projection for each of the groups:
 
-```{r}
-p <- plot_map(vox_map, nrow=1)
-```
 ```{r, fig.height=2, fig.width=8}
-print(p)
+plot_map(vox_map, nrow=1)
 ```
 
 
-However, as we have seen with the expression plots, we can also slice this plot however we want to reveal structures that might be hidden in the sagittal projection. For instance, the highest correlation for the ventral neurons seem to be hidden somewhere inside the brain, so lets look at fewer sagittal sections: 
+However, as we have seen with the expression plots, we can also slice these voxel maps however we want to reveal structures that might be hidden in the sagittal projection. For instance, the highest correlation for the ventral neurons seem to be hidden somewhere inside the brain, so lets look at fewer coronal sections: 
 
 
-```{r}
-p <- plot_map(vox_map, view='slice', slices=seq(1, 40, 4))
-```
 ```{r, fig.height=12, fig.width=3}
-print(p)
+plot_map(vox_map, view='slice', slices=seq(1, 40, 4))
 ```
 
 Finally, VoxHunt also allows you to explore similarity maps interactively in 3D with a little help of plotly:
