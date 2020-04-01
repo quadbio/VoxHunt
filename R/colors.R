@@ -25,3 +25,66 @@ dr_guides <- guides(
     alpha = guide_legend(override.aes = list(size = 5))
 )
 
+#### Structure colors ####
+struct_names_custom2 <- c(
+    'olfactory bulb',
+    'pallium',
+    'subpallium',
+    'preoptic telencephalon',
+    'telencephalo-hypothalamic transition area',
+    'hypothalamus',
+    'diencephalon',
+    'midbrain',
+    'prepontine hindbrain',
+    'pontine hindbrain',
+    'promedullary hindbrain',
+    'medullary hindbrain',
+    'spinal cord',
+    'telencephalic vesicle (alar plate)',
+    'telencephalic vesicle (roof plate)'
+)
+
+struct_symbol_custom2 <- c(
+    'OB',
+    'Pall',
+    'SPall',
+    'PTel',
+    'TelHy',
+    'Hy',
+    'D',
+    'M',
+    'PPH',
+    'PH',
+    'PMH',
+    'MH',
+    'SpC',
+    'TVa',
+    'TVr'
+)
+
+struct_colors_custom2 <- c(
+    '#f48fb1',
+    '#ad1457',
+    '#7b1fa2',
+    '#5e35b1',
+    '#424242',
+    '#ba68c8',
+    '#9fa8da',
+    '#0097a7',
+    '#1b5e20',
+    '#aed581',
+    '#558b2f',
+    '#c0ca33',
+    '#fbc02d',
+    '#757575',
+    '#bdbdbd'
+)
+
+names(struct_colors_custom2) <- struct_names_custom2
+
+struct_custom2 <- tibble(
+    symbol = struct_symbol_custom2,
+    annot = struct_names_custom2,
+    colors = struct_colors_custom2
+)
+
