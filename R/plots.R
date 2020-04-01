@@ -178,7 +178,11 @@ plot_map.VoxelMap <- function(
             ...
         )
     }
-    return(p)
+    if (return_plot){
+        return(p)
+    } else {
+        return(invisible())
+    }
 }
 
 
@@ -193,7 +197,7 @@ plot_map.VoxelMap <- function(
 #' @param map_colors Color map for correlation values.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::plot_ly().
+#' @param ... Other arguments passed to plotly::layout().
 #'
 #' @return A similarity map in 3D.
 #'
@@ -248,7 +252,7 @@ plot_map_3d.VoxelMap <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #' @param map_colors Color map for correlation values.
-#' @param newpage Logical. Draw on a new page.
+#' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A similarity map with one row per slice and one
 #' column per cell group.
@@ -258,7 +262,6 @@ slice_plot <- function(
     annotation_level = 'custom_2',
     annotation_colors = many,
     map_colors = gyrdpu,
-    newpage = TRUE,
     ...
 ){
     annot <- ggplot(slice_df, aes_string('z', 'y', fill = annotation_level)) +
@@ -291,7 +294,7 @@ slice_plot <- function(
         return(p)
     })
     plots <- c(list(annot), plots)
-    return(egg::ggarrange(plots = plots, nrow = 1, draw = FALSE, newpage = newpage, ...))
+    return(egg::ggarrange(plots = plots, nrow = 1, ...))
 }
 
 
@@ -304,7 +307,7 @@ slice_plot <- function(
 #' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param map_colors Color map for correlation values.
-#' @param newpage Logical. Draw on a new page.
+#' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A similarity map.
 #'
@@ -347,8 +350,9 @@ mapping_plot <- function(
         return(p)
     })
     if (length(plots)>1){
-        return(egg::ggarrange(plots = plots, draw = FALSE, newpage = newpage, ...))
+        return(egg::ggarrange(plots = plots, ...))
     } else {
+        print(plots[[1]])
         return(plots[[1]])
     }
 }
@@ -475,7 +479,8 @@ similarity_box_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
-#' @param newpage Logical. Draw on a new page.
+#' @param return_plot Logical. Return plot.
+#' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A gene expression plot.
 #'
@@ -488,7 +493,7 @@ plot_expression <- function(
     slices = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
-    newpage = TRUE,
+    return_plot = FALSE,
     ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -532,7 +537,6 @@ plot_expression <- function(
             newpage = newpage,
             ...
         )
-        return(p)
     } else {
         if (view %in% c('coronal', 'x')){
             if (!is.null(slices)){
@@ -568,7 +572,11 @@ plot_expression <- function(
             newpage = newpage,
             ...
         )
+    }
+    if (return_plot){
         return(p)
+    } else {
+        return(invisible())
     }
 }
 
@@ -586,7 +594,7 @@ plot_expression <- function(
 #' @param expression_colors Colors for expression scale.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::plot_ly().
+#' @param ... Other arguments passed to plotly::layout().
 #'
 #' @return A gene expression plot in 3D.
 #'
@@ -647,7 +655,7 @@ plot_expression_3d <- function(
 #' @param plot Function to use for generating individual plots.
 #' @param sort Logical. Whether to sort highest expressing cells up.
 #' @param scale Logical. Whether to scale the expression values.
-#' @param newpage Logical. Draw on a new page.
+#' @param ... Other arguments passed to egg::ggarrange().
 #'
 #' @return A panel of feature plots for each gene.
 #'
@@ -658,7 +666,6 @@ feature_plot <- function(
     plot = xy_plot,
     sort = TRUE,
     scale = TRUE,
-    newpage = TRUE,
     ...
 ){
     meta$voxel <- as.character(meta$voxel)
@@ -673,8 +680,7 @@ feature_plot <- function(
         }
         plot(x, g)
     })
-    p <- egg::ggarrange(plots = plots, draw = FALSE, newpage = newpage, ...)
-    return(p)
+    return(egg::ggarrange(plots = plots, ...))
 }
 
 #### 3D PLOT ####
@@ -686,7 +692,7 @@ feature_plot <- function(
 #' @param intnesity_colors Colors for intensity scale.
 #' @param sizes The size range for points.
 #' @param both_hemispheres Logical. Whether to plot both hemispheres (TRUE) of only one (FALSE).
-#' @param ... Other arguments passed to plotly::plot_ly().
+#' @param ... Other arguments passed to plotly::layout().
 #'
 #' @return A three-dimensional plot.
 #'
@@ -781,7 +787,6 @@ plot_map.ReferenceMap <- function(
             axis.text.x = element_text(angle=45, hjust=1)
         ) +
         labs(x = 'Group', y = 'Structure', fill = 'Scaled\ncorrelation')
-
     return(p)
 }
 
