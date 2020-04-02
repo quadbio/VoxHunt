@@ -80,7 +80,7 @@ struct_colors_custom2 <- c(
     '#bdbdbd'
 )
 
-names(struct_colors_custom2) <- struct_names_custom2
+names(struct_colors_custom2) <- struct_symbol_custom2
 
 struct_custom2 <- tibble(
     symbol = struct_symbol_custom2,

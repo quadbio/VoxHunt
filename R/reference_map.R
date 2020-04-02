@@ -66,7 +66,7 @@ brainspan_map.default <- function(
 #'
 brainspan_map.Seurat <- function(
     object,
-    stage = 'E13',
+    stages = c(8:16),
     group_name = NULL,
     method = 'pearson',
     genes_use = NULL,
@@ -78,9 +78,9 @@ brainspan_map.Seurat <- function(
     } else {
         groups <- object[[group_name]][, 1]
     }
-    ref_cor <- referece_map(
+    ref_cor <- brainspan_map(
         object = Matrix::Matrix(expr_mat, sparse = T),
-        stage = stage,
+        stages = stages,
         groups = groups,
         allow_neg = allow_neg,
         method = method,
