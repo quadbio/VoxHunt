@@ -12,7 +12,7 @@ brainspan_map(object, ...)
   groups = NULL, method = "pearson", genes_use = NULL,
   allow_neg = F)
 
-\method{brainspan_map}{Seurat}(object, stage = "E13",
+\method{brainspan_map}{Seurat}(object, stages = c(8:16),
   group_name = NULL, method = "pearson", genes_use = NULL,
   allow_neg = F)
 }
@@ -27,10 +27,10 @@ We recommend to use 150 - 500 genes.}
 
 \item{allow_neg}{Logical. Whether to allow negative correlations or set them to 0.}
 
-\item{stage}{A integer vector indicating the stages (pcw) to map to..}
-
 \item{group_name}{A string indicating the metadata column for grouping the cells,
 e.g. clusters, cell types.}
+
+\item{stage}{A integer vector indicating the stages (pcw) to map to..}
 }
 \value{
 A ReferenceMap object with a cell x ref correlation matrix and metadata.

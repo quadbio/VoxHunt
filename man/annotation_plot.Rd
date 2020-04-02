@@ -5,8 +5,8 @@
 \title{Plot brain structure annotation}
 \usage{
 annotation_plot(annot_df, annotation_level = "custom_2",
-  annotation_colors = many, show_coordinates = F, show_legend = F,
-  alpha = 0.5)
+  annotation_colors = many, show_coordinates = FALSE,
+  show_legend = FALSE, alpha = 0.5)
 }
 \arguments{
 \item{annotation_level}{The structure annotation level to color code.}

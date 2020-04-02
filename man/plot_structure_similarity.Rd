@@ -8,8 +8,21 @@
 plot_structure_similarity(object, ...)
 
 \method{plot_structure_similarity}{VoxelMap}(object, groups = NULL,
-  annotation_level = "custom_3", annotation_groups = "custom_2",
-  annotation_colors = many, type = "box")
+  annotation_level = "custom_3", annotation_colors = blues_flat,
+  cluster = TRUE, return_plot = FALSE, include_unannotated = FALSE,
+  ...)
+}
+\arguments{
+\item{groups}{A metadata column or character vector to group the cells,
+e.g. clusters, cell types.}
+
+\item{annotation_level}{The structure annotation level to color code.}
+
+\item{annotation_colors}{Color map for structure annotation.}
+
+\item{cluster}{Logical. Perform hierarchical clustering on rows and columns.}
+
+\item{return_plot}{Logical. Return plot.}
 }
 \value{
 A plot showing average correlation to each brain structure.

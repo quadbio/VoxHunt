@@ -9,8 +9,8 @@
 summarize_structures(object, ...)
 
 \method{summarize_structures}{ReferenceMap}(object,
-  annotation_level = c("structure_group", "structure_name"),
-  fun = colMeans)
+  annotation_level = c("structure_group", "structure_name",
+  "structure_acronym"), fun = colMeans)
 
 \method{summarize_structures}{VoxelMap}(object,
   annotation_level = "custom_3", fun = colMeans)

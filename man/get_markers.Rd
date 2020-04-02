@@ -4,7 +4,7 @@
 \alias{get_markers}
 \title{Get gene expression values from matrix}
 \usage{
-get_markers(expr_mat, markers, scale = T)
+get_markers(expr_mat, markers, scale = TRUE)
 }
 \arguments{
 \item{expr_mat}{A samples x genes gene expression matrix.}

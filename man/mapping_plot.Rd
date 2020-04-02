@@ -14,6 +14,8 @@ mapping_plot(map_df, view = "sagittal", slices = NULL,
 \item{slices}{A numeric vector indicating the slices to plot.}
 
 \item{map_colors}{Color map for correlation values.}
+
+\item{...}{Other arguments passed to egg::ggarrange().}
 }
 \value{
 A similarity map.

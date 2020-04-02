@@ -12,11 +12,12 @@ plot_map(object, ...)
   "traverse", "z", "x", "y", "slice", "3D"), slices = NULL,
   groups = NULL, annotation_level = "custom_2",
   annotation_colors = many, map_colors = gyrdpu_flat,
-  show_coordinates = F, show_legend = F, ...)
+  show_coordinates = FALSE, show_legend = FALSE, return_plot = FALSE,
+  ...)
 
 \method{plot_map}{ReferenceMap}(object, groups = NULL,
-  annotation_level = c("structure_group", "structure_name"),
-  map_colors = blues_flat)
+  annotation_level = c("structure_group", "structure_name",
+  "structure_acronym"), map_colors = blues_flat)
 }
 \arguments{
 \item{...}{Other arguments passed to egg::ggarrange().}
@@ -38,6 +39,8 @@ e.g. clusters, cell types.}
 \item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
 
 \item{show_legend}{Logical. Whether to show a color legend or not.}
+
+\item{return_plot}{Logical. Return plot.}
 
 \item{slices}{A numeric vector indicating the slices to plot.}
 

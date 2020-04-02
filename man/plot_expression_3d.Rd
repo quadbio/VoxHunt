@@ -6,7 +6,7 @@
 \usage{
 plot_expression_3d(stage, gene, annotation_level = NULL,
   annotation_colors = many, expression_colors = inferno,
-  sizes = c(10, 1000), both_hemispheres = T, ...)
+  sizes = c(10, 1000), both_hemispheres = TRUE, ...)
 }
 \arguments{
 \item{stage}{The developmental stage to plot.}

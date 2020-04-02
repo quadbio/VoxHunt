@@ -13,6 +13,8 @@ slice_plot(slice_df, annotation_level = "custom_2",
 \item{annotation_colors}{Color map for structure annotation.}
 
 \item{map_colors}{Color map for correlation values.}
+
+\item{...}{Other arguments passed to egg::ggarrange().}
 }
 \value{
 A similarity map with one row per slice and one

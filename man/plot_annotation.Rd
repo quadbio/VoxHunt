@@ -10,12 +10,12 @@ plot_annotation(object = "E13", ...)
 
 \method{plot_annotation}{default}(object = "E13",
   annotation_level = "custom_2", annotation_colors = many,
-  slices = NULL, show_coordinates = F, show_legend = F,
+  slices = NULL, show_coordinates = FALSE, show_legend = FALSE,
   alpha = 0.5)
 
 \method{plot_annotation}{VoxelMap}(object, annotation_level = "custom_2",
-  annotation_colors = many, slices = NULL, show_coordinates = F,
-  show_legend = F, alpha = 0.5)
+  annotation_colors = many, slices = NULL, show_coordinates = FALSE,
+  show_legend = FALSE, alpha = 0.5)
 }
 \arguments{
 \item{object}{String indicating the developmental stage from the ABA.}

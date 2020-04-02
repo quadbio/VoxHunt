@@ -4,7 +4,7 @@
 \alias{load_aba_data}
 \title{Define the path to voxel data and load lazily if required}
 \usage{
-load_aba_data(dir, lazy = T)
+load_aba_data(dir, lazy = TRUE)
 }
 \arguments{
 \item{dir}{The directory with loom files for each stage.}

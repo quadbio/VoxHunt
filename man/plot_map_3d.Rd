@@ -10,7 +10,7 @@ plot_map_3d(object, ...)
 \method{plot_map_3d}{VoxelMap}(object, groups = NULL,
   show_group = NULL, annotation_level = NULL,
   annotation_colors = many, map_colors = inferno_flat, sizes = c(1,
-  1000), both_hemispheres = T, ...)
+  1000), both_hemispheres = TRUE, ...)
 }
 \arguments{
 \item{...}{Other arguments passed to plotly::plot_ly().}
