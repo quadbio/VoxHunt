@@ -355,11 +355,17 @@ mapping_plot <- function(
 }
 
 
-
 #### STRUCTURE SIMILARITY PLOTS ####
 
 #' @import ggplot2
 #' @import dplyr
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param annotation_level The structure annotation level to color code.
+#' @param annotation_colors Color map for structure annotation.
+#' @param cluster Logical. Perform hierarchical clustering on rows and columns.
+#' @param return_plot Logical. Return plot.
 #'
 #' @return A plot showing average correlation to each brain structure.
 #'
@@ -371,94 +377,80 @@ plot_structure_similarity.VoxelMap <- function(
     object,
     groups = NULL,
     annotation_level = 'custom_3',
-    annotation_groups = 'custom_2',
-    annotation_colors = many,
-    type = 'box'
+    annotation_colors = blues_flat,
+    cluster = TRUE,
+    return_plot = FALSE,
+    include_unannotated = FALSE,
+    ...
 ){
-    plot_df <- summarize_structures(object, 'custom_3') %>%
-        group_by_(annotation_groups) %>%
-        mutate(sorter = median(corr)) %>%
-        arrange_(annotation_groups, 'sorter')
-    plot_df$struct <- factor(plot_df$struct, levels=unique(plot_df$struct))
-
-    if (type == 'box'){
-        p <- similarity_box_plot(
-            plot_df,
-            annotation_level = annotation_groups,
-            annotation_colors = annotation_colors
-        )
-    } else if (type == 'bar'){
-        p <- similarity_bar_plot(
-            plot_df,
-            annotation_level = annotation_groups,
-            annotation_colors = annotation_colors
-        )
+    annot_df <- object$voxel_meta %>%
+        distinct_('custom_2', annotation_level) %>%
+        rename('struct'=annotation_level, 'annot'='custom_2')
+    if (annotation_level == 'custom_2'){
+        annot_df$struct <- annot_df$annot
     }
-    return(p)
-}
+    annot_df <- suppressMessages(inner_join(annot_df, struct_custom2)) %>%
+        mutate(symbol=factor(symbol, levels=struct_symbol_custom2)) %>%
+        filter(!is.na(struct))
 
+    plot_df <- summarize_groups(object, groups) %>%
+        group_by_('group', annotation_level) %>%
+        summarize(corr=mean(corr)) %>%
+        ungroup() %>%
+        group_by(group) %>%
+        mutate(corr=zscale(corr)) %>%
+        ungroup() %>%
+        rename('struct'=annotation_level) %>%
+        mutate(group=as.character(group), struct=as.character(struct))
 
-#' Plot correlation to individual brain structures as bar plot
-#'
-#' @import ggplot2
-#' @import dplyr
-#'
-#' @param annotation_level The structure annotation level to color code.
-#' @param annotation_colors Color map for structure annotation.
-#'
-#' @return A barplot showing average correlation to each brain structure.
-#'
-similarity_bar_plot <- function(
-    similarity_df,
-    annotation_level = 'custom_3',
-    annotation_colors = many
-){
-    p <- ggplot(similarity_df, aes_string('struct', 'corr', fill=annotation_level)) +
-        scale_fill_manual(values=annotation_colors) +
-        geom_bar(stat='summary', fun.y='median') +
-        theme_bw() +
+    if (cluster){
+        clust_df <- spread(plot_df, struct, corr) %>%
+            as_matrix()
+        group_clust <- as.dendrogram(hclust(dist(clust_df), 'ward.D2'))
+        struct_clust <- as.dendrogram(hclust(dist(t(clust_df)), 'ward.D2'))
+        plot_df <- suppressMessages(left_join(plot_df, annot_df)) %>%
+            mutate(
+                group = factor(group, levels=labels(group_clust)),
+                struct = factor(struct, levels=labels(struct_clust))
+            )
+    } else {
+        plot_df <- suppressMessages(left_join(plot_df, annot_df)) %>%
+            arrange(symbol) %>%
+            mutate(struct = factor(struct, levels=unique(struct)))
+    }
+
+    if (!include_unannotated){
+        plot_df <- filter(plot_df, !stringr::str_detect(annot, 'telencephalic|transition'))
+    }
+
+    p1 <- ggplot(plot_df, aes(struct, group, fill=corr)) +
+        geom_tile() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_gradientn(colors=blues_flat) +
+        theme_article() +
         theme(
-            axis.text.x = element_text(angle=60, hjust=1),
-            panel.grid = element_blank(),
-            panel.border = element_blank(),
-            axis.title = element_blank(),
-            plot.title = element_blank(),
-            strip.text = element_text()
+            axis.text.x = element_text(angle=45, hjust=1)
         ) +
-        labs(y = 'Correlation')
-    return(p)
-}
+        labs(x = 'Structure', y = 'Group', fill = 'Scaled\ncorrelation')
 
-
-#' Plot correlation to individual brain structures as box plot
-#'
-#' @import ggplot2
-#' @import dplyr
-#'
-#' @param annotation_level The structure annotation level to color code.
-#' @param annotation_colors Color map for structure annotation.
-#'
-#' @return A boxplot showing average correlation to each brain structure.
-#'
-similarity_box_plot <- function(
-    similarity_df,
-    annotation_level = 'custom_3',
-    annotation_colors = many
-){
-    p <- ggplot(similarity_df, aes_string('struct', 'corr', fill=annotation_level)) +
-        scale_fill_manual(values=annotation_colors) +
-        geom_boxplot(outlier.shape = NA) +
-        theme_bw() +
+    p2 <- ggplot(plot_df, aes(struct, fill=symbol)) +
+        geom_bar(position='fill', width=1) +
+        theme_void() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_manual(values=struct_colors_custom2) +
         theme(
-            axis.text.x = element_text(angle=60, hjust=1),
-            panel.grid = element_blank(),
-            panel.border = element_blank(),
-            axis.title.x = element_blank(),
-            plot.title = element_blank(),
-            strip.text = element_text()
+            legend.position = 'top'
         ) +
-        labs(y = 'Correlation')
-    return(p)
+        labs(fill='Structure\nannotation')
+
+    p <- egg::ggarrange(p2, p1, heights=c(1,10), ncol = 1, ...)
+    if (return_plot){
+        return(p)
+    } else {
+        return(invisible())
+    }
 }
 
 
