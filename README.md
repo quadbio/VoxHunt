@@ -13,7 +13,7 @@ Brain organoids are complex and can contain cells at various stages of different
 
 ## Installation
 
-[presto](https://github.com/immunogenomics/presto), one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
+[Presto](https://github.com/immunogenomics/presto), one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
 
 ```{r}
 # install.packages('devtools')
@@ -25,7 +25,7 @@ Once Presto is installed, you can install VoxHunt with
 devtools::install_github('quadbiolab/voxhunt')
 ```
 
-In addition to the R package itself, you'll also need to download the the ABA expression data from [here](http://doi.org/10.17632/n6488nxzbh.1).
+In addition to the R package itself, you'll also need to download the the ABA expression data from [here](http://dx.doi.org/10.17632/g4xg38mwcn.1).
 
 ## Quick start
 
