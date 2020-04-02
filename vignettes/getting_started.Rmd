@@ -83,12 +83,11 @@ marker_df <- structure_markers('E15', annotation_level = 'custom_4')
 hippo_markers <- marker_df %>% 
     filter(group=='hippocampus') %>% 
     top_n(2, auc)
-p <- plot_expression('E15', genes=hippo_markers$gene, nrow=1)
-print(p)
+plot_expression('E15', genes=hippo_markers$gene, nrow=1)
 ```
 
 
-## Transcriptomic similarity maps
+## Spatial similarity maps
 
 Ok, now to the interesting part: mapping single cell transcriptomes. Projecting single cells to these spatial maps based on several hundred genes can be very informative about cell type composition of the organoid. First, we load an Seurat object. The example case we use here contains 2300 cells from cerebral organoids.
 
@@ -119,15 +118,22 @@ vox_map <- voxel_map(
 print(vox_map)
 ```
 
+We can first look at the coarse-grained level, what brain structures these cell types are most similar to:
 
-The `plot_map()` function lets us plot this voxel map in a number of different ways. Per default, it will show us a sagittal view of the projection for each of the groups:
+```{r, fig.height=3, fig.width=6}
+plot_structure_similarity(vox_map, cluster=F)
+```
+
+Here, we can already appreciate that our cell types have distinct similarity patterns to certain brain structures, i.e. cortical neurons are similar to the pallium, GE neurons to the subpallium and diencephalic neurons to the diencephalon. 
+
+We can further explore out voxel map more spatially. The `plot_map()` function lets us plot spatial similarity maps in a number of different ways. Per default, it will show us a sagittal view of the projection for each of the groups:
 
 ```{r, fig.height=2, fig.width=8}
 plot_map(vox_map, nrow=1)
 ```
 
 
-However, as we have seen with the expression plots, we can also slice these voxel maps however we want to reveal structures that might be hidden in the sagittal projection. For instance, the highest correlation for the ventral neurons seem to be hidden somewhere inside the brain, so lets look at fewer coronal sections: 
+However, as we have seen with the expression plots, we can also slice these voxel maps however we want to reveal structures that might be hidden in the sagittal projection. For instance, the highest correlation for the GE neurons seem to be hidden somewhere inside the brain, so lets look at fewer coronal sections: 
 
 
 ```{r, fig.height=12, fig.width=3}
@@ -145,5 +151,52 @@ plot_map_3d(
 )
 ```
 
+
+## Comparing single-cell data to BrainSpan
+
+You might want to compare your data also to human data instead of the mouse brain. Unfortunately, quantified and registered transcriptomic maps are not yet available for the developing human brain at this scale. However, we can compare cells to RNA-seq data of microdissected human brain regions from BrainSpan. 
+
+Just as before, we first construct a similarity map to stages E5-E10:
+
+
+```{r}
+ref_map <- brainspan_map(
+    example_seurat, 
+    stages = 5:10, 
+    group_name = 'cluster', 
+    genes_use = regional_markers
+)
+print(ref_map)
+```
+
+And plot the similarity to structure groups:
+
+```{r, fig.height=4, fig.width=4}
+plot_map(ref_map, annotation_level = 'structure_group')
+```
+
+We can again observe the patterns we've seen before: Cortical neurons are highly correlated with the neocortex (NCx), diencephalic neurons with the dorsal thalamus (DTH) and GE neurons with the ganglionic eminences (GE) and the amygdala (AMY).
+
+
+## Custom plotting
+
+VoxHunt provides some basic plotting functions to visualize the similarity maps. Of course, you go beyond those if you are familiar with plotting in R. To turn a VoxelMap or ReferenceMap object into a data frame for plotting with e.g. `ggplot()`, VoxHunt provides some convenience functions that return either group (`summarize_groups()`) or structure summaries (`summarize_structures()`)  of the map:
+
+```{r}
+group_map <- summarize_groups(vox_map)
+head(group_map)
+```
+
+```{r}
+struct_map <- summarize_structures(vox_map)
+head(struct_map)
+```
+
+If you'd like to visualize the structure similarities in a low dimensional embedding of single-cell space (e.g. UMAP), you can use `assign_cells()` to assign each cell to the maximum correalting voxel. The resulting dataframe can then be joined with the embedding coordinates or added to the Seurat metadata for plotting. 
+
+```{r}
+cell_assignment <- assign_cells(vox_map)
+head(cell_assignment)
+```
 
 
