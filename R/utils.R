@@ -73,12 +73,17 @@ aggregate_matrix <- function(
 ){
     if (length(groups) == nrow(x)){
         agg_mat <- sapply(levels(factor(groups)), function(g){
-            fun(x[which(groups==g), ])
+            chunk <- x[which(groups==g), ]
+            if (is.null(dim(chunk))){
+                return(chunk)
+            } else {
+                return(fun(chunk))
+            }
         })
-        agg_mat <- Matrix::Matrix(agg_mat, sparse=TRUE)
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
     } else if (length(groups) <= 1){
         agg_mat <- fun(x)
-        agg_mat <- Matrix::Matrix(agg_mat, sparse=TRUE)
+        agg_mat <- Matrix::Matrix(agg_mat, sparse=T)
         colnames(agg_mat) <- groups
         rownames(agg_mat) <- colnames(x)
     } else {
