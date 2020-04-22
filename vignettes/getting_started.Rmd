@@ -156,7 +156,7 @@ plot_map_3d(
 
 You might want to compare your data also to human data instead of the mouse brain. Unfortunately, quantified and registered transcriptomic maps are not yet available for the developing human brain at this scale. However, we can compare cells to RNA-seq data of microdissected human brain regions from BrainSpan. 
 
-Just as before, we first construct a similarity map to stages E5-E10:
+Just as before, we first construct a similarity map to stages pcw 5 - pcw 10:
 
 
 ```{r}
