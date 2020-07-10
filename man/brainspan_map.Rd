@@ -8,13 +8,23 @@
 \usage{
 brainspan_map(object, ...)
 
-\method{brainspan_map}{default}(object, stages = c(8:16),
-  groups = NULL, method = "pearson", genes_use = NULL,
-  allow_neg = F)
+\method{brainspan_map}{default}(
+  object,
+  stages = c(8:16),
+  groups = NULL,
+  method = "pearson",
+  genes_use = NULL,
+  allow_neg = F
+)
 
-\method{brainspan_map}{Seurat}(object, stages = c(8:16),
-  group_name = NULL, method = "pearson", genes_use = NULL,
-  allow_neg = F)
+\method{brainspan_map}{Seurat}(
+  object,
+  stages = c(8:16),
+  group_name = NULL,
+  method = "pearson",
+  genes_use = NULL,
+  allow_neg = F
+)
 }
 \arguments{
 \item{groups}{A character or factor vector or for grouping of cells,

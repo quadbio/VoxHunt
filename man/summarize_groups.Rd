@@ -8,18 +8,11 @@
 \usage{
 summarize_groups(object, ...)
 
-\method{summarize_groups}{ReferenceMap}(object, groups = NULL,
-  fun = colMeans)
+\method{summarize_groups}{ReferenceMap}(object, groups = NULL, fun = colMeans)
 
-\method{summarize_groups}{VoxelMap}(object, groups = NULL,
-  fun = colMeans)
+\method{summarize_groups}{VoxelMap}(object, groups = NULL, fun = colMeans)
 }
 \arguments{
-\item{groups}{A metadata column or character vector to group the cells,
-e.g. clusters, cell types.}
-
-\item{fun}{Function used to aggregate the groups.}
-
 \item{groups}{A metadata column or character vector to group the cells,
 e.g. clusters, cell types.}
 

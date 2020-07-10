@@ -4,8 +4,15 @@
 \alias{feature_plot}
 \title{Feature plot}
 \usage{
-feature_plot(expr_mat, meta, markers, plot = xy_plot, sort = TRUE,
-  scale = TRUE, ...)
+feature_plot(
+  expr_mat,
+  meta,
+  markers,
+  plot = xy_plot,
+  sort = TRUE,
+  scale = TRUE,
+  ...
+)
 }
 \arguments{
 \item{expr_mat}{A sample x gene expression matrix.}
@@ -20,7 +27,7 @@ feature_plot(expr_mat, meta, markers, plot = xy_plot, sort = TRUE,
 
 \item{scale}{Logical. Whether to scale the expression values.}
 
-\item{...}{Other arguments passed to egg::ggarrange().}
+\item{...}{Other arguments passed to patchwork::wrap_plots().}
 }
 \value{
 A panel of feature plots for each gene.

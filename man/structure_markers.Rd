@@ -4,8 +4,11 @@
 \alias{structure_markers}
 \title{Find differentially expressed features for all structures on a given annotation level}
 \usage{
-structure_markers(stage = "E13", annotation_level = "custom_3",
-  structure_groups = NULL)
+structure_markers(
+  stage = "E13",
+  annotation_level = "custom_3",
+  structure_groups = NULL
+)
 }
 \arguments{
 \item{stage}{The developmental stage from the ABA.}

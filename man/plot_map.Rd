@@ -8,19 +8,29 @@
 \usage{
 plot_map(object, ...)
 
-\method{plot_map}{VoxelMap}(object, view = c("sagittal", "coronal",
-  "traverse", "z", "x", "y", "slice", "3D"), slices = NULL,
-  groups = NULL, annotation_level = "custom_2",
-  annotation_colors = many, map_colors = gyrdpu_flat,
-  show_coordinates = FALSE, show_legend = FALSE, return_plot = FALSE,
-  ...)
+\method{plot_map}{VoxelMap}(
+  object,
+  view = c("sagittal", "coronal", "traverse", "z", "x", "y", "slice", "3D"),
+  slices = NULL,
+  groups = NULL,
+  annotation_level = "custom_2",
+  annotation_colors = many,
+  map_colors = gyrdpu_flat,
+  show_coordinates = FALSE,
+  show_legend = FALSE,
+  return_plot = FALSE,
+  ...
+)
 
-\method{plot_map}{ReferenceMap}(object, groups = NULL,
-  annotation_level = c("structure_group", "structure_name",
-  "structure_acronym"), map_colors = blues_flat)
+\method{plot_map}{ReferenceMap}(
+  object,
+  groups = NULL,
+  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
+  map_colors = blues_flat
+)
 }
 \arguments{
-\item{...}{Other arguments passed to egg::ggarrange().}
+\item{...}{Other arguments passed to patchwork::wrap_plots().}
 
 \item{view}{String indicating the perspective to show. Valid values are
 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.}
@@ -30,7 +40,7 @@ plot_map(object, ...)
 \item{groups}{A metadata column or character vector to group the cells,
 e.g. clusters, cell types.}
 
-\item{annotation_level}{The structure annotation level to color code.}
+\item{annotation_level}{The structure annotation level to summarize to.}
 
 \item{annotation_colors}{Color map for structure annotation.}
 
@@ -41,13 +51,6 @@ e.g. clusters, cell types.}
 \item{show_legend}{Logical. Whether to show a color legend or not.}
 
 \item{return_plot}{Logical. Return plot.}
-
-\item{slices}{A numeric vector indicating the slices to plot.}
-
-\item{groups}{A metadata column or character vector to group the cells,
-e.g. clusters, cell types.}
-
-\item{annotation_level}{The structure annotation level to summarize to.}
 }
 \value{
 A similarity map.

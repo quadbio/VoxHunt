@@ -4,8 +4,7 @@
 \alias{mapping_plot}
 \title{Plot correlation to entire brain or selected slices.}
 \usage{
-mapping_plot(map_df, view = "sagittal", slices = NULL,
-  map_colors = rdpu, ...)
+mapping_plot(map_df, view = "sagittal", slices = NULL, map_colors = rdpu, ...)
 }
 \arguments{
 \item{view}{String indicating the perspective to show. Valid values are
@@ -15,7 +14,7 @@ mapping_plot(map_df, view = "sagittal", slices = NULL,
 
 \item{map_colors}{Color map for correlation values.}
 
-\item{...}{Other arguments passed to egg::ggarrange().}
+\item{...}{Other arguments passed to patchwork::wrap_plots().}
 }
 \value{
 A similarity map.

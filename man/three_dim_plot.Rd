@@ -4,9 +4,14 @@
 \alias{three_dim_plot}
 \title{General 3D plotting function}
 \usage{
-three_dim_plot(int_df, annotation_level = NULL,
-  annotation_colors = many, intensity_colors = inferno, sizes = c(10,
-  1000), ...)
+three_dim_plot(
+  int_df,
+  annotation_level = NULL,
+  annotation_colors = many,
+  intensity_colors = inferno,
+  sizes = c(10, 1000),
+  ...
+)
 }
 \arguments{
 \item{annotation_level}{The structure annotation level to color code.}

@@ -4,8 +4,13 @@
 \alias{slice_plot}
 \title{Plot correlation to brain slices and structure annotation}
 \usage{
-slice_plot(slice_df, annotation_level = "custom_2",
-  annotation_colors = many, map_colors = gyrdpu, ...)
+slice_plot(
+  slice_df,
+  annotation_level = "custom_2",
+  annotation_colors = many,
+  map_colors = gyrdpu,
+  ...
+)
 }
 \arguments{
 \item{annotation_level}{The structure annotation level to color code.}
@@ -14,7 +19,7 @@ slice_plot(slice_df, annotation_level = "custom_2",
 
 \item{map_colors}{Color map for correlation values.}
 
-\item{...}{Other arguments passed to egg::ggarrange().}
+\item{...}{Other arguments passed to patchwork::wrap_plots().}
 }
 \value{
 A similarity map with one row per slice and one

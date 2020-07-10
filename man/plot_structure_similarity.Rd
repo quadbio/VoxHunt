@@ -7,10 +7,17 @@
 \usage{
 plot_structure_similarity(object, ...)
 
-\method{plot_structure_similarity}{VoxelMap}(object, groups = NULL,
-  annotation_level = "custom_3", annotation_colors = blues_flat,
-  cluster = TRUE, return_plot = FALSE, include_unannotated = FALSE,
-  ...)
+\method{plot_structure_similarity}{VoxelMap}(
+  object,
+  groups = NULL,
+  annotation_level = "custom_3",
+  annotation_colors = blues_flat,
+  cluster = TRUE,
+  return_plot = FALSE,
+  include_unannotated = FALSE,
+  scale = T,
+  ...
+)
 }
 \arguments{
 \item{groups}{A metadata column or character vector to group the cells,

@@ -127,7 +127,7 @@ annotation_plot <- function(
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
 #' @param return_plot Logical. Return plot.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A similarity map.
 #'
@@ -246,7 +246,7 @@ plot_map_3d.VoxelMap <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #' @param map_colors Color map for correlation values.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A similarity map with one row per slice and one
 #' column per cell group.
@@ -303,7 +303,7 @@ slice_plot <- function(
 #' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param map_colors Color map for correlation values.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A similarity map.
 #'
@@ -464,7 +464,7 @@ plot_structure_similarity.VoxelMap <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #' @param return_plot Logical. Return plot.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A gene expression plot.
 #'
@@ -633,7 +633,7 @@ plot_expression_3d <- function(
 #' @param plot Function to use for generating individual plots.
 #' @param sort Logical. Whether to sort highest expressing cells up.
 #' @param scale Logical. Whether to scale the expression values.
-#' @param ... Other arguments passed to egg::ggarrange().
+#' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A panel of feature plots for each gene.
 #'
@@ -658,7 +658,7 @@ feature_plot <- function(
         }
         plot(x, g)
     })
-    return(egg::ggarrange(plots = plots, ...))
+    return(patchwork::wrap_plots(plots, ...))
 }
 
 #### 3D PLOT ####
@@ -771,6 +771,8 @@ plot_map.ReferenceMap <- function(
 }
 
 #### UTILS ####
+#' Remove legend from plot
+#'
 #' @import ggplot2
 #'
 #' @rdname no_legend

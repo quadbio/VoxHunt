@@ -8,18 +8,15 @@
 \usage{
 summarize_structures(object, ...)
 
-\method{summarize_structures}{ReferenceMap}(object,
-  annotation_level = c("structure_group", "structure_name",
-  "structure_acronym"), fun = colMeans)
+\method{summarize_structures}{ReferenceMap}(
+  object,
+  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
+  fun = colMeans
+)
 
-\method{summarize_structures}{VoxelMap}(object,
-  annotation_level = "custom_3", fun = colMeans)
+\method{summarize_structures}{VoxelMap}(object, annotation_level = "custom_3", fun = colMeans)
 }
 \arguments{
-\item{annotation_level}{The structure annotation level to summarize samples to.}
-
-\item{fun}{Function to use for summarizing samples.}
-
 \item{annotation_level}{The structure annotation level to summarize voxels to.}
 
 \item{fun}{Function to use for summarizing voxels.}

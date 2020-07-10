@@ -8,11 +8,23 @@
 \usage{
 voxel_map(object, ...)
 
-\method{voxel_map}{default}(object, stage = "E13", groups = NULL,
-  method = "pearson", genes_use = NULL, allow_neg = FALSE)
+\method{voxel_map}{default}(
+  object,
+  stage = "E13",
+  groups = NULL,
+  method = "pearson",
+  genes_use = NULL,
+  allow_neg = FALSE
+)
 
-\method{voxel_map}{Seurat}(object, stage = "E13", group_name = NULL,
-  method = "pearson", genes_use = NULL, allow_neg = FALSE)
+\method{voxel_map}{Seurat}(
+  object,
+  stage = "E13",
+  group_name = NULL,
+  method = "pearson",
+  genes_use = NULL,
+  allow_neg = FALSE
+)
 }
 \arguments{
 \item{stage}{The developmental stage in the ABA to map single cells to.}
