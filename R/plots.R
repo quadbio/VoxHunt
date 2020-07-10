@@ -772,3 +772,14 @@ plot_map.ReferenceMap <- function(
     return(p)
 }
 
+#### UTILS ####
+#' @import ggplot2
+#'
+#' @rdname no_legend
+#' @export
+#'
+no_legend <- function(){
+    theme(
+        legend.position = 'none'
+    )
+}
