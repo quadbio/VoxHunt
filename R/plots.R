@@ -500,6 +500,15 @@ plot_expression <- function(
     voxel_mat <- DATA_LIST[[stage]]$matrix
     voxel_meta <- DATA_LIST[[stage]]$row_meta
 
+    missing_genes <- genes[!genes%in%colnames(voxel_mat)]
+    if (length(missing_genes)>0){
+        warning(paste0('The following genes were not found in the ABA: ', paste(missing_genes, collapse=', ')))
+    }
+    genes <- genes[genes%in%colnames(voxel_mat)]
+    if (length(genes)==0){
+        stop('Unfortunately, none of the provided genes were found in the ABA.')
+    }
+
     if (view == 'slice'){
         if (is.null(slices)){
             slices <- seq(1, 40, 2)
@@ -647,7 +656,7 @@ feature_plot <- function(
     expr_markers <- get_markers(expr_mat, markers, scale=scale) %>%
         mutate(voxel=as.character(voxel))
     expr_markers <- suppressMessages(right_join(expr_markers, meta))
-    plots <- map(unique(markers), function(g){
+    plots <- map(unique(expr_markers$gene), function(g){
         x <- expr_markers %>%
             filter(gene==g)
         if (sort){

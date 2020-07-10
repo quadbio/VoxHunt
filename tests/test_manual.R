@@ -17,4 +17,3 @@ voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10)
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
 
-
