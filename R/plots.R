@@ -540,12 +540,9 @@ plot_expression <- function(
         f_plot <- function(x, g){
             ggplot(x, aes_string(coords[1], coords[2], fill='expr')) +
                 geom_tile() +
-                theme_bw() +
                 theme_void() +
-                dr_theme +
                 labs(title=g) +
-                feature_fill_scale +
-                feature_theme
+                feature_fill_scale
         }
         p <- feature_plot(
             expr_mat = voxel_mat,
