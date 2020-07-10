@@ -176,11 +176,7 @@ plot_map.VoxelMap <- function(
             ...
         )
     }
-    if (return_plot){
-        return(p)
-    } else {
-        return(invisible())
-    }
+    return(p)
 }
 
 
@@ -268,7 +264,7 @@ slice_plot <- function(
         scale_fill_manual(values = annotation_colors) +
         facet_grid(slice~., switch = 'both') +
         theme(
-            legend.position = 'none',
+            legend.position = 'right',
             strip.text = element_text(angle = 180, size = 10)
         )
     plots <- purrr::map(levels(factor(slice_df$group)), function(g){
@@ -284,15 +280,17 @@ slice_plot <- function(
             scale_alpha_continuous(range = c(0.5, 1)) +
             facet_grid(slice ~ .) +
             theme(
-                legend.position = 'none',
                 strip.text = element_blank(),
+                legend.position = 'none',
                 plot.title = element_text(angle = 60, hjust = 0, vjust = 0, size = 10)
                 ) +
             labs(title = g)
         return(p)
     })
     plots <- c(list(annot), plots)
-    return(egg::ggarrange(plots = plots, nrow = 1, ...))
+    out_plot <- patchwork::wrap_plots(plots, nrow = 1, ...) +
+        patchwork::plot_layout(guides = 'collect')
+    return(out_plot)
 }
 
 
