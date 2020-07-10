@@ -743,13 +743,14 @@ three_dim_plot <- function(
 #'
 #' @rdname plot_map
 #' @export
-#' @method plot_map ReferenceMap
+#' @method plot_map BrainSpanMap
 #'
-plot_map.ReferenceMap <- function(
+plot_map.BrainSpanMap <- function(
     object,
     groups = NULL,
     annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
-    map_colors = blues_flat
+    map_colors = blues_flat,
+    scale = TRUE
 ){
     annotation_level <- match.arg(annotation_level)
     if (annotation_level == 'structure_name'){
@@ -760,8 +761,12 @@ plot_map.ReferenceMap <- function(
         group_by_('group', annotation_level) %>%
         dplyr::summarize(corr=mean(corr)) %>%
         ungroup() %>%
-        group_by(group) %>%
-        mutate(corr=zscale(corr))
+        group_by(group)
+
+    if (scale){
+        plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
+            ungroup()
+    }
 
     p <- ggplot(plot_df, aes_string('group', annotation_level, fill='corr')) +
         geom_tile() +

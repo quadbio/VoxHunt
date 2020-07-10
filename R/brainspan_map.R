@@ -6,7 +6,7 @@
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
 #'
-#' @return A ReferenceMap object with a cell x ref correlation matrix and metadata.
+#' @return A BrainSpanMap object with a cell x ref correlation matrix and metadata.
 #'
 #' @rdname brainspan_map
 #' @export
@@ -52,7 +52,7 @@ brainspan_map.default <- function(
         ref_meta = ref_meta,
         genes = inter_genes
     )
-    class(ref_map) <- 'ReferenceMap'
+    class(ref_map) <- 'BrainSpanMap'
     return(ref_map)
 }
 
@@ -70,7 +70,7 @@ brainspan_map.Seurat <- function(
     group_name = NULL,
     method = 'pearson',
     genes_use = NULL,
-    allow_neg = F
+    allow_neg = FALSE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
@@ -90,18 +90,18 @@ brainspan_map.Seurat <- function(
 }
 
 
-#' Print ReferenceMap objects
+#' Print BrainSpanMap objects
 #'
 #' @rdname print
 #' @export
-#' @method print ReferenceMap
+#' @method print BrainSpanMap
 #'
-print.ReferenceMap <- function(object){
+print.BrainSpanMap <- function(object){
     n_cells <- dim(object$corr_mat)[1]
     n_ref <- dim(object$corr_mat)[2]
     n_genes <- length(object$genes)
     cat(paste0(
-        'A ReferenceMap object\n', n_cells, ' cells mapped to\n',
+        'A BrainSpanMap object\n', n_cells, ' cells mapped to\n',
         n_ref, ' reference samples \nbased on ',
         n_genes, ' features\n'
     ))
@@ -118,9 +118,9 @@ print.ReferenceMap <- function(object){
 #'
 #' @rdname summarize_groups
 #' @export
-#' @method summarize_groups ReferenceMap
+#' @method summarize_groups BrainSpanMap
 #'
-summarize_groups.ReferenceMap <- function(
+summarize_groups.BrainSpanMap <- function(
     object,
     groups = NULL,
     fun = colMeans
@@ -154,9 +154,9 @@ summarize_groups.ReferenceMap <- function(
 #'
 #' @rdname summarize_structures
 #' @export
-#' @method summarize_structures ReferenceMap
+#' @method summarize_structures BrainSpanMap
 #'
-summarize_structures.ReferenceMap <- function(
+summarize_structures.BrainSpanMap <- function(
     object,
     annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
     fun = colMeans

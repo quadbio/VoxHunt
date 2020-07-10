@@ -3,7 +3,7 @@
 \name{plot_map}
 \alias{plot_map}
 \alias{plot_map.VoxelMap}
-\alias{plot_map.ReferenceMap}
+\alias{plot_map.BrainSpanMap}
 \title{Plot similarity map of single cells}
 \usage{
 plot_map(object, ...)
@@ -22,11 +22,12 @@ plot_map(object, ...)
   ...
 )
 
-\method{plot_map}{ReferenceMap}(
+\method{plot_map}{BrainSpanMap}(
   object,
   groups = NULL,
   annotation_level = c("structure_group", "structure_name", "structure_acronym"),
-  map_colors = blues_flat
+  map_colors = blues_flat,
+  scale = FALSE
 )
 }
 \arguments{
