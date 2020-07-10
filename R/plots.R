@@ -337,19 +337,14 @@ mapping_plot <- function(
             theme_bw() +
             theme_void() +
             theme(
-                legend.position = 'none',
                 plot.title = element_text(size = 8)
                 ) +
             scale_fill_gradientn(colors = map_colors) +
+            scale_alpha_continuous(guide = FALSE) +
             labs(title = g)
         return(p)
     })
-    if (length(plots)>1){
-        return(egg::ggarrange(plots = plots, ...))
-    } else {
-        print(plots[[1]])
-        return(plots[[1]])
-    }
+    return(patchwork::wrap_plots(plots, ...))
 }
 
 
