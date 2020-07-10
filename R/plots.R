@@ -374,6 +374,7 @@ plot_structure_similarity.VoxelMap <- function(
     cluster = TRUE,
     return_plot = FALSE,
     include_unannotated = FALSE,
+    scale = T,
     ...
 ){
     annot_df <- object$voxel_meta %>%
@@ -390,9 +391,14 @@ plot_structure_similarity.VoxelMap <- function(
         group_by_('group', annotation_level) %>%
         summarize(corr=mean(corr)) %>%
         ungroup() %>%
-        group_by(group) %>%
-        mutate(corr=zscale(corr)) %>%
-        ungroup() %>%
+        group_by(group)
+
+    if (scale){
+        plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
+            ungroup()
+    }
+
+    plot_df <- plot_df %>%
         rename('struct'=annotation_level) %>%
         mutate(group=as.character(group), struct=as.character(struct))
 
@@ -425,7 +431,7 @@ plot_structure_similarity.VoxelMap <- function(
         theme(
             axis.text.x = element_text(angle=45, hjust=1)
         ) +
-        labs(x = 'Structure', y = 'Group', fill = 'Scaled\ncorrelation')
+        labs(x = 'Structure', y = 'Group', fill = 'Similarity')
 
     p2 <- ggplot(plot_df, aes(struct, fill=symbol)) +
         geom_bar(position='fill', width=1) +
@@ -436,14 +442,10 @@ plot_structure_similarity.VoxelMap <- function(
         theme(
             legend.position = 'top'
         ) +
-        labs(fill='Structure\nannotation')
+        labs(fill='Similarity')
 
-    p <- egg::ggarrange(p2, p1, heights=c(1,10), ncol = 1, ...)
-    if (return_plot){
-        return(p)
-    } else {
-        return(invisible())
-    }
+    p <- patchwork::wrap_plots(p2, p1, heights=c(1,10), ncol=1, ...)
+    return(p)
 }
 
 
@@ -553,11 +555,7 @@ plot_expression <- function(
             ...
         )
     }
-    if (return_plot){
-        return(p)
-    } else {
-        return(invisible())
-    }
+    return(p)
 }
 
 
