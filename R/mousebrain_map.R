@@ -1,4 +1,3 @@
-#' @param stage A integer vector indicating the stages (pcw) to map to..
 #' @param groups A character or factor vector or for grouping of cells,
 #' e.g. clusters, cell types.
 #' @param method A character string indicating which correlation coefficient to compute.
@@ -6,25 +5,19 @@
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
 #'
-#' @return A BrainSpanMap object with a cell x ref correlation matrix and metadata.
+#' @return A MousebrainMap object with a cell x ref correlation matrix and metadata.
 #'
-#' @rdname brainspan_map
+#' @rdname mousebrain_map
 #' @export
-#' @method brainspan_map default
+#' @method mousebrain_map default
 #'
-brainspan_map.default <- function(
+mousebrain_map.default <- function(
     object,
-    stages = c(8:16),
     groups = NULL,
     method = 'pearson',
     genes_use = NULL,
     allow_neg = F
 ){
-
-    utils::data(brainspan, envir = environment())
-
-    ref_meta <- filter(brainspan$row_meta, age_num%in%stages)
-    ref_mat <- brainspan$matrix[ref_meta$ref, ]
 
     inter_genes <- intersect(colnames(object), colnames(ref_mat))
     if (!is.null(genes_use)){
@@ -32,7 +25,7 @@ brainspan_map.default <- function(
     }
     expr_mat <- t(object[, inter_genes])
     ref_mat[ref_mat < 1] <- 0
-    ref_mat <- t(ref_mat[, inter_genes])
+    ref_mat <- t(MOUSEBRAIN_LIST$matrix[, inter_genes])
 
     corr_mat <- safe_cor(expr_mat, ref_mat, method = method, allow_neg = allow_neg)
     if (is.null(groups)){
@@ -49,10 +42,10 @@ brainspan_map.default <- function(
     ref_map <- list(
         corr_mat = corr_mat,
         cell_meta = cell_meta,
-        ref_meta = ref_meta,
+        ref_meta = MOUSEBRAIN_LIST$meta,
         genes = inter_genes
     )
-    class(ref_map) <- 'BrainSpanMap'
+    class(ref_map) <- 'MousebrainMap'
     return(ref_map)
 }
 
@@ -60,13 +53,12 @@ brainspan_map.default <- function(
 #' @param group_name A string indicating the metadata column for grouping the cells,
 #' e.g. clusters, cell types.
 #'
-#' @rdname brainspan_map
+#' @rdname mousebrain_map
 #' @export
-#' @method brainspan_map Seurat
+#' @method mousebrain_map Seurat
 #'
-brainspan_map.Seurat <- function(
+mousebrain_map.Seurat <- function(
     object,
-    stages = c(8:16),
     group_name = NULL,
     method = 'pearson',
     genes_use = NULL,
@@ -78,7 +70,7 @@ brainspan_map.Seurat <- function(
     } else {
         groups <- object[[group_name]][, 1]
     }
-    ref_cor <- brainspan_map(
+    ref_cor <- mousebrain_map(
         object = Matrix::Matrix(expr_mat, sparse = T),
         stages = stages,
         groups = groups,
@@ -90,23 +82,22 @@ brainspan_map.Seurat <- function(
 }
 
 
-#' Print BrainSpanMap objects
+#' Print MousebrainMap objects
 #'
 #' @rdname print
 #' @export
-#' @method print BrainSpanMap
+#' @method print MousebrainMap
 #'
-print.BrainSpanMap <- function(object){
+print.MousebrainMap <- function(object){
     n_cells <- dim(object$corr_mat)[1]
     n_ref <- dim(object$corr_mat)[2]
     n_genes <- length(object$genes)
     cat(paste0(
-        'A BrainSpanMap object\n', n_cells, ' cells mapped to\n',
-        n_ref, ' reference samples \nbased on ',
+        'A MousebrainMap object\n', n_cells, ' cells mapped to\n',
+        n_ref, ' reference cells \nbased on ',
         n_genes, ' features\n'
     ))
 }
-
 
 #' @import Matrix
 #'
@@ -118,9 +109,9 @@ print.BrainSpanMap <- function(object){
 #'
 #' @rdname summarize_groups
 #' @export
-#' @method summarize_groups BrainSpanMap
+#' @method summarize_groups MousebrainMap
 #'
-summarize_groups.BrainSpanMap <- function(
+summarize_groups.MousebrainMap <- function(
     object,
     groups = NULL,
     fun = colMeans
@@ -136,8 +127,8 @@ summarize_groups.BrainSpanMap <- function(
 
     plot_df <- cluster_cor %>%
         as.matrix() %>%
-        tibble::as_tibble(rownames='ref') %>%
-        tidyr::gather(group, corr, -ref) %>%
+        tibble::as_tibble(rownames='cluster') %>%
+        tidyr::gather(group, corr, -cluster) %>%
         dplyr::mutate(group=factor(group, levels=levels(factor(groups))))
     plot_df <- suppressMessages(dplyr::left_join(plot_df, object$ref_meta))
 
@@ -154,23 +145,22 @@ summarize_groups.BrainSpanMap <- function(
 #'
 #' @rdname summarize_structures
 #' @export
-#' @method summarize_structures BrainSpanMap
+#' @method summarize_structures MousebrainMap
 #'
-summarize_structures.BrainSpanMap <- function(
+summarize_structures.MousebrainMap <- function(
     object,
-    annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
+    annotation_level = c('region', 'class'),
     fun = colMeans
 ){
     annotation_level <- match.arg(annotation_level)
-    if (annotation_level == 'structure_name'){
-        annotation_level <- 'structure_acronym'
-    }
+
     corr_mat <- t(object$corr_mat)
     ref_meta <- dplyr::group_by(object$ref_meta, annotation_level) %>%
-        dplyr::filter(ref%in%rownames(corr_mat)) %>%
-        dplyr::filter(dplyr::n() > 5)
+        dplyr::filter(cluster%in%rownames(corr_mat)) %>%
+        dplyr::filter(dplyr::n() > 5) %>%
+        dplyr::distinct(cluster, annotation_level)
     cluster_cor <- aggregate_matrix(
-        corr_mat[ref_meta$ref, ],
+        corr_mat[ref_meta$cluster, ],
         groups = ref_meta[[annotation_level]],
         fun = fun
     )
