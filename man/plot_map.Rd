@@ -27,7 +27,7 @@ plot_map(object, ...)
   groups = NULL,
   annotation_level = c("structure_group", "structure_name", "structure_acronym"),
   map_colors = blues_flat,
-  scale = FALSE
+  scale = TRUE
 )
 }
 \arguments{

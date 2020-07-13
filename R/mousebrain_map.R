@@ -19,13 +19,13 @@ mousebrain_map.default <- function(
     allow_neg = F
 ){
 
-    inter_genes <- intersect(colnames(object), colnames(ref_mat))
+    inter_genes <- intersect(colnames(object), colnames(MOUSEBRAIN_DATA$matrix))
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
     expr_mat <- t(object[, inter_genes])
+    ref_mat <- t(MOUSEBRAIN_DATA$matrix[, inter_genes])
     ref_mat[ref_mat < 1] <- 0
-    ref_mat <- t(MOUSEBRAIN_LIST$matrix[, inter_genes])
 
     corr_mat <- safe_cor(expr_mat, ref_mat, method = method, allow_neg = allow_neg)
     if (is.null(groups)){
@@ -42,7 +42,7 @@ mousebrain_map.default <- function(
     ref_map <- list(
         corr_mat = corr_mat,
         cell_meta = cell_meta,
-        ref_meta = MOUSEBRAIN_LIST$meta,
+        ref_meta = MOUSEBRAIN_DATA$meta,
         genes = inter_genes
     )
     class(ref_map) <- 'MousebrainMap'
@@ -72,7 +72,6 @@ mousebrain_map.Seurat <- function(
     }
     ref_cor <- mousebrain_map(
         object = Matrix::Matrix(expr_mat, sparse = T),
-        stages = stages,
         groups = groups,
         allow_neg = allow_neg,
         method = method,
@@ -94,7 +93,7 @@ print.MousebrainMap <- function(object){
     n_genes <- length(object$genes)
     cat(paste0(
         'A MousebrainMap object\n', n_cells, ' cells mapped to\n',
-        n_ref, ' reference cells \nbased on ',
+        n_ref, ' reference clusters \nbased on ',
         n_genes, ' features\n'
     ))
 }

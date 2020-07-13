@@ -63,20 +63,19 @@ load_aba_data <- function(
 #' @export
 #'
 load_mousebrain_data <- function(
-    dir,
-    lazy = TRUE
+    dir
 ){
     all_path <- file.path(dir, 'dev_all.loom')
-    all_loom <- H5File$new(all_path)
+    all_loom <- hdf5r::H5File$new(all_path)
     agg_path <- file.path(dir, 'dev_all.agg.loom')
-    agg_loom <- H5File$new(agg_path)
+    agg_loom <- hdf5r::H5File$new(agg_path)
 
     all_tsne <- all_loom[['col_attrs/TSNE']][,]
     all_region <- all_loom[['col_attrs/Region']][]
     all_class <- all_loom[['col_attrs/Class']][]
     all_cluster <- all_loom[['col_attrs/Clusters']][]
 
-    all_meta <- tibble(
+    all_meta <- tibble::tibble(
         tSNE1 = all_tsne[1, ],
         tSNE2 = all_tsne[2, ],
         region = all_region,
@@ -85,13 +84,16 @@ load_mousebrain_data <- function(
     )
 
     agg_expression <- agg_loom[['matrix']][,]
-    colnames(agg_expression) <- make.names(str_to_upper(agg_loom[['row_attrs/Gene']][]))
+    colnames(agg_expression) <- make.names(stringr::str_to_upper(agg_loom[['row_attrs/Gene']][]))
     rownames(agg_expression) <- agg_loom[['col_attrs/Clusters']][]
 
     MOUSEBRAIN_DATA <<- list(
-        matrix = agg_expression,
+        matrix = Matrix(agg_expression, sparse=T),
         meta = all_meta
     )
+
+    all_loom$close_all()
+    agg_loom$close_all()
 }
 
 

@@ -13,7 +13,7 @@ voxel_map <- function(object, ...){
 
 #' Project single cell gene expression data to BrainSpan
 #'
-#' Calculates correlation between single-cell gene expression reference samples from
+#' Calculates correlation between single-cell gene expression and reference samples from
 #' BrainSpan
 #'
 #' @rdname brainspan_map
@@ -21,6 +21,17 @@ voxel_map <- function(object, ...){
 #'
 brainspan_map <- function(object, ...){
     UseMethod(generic = 'brainspan_map', object = object)
+}
+
+#' Project single cell gene expression data to developing mouse brain data (LaManno & Siletti et al. 2020)
+#'
+#' Calculates correlation between single-cell gene expression and clusters from LaManno & Siletti et al. 2020
+#'
+#' @rdname mousebrain_map
+#' @export mousebrain_map
+#'
+mousebrain_map <- function(object, ...){
+    UseMethod(generic = 'mousebrain_map', object = object)
 }
 
 #' Summarize data over groups
