@@ -39,7 +39,7 @@ VoxHunt provides a number of convenient functions to explore the Allen Developin
 load_aba_data('~/path/to/data')
 ```
 ```{r, results='hide', echo=F}
-load_aba_data('~/projects/VoxHunt/data/voxhunt_rds/')
+load_aba_data('~/Dropbox/projects/VoxHunt/voxhunt_rds/')
 ```
 Per default, VoxHunt will not load all of the data at once, but only when we require it. 
 
@@ -177,6 +177,32 @@ plot_map(ref_map, annotation_level = 'structure_group')
 
 We can again observe the patterns we've seen before: Cortical neurons are highly correlated with the neocortex (NCx), diencephalic neurons with the dorsal thalamus (DTH) and GE neurons with the ganglionic eminences (GE) and the amygdala (AMY).
 
+## Mapping to developing mouse brain scRNA-seq data (La Manno & Siletti et al.)
+
+The recently released scRNA-seq atlas of the developing mouse brain ([La Manno & Siletti et al.](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1)) provides a further great ressource for evaluating cell identity. The data from the preprint can be obtained [here](http://mousebrain.org/downloads.html). If after you downloaded both loom files to a directory, you can load it to be used by VoxHunt:
+
+```{r, eval=F, echo=T}
+load_mousebrain_data('~/path/to/data')
+```
+```{r, results='hide', echo=F}
+load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain')
+```
+
+After this, mapping your single cell data is as easy as calling 
+
+```{r, eval=F, echo=T}
+mb_map <- mousebrain_map(example_seurat, group_name = 'cluster', genes_use = top10)
+```
+
+As with other maps, you can plot the object with:
+
+```{r, fig.height=4, fig.width=4}
+plot_map(mb_map)
+```
+
+For annotations of these maps, please have a look at the beautiful Figure 1 of the [preprint](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1).
+
+Note: In this case, we only compute the similarity to aggregated clusters of the data, as correlation to >300.000 cells is computationally quite intense. Further the plotting function `plot_map()` takes an argument subsample, which allows downsampling the cells for plotting.
 
 ## Custom plotting
 

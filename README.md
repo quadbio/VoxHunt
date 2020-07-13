@@ -49,8 +49,13 @@ plot_map(vox_map)
 ```
 After loading VoxHunt, we first point it to the directory with the unpacked [ABA expression data](http://dx.doi.org/10.17632/g4xg38mwcn.1). Then, we select the 300 most variable features from the E13.5 mouse brain ISH data and use them to calculate similarity maps for your organoid cells. Finally, we plot these maps in the sagittal view.
 
-If you want to find out more about VoxHunt's functionality, have a look into the [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
+## Mapping to other references
 
+In addition to the ABA, we have also included functions that facilitate mapping to the [BrainSpan data](https://www.brainspan.org/) (human microdissected brain) as well as the recently released developing mouse brain scRNA-seq atlas ([La Manno & Siletti et al.](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1)). 
+
+## More
+
+If you want to find out more about VoxHunt's functionality, have a look into the [vignette](http://htmlpreview.github.io/?https://github.com/quadbiolab/VoxHunt/blob/master/vignettes/getting_started.html).
 
 ## Citation
 
