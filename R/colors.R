@@ -6,6 +6,8 @@ inferno <- grDevices::colorRampPalette(viridis::viridis(n=10, option = 'inferno'
 inferno_flat <- grDevices::colorRampPalette(viridis::viridis(n=10, option = 'inferno'), bias = 0.5)(100)
 blues <- colorRampPalette(c('white', brewer.pal(n=9, name='Blues')))(100)
 blues_flat <- colorRampPalette(c('white', brewer.pal(n=9, name='Blues')), bias=0.8)(100)
+ylorrd <- colorRampPalette(brewer.pal(n=9, name='YlOrRd'))(100)
+ylorrd_flat <- colorRampPalette(brewer.pal(n=9, name='YlOrRd'), bias=0.8)(100)
 
 #### Themes for plots ####
 feature_color_scale <- scale_color_gradientn(colours=gyrdpu)

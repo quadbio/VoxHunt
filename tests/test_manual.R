@@ -24,9 +24,16 @@ plot_map(bsmap, groups = example_seurat$cluster)
 
 load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain/')
 mbmap <- mousebrain_map(example_seurat, genes_use = top10)
-summarize_groups(mbmap)
-summarize_structures(mbmap, annotation_level = 'class')
+
+summarize_structures(mbmap)
 plot_structure_similarity(mbmap, groups = example_seurat$cluster)
+
+plot_map(mbmap, groups = example_seurat$cluster)
+
+
+
+
+
 
 
 
