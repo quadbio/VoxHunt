@@ -4,6 +4,7 @@
 \alias{plot_map}
 \alias{plot_map.VoxelMap}
 \alias{plot_map.BrainSpanMap}
+\alias{plot_map.MousebrainMap}
 \title{Plot similarity map of single cells}
 \usage{
 plot_map(object, ...)
@@ -29,12 +30,15 @@ plot_map(object, ...)
   scale = TRUE
 )
 
-\method{plot_map}{BrainSpanMap}(
+\method{plot_map}{MousebrainMap}(
   object,
   groups = NULL,
-  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
-  map_colors = blues_flat,
-  scale = TRUE
+  map_colors = ylorrd_flat,
+  point_size = 0.2,
+  subsample = 50000,
+  scale = T,
+  show_legend = FALSE,
+  ...
 )
 }
 \arguments{
@@ -57,6 +61,12 @@ e.g. clusters, cell types.}
 \item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
 
 \item{show_legend}{Logical. Whether to show a color legend or not.}
+
+\item{scale}{Logical. Whether to scale correlation values.}
+
+\item{point_size}{Point size.}
+
+\item{subsample}{Subsample mousebrain cells for faster plotting.}
 }
 \value{
 A similarity map.

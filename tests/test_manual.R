@@ -3,7 +3,7 @@ library(tidyverse)
 library(voxhunt)
 
 data('example_seurat')
-load_aba_data('../voxhunt_rds/')
+load_aba_data('../voxhunt_data/')
 plot_expression('E13', 'NEUROD6')
 plot_expression('E15', 'NEUROD6', view='sagittal')
 
@@ -25,15 +25,8 @@ plot_map(bsmap, groups = example_seurat$cluster)
 load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain/')
 mbmap <- mousebrain_map(example_seurat, genes_use = top10)
 
-summarize_structures(mbmap)
-plot_structure_similarity(mbmap, groups = example_seurat$cluster)
+plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
 
 plot_map(mbmap, groups = example_seurat$cluster)
-
-
-
-
-
-
 
 

@@ -12,7 +12,8 @@ plot_structure_similarity(object, ...)
   object,
   groups = NULL,
   annotation_level = "custom_3",
-  annotation_colors = blues_flat,
+  annotation_colors = struct_colors_custom2,
+  map_colors = blues_flat,
   cluster = TRUE,
   include_unannotated = FALSE,
   scale = T,
@@ -22,10 +23,9 @@ plot_structure_similarity(object, ...)
 \method{plot_structure_similarity}{MousebrainMap}(
   object,
   groups = NULL,
-  annotation_level = c("class", "region"),
   region_colors = many,
   class_colors = many,
-  heat_colors = blues_flat,
+  map_colors = blues_flat,
   cluster = TRUE,
   scale = T,
   ...
