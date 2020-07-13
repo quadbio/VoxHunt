@@ -17,6 +17,7 @@ top10 <- markers %>%
 voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10)
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
+plot_structure_similarity(voxmap, groups = example_seurat$cluster)
 
 bsmap <- brainspan_map(example_seurat, genes_use = top10)
 plot_map(bsmap, groups = example_seurat$cluster)
@@ -25,7 +26,7 @@ load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_
 mbmap <- mousebrain_map(example_seurat, genes_use = top10)
 summarize_groups(mbmap)
 summarize_structures(mbmap, annotation_level = 'class')
-plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
+plot_structure_similarity(mbmap, groups = example_seurat$cluster)
 
 
 

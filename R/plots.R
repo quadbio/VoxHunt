@@ -367,7 +367,8 @@ plot_structure_similarity.VoxelMap <- function(
     object,
     groups = NULL,
     annotation_level = 'custom_3',
-    annotation_colors = blues_flat,
+    annotation_colors = struct_colors_custom2,
+    map_colors = blues_flat,
     cluster = TRUE,
     include_unannotated = FALSE,
     scale = T,
@@ -384,7 +385,7 @@ plot_structure_similarity.VoxelMap <- function(
         filter(!is.na(struct))
 
     plot_df <- summarize_groups(object, groups) %>%
-        group_by_at('group', annotation_level) %>%
+        group_by_at(c('group', annotation_level)) %>%
         summarize(corr=mean(corr)) %>%
         ungroup() %>%
         group_by(group)
@@ -422,7 +423,7 @@ plot_structure_similarity.VoxelMap <- function(
         geom_tile() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_gradientn(colors=blues_flat) +
+        scale_fill_gradientn(colors=map_colors) +
         theme_article() +
         theme(
             axis.text.x = element_text(angle=45, hjust=1)
@@ -434,7 +435,7 @@ plot_structure_similarity.VoxelMap <- function(
         theme_void() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_manual(values=struct_colors_custom2) +
+        scale_fill_manual(values=annotation_colors) +
         theme(
             legend.position = 'top'
         ) +
@@ -752,7 +753,7 @@ plot_map.BrainSpanMap <- function(
     }
 
     plot_df <- summarize_groups(object, groups) %>%
-        group_by_at('group', annotation_level) %>%
+        group_by_at(c('group', annotation_level)) %>%
         dplyr::summarize(corr=mean(corr)) %>%
         ungroup() %>%
         group_by(group)
@@ -766,59 +767,7 @@ plot_map.BrainSpanMap <- function(
         geom_tile() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_gradientn(colors=blues_flat) +
-        theme_article() +
-        theme(
-            axis.text.x = element_text(angle=45, hjust=1)
-        ) +
-        labs(x = 'Group', y = 'Structure', fill = 'Scaled\ncorrelation')
-    return(p)
-}
-
-
-
-#### PLOTS FOR MOUSEBRAIN MAPS ####
-#' @import ggplot2
-#' @import dplyr
-#'
-#' @param groups A metadata column or character vector to group the cells,
-#' e.g. clusters, cell types.
-#' @param annotation_level The structure annotation level to summarize to.
-#'
-#' @return A similarity map.
-#'
-#' @rdname plot_map
-#' @export
-#' @method plot_map BrainSpanMap
-#'
-plot_map.BrainSpanMap <- function(
-    object,
-    groups = NULL,
-    annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
-    map_colors = blues_flat,
-    scale = TRUE
-){
-    annotation_level <- match.arg(annotation_level)
-    if (annotation_level == 'structure_name'){
-        annotation_level <- 'structure_acronym'
-    }
-
-    plot_df <- summarize_groups(object, groups) %>%
-        group_by_('group', annotation_level) %>%
-        dplyr::summarize(corr=mean(corr)) %>%
-        ungroup() %>%
-        group_by(group)
-
-    if (scale){
-        plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
-            ungroup()
-    }
-
-    p <- ggplot(plot_df, aes_string('group', annotation_level, fill='corr')) +
-        geom_tile() +
-        scale_x_discrete(expand=c(0,0)) +
-        scale_y_discrete(expand=c(0,0)) +
-        scale_fill_gradientn(colors=blues_flat) +
+        scale_fill_gradientn(colors=map_colors) +
         theme_article() +
         theme(
             axis.text.x = element_text(angle=45, hjust=1)
@@ -849,7 +798,7 @@ plot_structure_similarity.MousebrainMap <- function(
     groups = NULL,
     region_colors = many,
     class_colors = many,
-    heat_colors = blues_flat,
+    map_colors = blues_flat,
     cluster = TRUE,
     scale = T,
     ...
@@ -892,7 +841,7 @@ plot_structure_similarity.MousebrainMap <- function(
         geom_tile() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_gradientn(colors=heat_colors) +
+        scale_fill_gradientn(colors=map_colors) +
         theme_article() +
         theme(
             axis.text.x = element_text(angle=45, hjust=1)
