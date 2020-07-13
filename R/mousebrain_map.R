@@ -154,10 +154,10 @@ summarize_structures.MousebrainMap <- function(
     annotation_level <- match.arg(annotation_level)
 
     corr_mat <- t(object$corr_mat)
-    ref_meta <- dplyr::group_by(object$ref_meta, annotation_level) %>%
+    ref_meta <- dplyr::group_by_at(object$ref_meta, annotation_level) %>%
         dplyr::filter(cluster%in%rownames(corr_mat)) %>%
         dplyr::filter(dplyr::n() > 5) %>%
-        dplyr::distinct(cluster, annotation_level)
+        dplyr::distinct_('cluster', annotation_level)
     cluster_cor <- aggregate_matrix(
         corr_mat[ref_meta$cluster, ],
         groups = ref_meta[[annotation_level]],

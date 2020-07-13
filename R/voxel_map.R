@@ -197,7 +197,7 @@ summarize_structures.VoxelMap <- function(
 ){
 
     corr_mat <- t(object$corr_mat)
-    voxel_meta <- dplyr::group_by(object$voxel_meta, annotation_level) %>%
+    voxel_meta <- dplyr::group_by_at(object$voxel_meta, annotation_level) %>%
         dplyr::filter(voxel%in%rownames(corr_mat)) %>%
         dplyr::filter(dplyr::n() > 5)
     cluster_cor <- aggregate_matrix(

@@ -83,8 +83,15 @@ load_mousebrain_data <- function(
         cluster = as.character(all_cluster)
     )
 
-    agg_expression <- agg_loom[['matrix']][,]
-    colnames(agg_expression) <- make.names(stringr::str_to_upper(agg_loom[['row_attrs/Gene']][]))
+    utils::data(human2mouse, envir = environment())
+
+    gene_names_mouse <- agg_loom[['row_attrs/Gene']][]
+    gene_names_human <- human2mouse$human_symbol[match(gene_names_mouse, human2mouse$mouse_symbol)]
+    gene_names <- genes_conv[!is.na(gene_names_human)]
+    gene_idx <- match(gene_names, gene_names_human)
+
+    agg_expression <- agg_loom[['matrix']][, gene_idx]
+    colnames(agg_expression) <- make.names(gene_names)
     rownames(agg_expression) <- agg_loom[['col_attrs/Clusters']][]
 
     MOUSEBRAIN_DATA <<- list(

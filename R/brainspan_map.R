@@ -166,7 +166,7 @@ summarize_structures.BrainSpanMap <- function(
         annotation_level <- 'structure_acronym'
     }
     corr_mat <- t(object$corr_mat)
-    ref_meta <- dplyr::group_by(object$ref_meta, annotation_level) %>%
+    ref_meta <- dplyr::group_by_at(object$ref_meta, annotation_level) %>%
         dplyr::filter(ref%in%rownames(corr_mat)) %>%
         dplyr::filter(dplyr::n() > 5)
     cluster_cor <- aggregate_matrix(

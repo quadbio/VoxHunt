@@ -781,6 +781,61 @@ plot_map.BrainSpanMap <- function(
     return(p)
 }
 
+
+
+#### PLOTS FOR MOUSEBRAIN MAPS ####
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param annotation_level The structure annotation level to summarize to.
+#'
+#' @return A similarity map.
+#'
+#' @rdname plot_map
+#' @export
+#' @method plot_map BrainSpanMap
+#'
+plot_map.BrainSpanMap <- function(
+    object,
+    groups = NULL,
+    annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
+    map_colors = blues_flat,
+    scale = TRUE
+){
+    annotation_level <- match.arg(annotation_level)
+    if (annotation_level == 'structure_name'){
+        annotation_level <- 'structure_acronym'
+    }
+
+    plot_df <- summarize_groups(object, groups) %>%
+        group_by_('group', annotation_level) %>%
+        dplyr::summarize(corr=mean(corr)) %>%
+        ungroup() %>%
+        group_by(group)
+
+    if (scale){
+        plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
+            ungroup()
+    }
+
+    p <- ggplot(plot_df, aes_string('group', annotation_level, fill='corr')) +
+        geom_tile() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_gradientn(colors=blues_flat) +
+        theme_article() +
+        theme(
+            axis.text.x = element_text(angle=45, hjust=1)
+        ) +
+        labs(x = 'Group', y = 'Structure', fill = 'Scaled\ncorrelation')
+    return(p)
+}
+
+
+
+
 #### UTILS ####
 #' Remove legend from plot
 #'
