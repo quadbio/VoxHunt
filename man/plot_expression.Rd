@@ -11,7 +11,6 @@ plot_expression(
   slices = NULL,
   annotation_level = "custom_2",
   annotation_colors = many,
-  return_plot = FALSE,
   ...
 )
 }
@@ -28,8 +27,6 @@ plot_expression(
 \item{annotation_level}{The structure annotation level to color code.}
 
 \item{annotation_colors}{Color map for structure annotation.}
-
-\item{return_plot}{Logical. Return plot.}
 
 \item{...}{Other arguments passed to patchwork::wrap_plots().}
 }

@@ -3,6 +3,7 @@
 \name{plot_structure_similarity}
 \alias{plot_structure_similarity}
 \alias{plot_structure_similarity.VoxelMap}
+\alias{plot_structure_similarity.MousebrainMap}
 \title{Plot similarity to brain structures}
 \usage{
 plot_structure_similarity(object, ...)
@@ -13,8 +14,19 @@ plot_structure_similarity(object, ...)
   annotation_level = "custom_3",
   annotation_colors = blues_flat,
   cluster = TRUE,
-  return_plot = FALSE,
   include_unannotated = FALSE,
+  scale = T,
+  ...
+)
+
+\method{plot_structure_similarity}{MousebrainMap}(
+  object,
+  groups = NULL,
+  annotation_level = c("class", "region"),
+  region_colors = many,
+  class_colors = many,
+  heat_colors = blues_flat,
+  cluster = TRUE,
   scale = T,
   ...
 )
@@ -28,10 +40,10 @@ e.g. clusters, cell types.}
 \item{annotation_colors}{Color map for structure annotation.}
 
 \item{cluster}{Logical. Perform hierarchical clustering on rows and columns.}
-
-\item{return_plot}{Logical. Return plot.}
 }
 \value{
+A plot showing average correlation to each brain structure.
+
 A plot showing average correlation to each brain structure.
 }
 \description{

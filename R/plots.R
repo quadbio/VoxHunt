@@ -126,7 +126,6 @@ annotation_plot <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param show_coordinates Logical. Whether to show slice coordinates or not.
 #' @param show_legend Logical. Whether to show a color legend or not.
-#' @param return_plot Logical. Return plot.
 #' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A similarity map.
@@ -145,7 +144,6 @@ plot_map.VoxelMap <- function(
     map_colors = gyrdpu_flat,
     show_coordinates = FALSE,
     show_legend = FALSE,
-    return_plot = FALSE,
     ...
 ){
     view <- match.arg(view)
@@ -358,7 +356,6 @@ mapping_plot <- function(
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
 #' @param cluster Logical. Perform hierarchical clustering on rows and columns.
-#' @param return_plot Logical. Return plot.
 #'
 #' @return A plot showing average correlation to each brain structure.
 #'
@@ -372,7 +369,6 @@ plot_structure_similarity.VoxelMap <- function(
     annotation_level = 'custom_3',
     annotation_colors = blues_flat,
     cluster = TRUE,
-    return_plot = FALSE,
     include_unannotated = FALSE,
     scale = T,
     ...
@@ -388,7 +384,7 @@ plot_structure_similarity.VoxelMap <- function(
         filter(!is.na(struct))
 
     plot_df <- summarize_groups(object, groups) %>%
-        group_by_('group', annotation_level) %>%
+        group_by_at('group', annotation_level) %>%
         summarize(corr=mean(corr)) %>%
         ungroup() %>%
         group_by(group)
@@ -463,7 +459,6 @@ plot_structure_similarity.VoxelMap <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
-#' @param return_plot Logical. Return plot.
 #' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A gene expression plot.
@@ -477,7 +472,6 @@ plot_expression <- function(
     slices = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
-    return_plot = FALSE,
     ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -758,7 +752,7 @@ plot_map.BrainSpanMap <- function(
     }
 
     plot_df <- summarize_groups(object, groups) %>%
-        group_by_('group', annotation_level) %>%
+        group_by_at('group', annotation_level) %>%
         dplyr::summarize(corr=mean(corr)) %>%
         ungroup() %>%
         group_by(group)
@@ -834,6 +828,102 @@ plot_map.BrainSpanMap <- function(
 }
 
 
+#### PLOTS FOR MOUSEBRAIN MAPS ####
+#' @import ggplot2
+#' @import dplyr
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param annotation_level The structure annotation level to color code.
+#' @param annotation_colors Color map for structure annotation.
+#' @param cluster Logical. Perform hierarchical clustering on rows and columns.
+#'
+#' @return A plot showing average correlation to each brain structure.
+#'
+#' @rdname plot_structure_similarity
+#' @export
+#' @method plot_structure_similarity MousebrainMap
+#'
+plot_structure_similarity.MousebrainMap <- function(
+    object,
+    groups = NULL,
+    region_colors = many,
+    class_colors = many,
+    heat_colors = blues_flat,
+    cluster = TRUE,
+    scale = T,
+    ...
+){
+    annot_df <- object$ref_meta %>%
+        distinct(class, region) %>%
+        mutate(region_class=paste0(region, '_', class))
+
+    plot_df <- summarize_groups(object, groups) %>%
+        distinct(group, cluster, corr, class, region) %>%
+        mutate(region_class=paste0(region, '_', class)) %>%
+        group_by(group, region_class) %>%
+        summarize(corr=mean(corr)) %>%
+        ungroup() %>%
+        group_by(group)
+
+    plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
+        ungroup()
+
+    plot_df <- plot_df %>%
+        mutate(group=as.character(group), region_class=as.character(region_class))
+
+    if (cluster){
+        clust_df <- spread(plot_df, region_class, corr) %>%
+            as_matrix()
+        group_clust <- as.dendrogram(hclust(dist(clust_df), 'ward.D2'))
+        struct_clust <- as.dendrogram(hclust(dist(t(clust_df)), 'ward.D2'))
+        plot_df <- suppressMessages(left_join(plot_df, annot_df)) %>%
+            mutate(
+                group = factor(group, levels=labels(group_clust)),
+                region_class = factor(region_class, levels=labels(struct_clust))
+            )
+    } else {
+        plot_df <- suppressMessages(left_join(plot_df, annot_df)) %>%
+            arrange(region_class) %>%
+            mutate(region_class = factor(region_class, levels=unique(region_class)))
+    }
+
+    p1 <- ggplot(plot_df, aes(region_class, group, fill=corr)) +
+        geom_tile() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_gradientn(colors=heat_colors) +
+        theme_article() +
+        theme(
+            axis.text.x = element_text(angle=45, hjust=1)
+        ) +
+        labs(x = 'Structure', y = 'Group', fill = 'Similarity')
+
+    p2 <- ggplot(plot_df, aes(region_class, fill=region)) +
+        geom_bar(position='fill', width=1) +
+        theme_void() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_manual(values=region_colors) +
+        theme(
+            legend.position = 'right'
+        ) +
+        labs(fill='Region')
+
+    p3 <- ggplot(plot_df, aes(region_class, fill=class)) +
+        geom_bar(position='fill', width=1) +
+        theme_void() +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_manual(values=class_colors) +
+        theme(
+            legend.position = 'right'
+        ) +
+        labs(fill='Class')
+
+    p <- patchwork::wrap_plots(p3, p2, p1, heights=c(1, 1, 5), ncol=1) + plot_layout(guides='collect')
+    return(p)
+}
 
 
 #### UTILS ####

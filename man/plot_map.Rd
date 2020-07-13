@@ -18,8 +18,15 @@ plot_map(object, ...)
   map_colors = gyrdpu_flat,
   show_coordinates = FALSE,
   show_legend = FALSE,
-  return_plot = FALSE,
   ...
+)
+
+\method{plot_map}{BrainSpanMap}(
+  object,
+  groups = NULL,
+  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
+  map_colors = blues_flat,
+  scale = TRUE
 )
 
 \method{plot_map}{BrainSpanMap}(
@@ -50,10 +57,10 @@ e.g. clusters, cell types.}
 \item{show_coordinates}{Logical. Whether to show slice coordinates or not.}
 
 \item{show_legend}{Logical. Whether to show a color legend or not.}
-
-\item{return_plot}{Logical. Return plot.}
 }
 \value{
+A similarity map.
+
 A similarity map.
 
 A similarity map.
