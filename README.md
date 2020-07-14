@@ -25,7 +25,7 @@ Once Presto is installed, you can install VoxHunt with
 devtools::install_github('quadbiolab/voxhunt')
 ```
 
-In addition to the R package itself, you'll also need to download the the ABA expression data from [here](http://dx.doi.org/10.17632/g4xg38mwcn.1).
+In addition to the R package itself, you'll also need to download the the ABA expression data from [here](http://dx.doi.org/10.17632/g4xg38mwcn.2).
 
 ## Quick start
 
