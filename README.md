@@ -4,7 +4,7 @@
 You want to validate your new brain organoid protocol, find out which cell types emerge in your current batch of cerebral organoids or just find a very specific marker for a tiny brain structure? VoxHunt might be what you are looking for.
 
 
-## Introduction 
+## Introduction
 
 Brain organoids are complex and can contain cells at various stages of differentiation from different brain structures. Single cell genomic methods provide powerful approaches to explore cell composition, differentiation trajectories, gene regulation, and genetic perturbations in brain organoid systems. VoxHunt is a handy tool to assess brain organoid patterning, developmental state, and cell composition through systematic comparisons of single cell transcriptomes to three-dimensional in situ hybridization data from the Allen Brain Atlas.
 
@@ -41,7 +41,7 @@ load_aba_data('~/path/to/data')
 # Find 300 most variable genes from the E13.5 mouse brain
 genes_use <- variable_genes('E13', 300)$gene
 
-# Calculate the similarity map of a seurat object to the E13.5 mouse brain 
+# Calculate the similarity map of a seurat object to the E13.5 mouse brain
 vox_map <- voxel_map(seurat_object, genes_use=genes_use)
 
 # Plot the result
@@ -51,7 +51,7 @@ After loading VoxHunt, we first point it to the directory with the unpacked [ABA
 
 ## Mapping to other references
 
-In addition to the ABA, we have also included functions that facilitate mapping to the [BrainSpan data](https://www.brainspan.org/) (human microdissected brain) as well as the recently released developing mouse brain scRNA-seq atlas ([La Manno & Siletti et al.](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1)). 
+In addition to the ABA, we have also included functions that facilitate mapping to the [BrainSpan data](https://www.brainspan.org/) (human microdissected brain) as well as the recently released developing mouse brain scRNA-seq atlas ([La Manno & Siletti et al.](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1)).
 
 ## More
 
@@ -62,6 +62,3 @@ If you want to find out more about VoxHunt's functionality, have a look into the
 If you find VoxHunt useful for your research, please consider citing our preprint:
 
 [Fleck, J.S., et al., Resolving brain organoid heterogeneity by mapping single cell genomic data to a spatial reference. bioRxiv, 2020](https://www.biorxiv.org/content/10.1101/2020.01.06.896282v1)
-
-
-
