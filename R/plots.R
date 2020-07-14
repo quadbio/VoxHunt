@@ -926,7 +926,7 @@ plot_map.MousebrainMap <- function(
         return(p)
     })
 
-    p <- wrap_plots(plot_list, ...)
+    p <- patchwork::wrap_plots(plot_list, ...)
     return(p)
 }
 

@@ -54,13 +54,13 @@ We can also plot the expression of different genes over these voxel maps:
 
 ```{r, fig.height=4, fig.width=6}
 genes <- c('NEUROD6', 'EOMES', 'DCN', 'DLX1', 'DLX2', 'GBX2', 'OTX2', 'GATA3', 'PAX8')
-plot_expression('E15', genes = genes)
+plot_expression('E15', genes = genes) & no_legend()
 ```
 
 Here we plotted just the sagittal view with a maximum intensity projection for all voxels, sometimes this hides the expression of certain genes. VoxHunt also allows you to define the sections that will be used in the plot:
 
 ```{r, fig.height=1.2, fig.width=2}
-plot_expression('E15', genes = 'DCN', slices = 5:10)
+plot_expression('E15', genes = 'DCN', slices = 5:10) & no_legend()
 ```
 
 We can also plot the expression of multiple genes for many coronal sections at the same time:
@@ -71,7 +71,7 @@ plot_expression(
     genes = genes, 
     view = 'slice', 
     slices = c(4, 12, 24, 30, 35, 40)
-)
+) & no_legend()
 ```
 
 
@@ -83,7 +83,7 @@ marker_df <- structure_markers('E15', annotation_level = 'custom_4')
 hippo_markers <- marker_df %>% 
     filter(group=='hippocampus') %>% 
     top_n(2, auc)
-plot_expression('E15', genes=hippo_markers$gene, nrow=1)
+plot_expression('E15', genes=hippo_markers$gene, nrow=1) & no_legend()
 ```
 
 
@@ -129,7 +129,7 @@ Here, we can already appreciate that our cell types have distinct similarity pat
 We can further explore out voxel map more spatially. The `plot_map()` function lets us plot spatial similarity maps in a number of different ways. Per default, it will show us a sagittal view of the projection for each of the groups:
 
 ```{r, fig.height=2, fig.width=8}
-plot_map(vox_map, nrow=1)
+plot_map(vox_map, nrow=1) & no_legend()
 ```
 
 
@@ -137,7 +137,7 @@ However, as we have seen with the expression plots, we can also slice these voxe
 
 
 ```{r, fig.height=12, fig.width=3}
-plot_map(vox_map, view='slice', slices=seq(1, 40, 4))
+plot_map(vox_map, view='slice', slices=seq(1, 40, 4)) & no_legend()
 ```
 
 Finally, VoxHunt also allows you to explore similarity maps interactively in 3D with a little help of plotly:
@@ -190,19 +190,20 @@ load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_
 
 After this, mapping your single cell data is as easy as calling 
 
-```{r, eval=F, echo=T}
-mb_map <- mousebrain_map(example_seurat, group_name = 'cluster', genes_use = top10)
+```{r}
+mb_map <- mousebrain_map(example_seurat, group_name = 'cluster', genes_use = regional_markers)
+print(mb_map)
 ```
 
 As with other maps, you can plot the object with:
 
-```{r, fig.height=4, fig.width=4}
-plot_map(mb_map)
+```{r, fig.height=3.6, fig.width=8}
+plot_map(mb_map, downsample=50000, point_size=0.1)
 ```
 
 For annotations of these maps, please have a look at the beautiful Figure 1 of the [preprint](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1).
 
-Note: In this case, we only compute the similarity to aggregated clusters of the data, as correlation to >300.000 cells is computationally quite intense. Further the plotting function `plot_map()` takes an argument subsample, which allows downsampling the cells for plotting.
+Note: In this case, we only compute the similarity to aggregated clusters of the data, as correlation to >300.000 cells is computationally quite intense. Further, the plotting function `plot_map()` takes an argument subsample, which allows downsampling the cells for faster plotting.
 
 ## Custom plotting
 
