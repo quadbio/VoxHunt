@@ -199,7 +199,7 @@ stage_name <- function(stage){
 #'
 #' @return A list containing a covariance and correlation matrix.
 #'
-sparse_covcor <- function(x, y=NULLRUE) {
+sparse_covcor <- function(x, y=NULL) {
     if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
     if (is.null(y)) {
         xtx <- crossprod(x)
@@ -291,3 +291,22 @@ as_matrix <- function(df){
     rownames(mat) <- df[[1]]
     return(mat)
 }
+
+#' Print diagnostic message
+#'
+#' @param text Text to print
+#' @param verbose Whether to print
+#'
+log_message <- function(text, verbose=TRUE){
+    if (verbose){
+        message(text)
+    }
+}
+
+
+
+
+
+
+
+

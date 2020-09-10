@@ -1,5 +1,6 @@
 library(testthat)
 library(tidyverse)
+library(patchwork)
 library(voxhunt)
 
 data('example_seurat')

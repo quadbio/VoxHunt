@@ -870,7 +870,7 @@ plot_structure_similarity.MousebrainMap <- function(
         ) +
         labs(fill='Class')
 
-    p <- patchwork::wrap_plots(p3, p2, p1, heights=c(1, 1, 5), ncol=1) + plot_layout(guides='collect')
+    p <- patchwork::wrap_plots(p3, p2, p1, heights=c(1, 1, 5), ncol=1) + patchwork::plot_layout(guides='collect')
     return(p)
 }
 
