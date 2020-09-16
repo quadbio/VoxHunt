@@ -12,7 +12,8 @@
   groups = NULL,
   method = "pearson",
   genes_use = NULL,
-  allow_neg = F
+  allow_neg = FALSE,
+  pseudobulk_groups = FALSE
 )
 
 \method{brainspan_map}{Seurat}(
@@ -21,7 +22,8 @@
   group_name = NULL,
   method = "pearson",
   genes_use = NULL,
-  allow_neg = FALSE
+  allow_neg = FALSE,
+  pseudobulk_groups = FALSE
 )
 
 brainspan_map(object, ...)
@@ -36,6 +38,8 @@ e.g. clusters, cell types.}
 We recommend to use 150 - 500 genes.}
 
 \item{allow_neg}{Logical. Whether to allow negative correlations or set them to 0.}
+
+\item{pseudobulk_groups}{Logical. Whether to summarizse the group expression before computing the correlation.}
 
 \item{group_name}{A string indicating the metadata column for grouping the cells,
 e.g. clusters, cell types.}

@@ -4,6 +4,7 @@
 #' @param genes_use A character vector with genes to use for computing the correlation.
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
+#' @param pseudobulk_groups Logical. Whether to summarizse the group expression before computing the correlation.
 #'
 #' @return A MousebrainMap object with a cell x ref correlation matrix and metadata.
 #'
@@ -16,7 +17,8 @@ mousebrain_map.default <- function(
     groups = NULL,
     method = 'pearson',
     genes_use = NULL,
-    allow_neg = F
+    allow_neg = FALSE,
+    pseudobulk_groups = FALSE
 ){
 
     inter_genes <- intersect(colnames(object), colnames(MOUSEBRAIN_DATA$matrix))
@@ -27,12 +29,22 @@ mousebrain_map.default <- function(
     ref_mat <- t(MOUSEBRAIN_DATA$matrix[, inter_genes])
     ref_mat[ref_mat < 1] <- 0
 
+    expr_mat <- object[, inter_genes]
+    if (pseudobulk_groups){
+        expr_mat <- aggregate_matrix(expr_mat, groups = groups, fun = Matrix::colMeans)
+    } else {
+        expr_mat <- t(expr_mat)
+    }
+
     corr_mat <- safe_cor(expr_mat, ref_mat, method = method, allow_neg = allow_neg)
     if (is.null(groups)){
         cell_meta <- tibble(
             cell = rownames(corr_mat)
         )
     } else {
+        if (pseudobulk_groups){
+            groups <- levels(factor(groups))
+        }
         cell_meta <- tibble(
             cell = rownames(corr_mat),
             group = groups
@@ -62,7 +74,8 @@ mousebrain_map.Seurat <- function(
     group_name = NULL,
     method = 'pearson',
     genes_use = NULL,
-    allow_neg = FALSE
+    allow_neg = FALSE,
+    pseudobulk_groups = FALSE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
@@ -75,7 +88,8 @@ mousebrain_map.Seurat <- function(
         groups = groups,
         allow_neg = allow_neg,
         method = method,
-        genes_use = genes_use
+        genes_use = genes_use,
+        pseudobulk_groups = pseudobulk_groups
     )
     return(ref_cor)
 }

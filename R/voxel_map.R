@@ -5,6 +5,7 @@
 #' @param genes_use A character vector with genes to use for computing the correlation.
 #' We recommend to use 150 - 500 genes.
 #' @param allow_neg Logical. Whether to allow negative correlations or set them to 0.
+#' @param pseudobulk_groups Logical. Whether to summarizse the group expression before computing the correlation.
 #'
 #' @return A VoxelMap object with a cell x voxel correlation matrix and metadata.
 #'
