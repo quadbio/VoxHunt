@@ -2,6 +2,7 @@ library(testthat)
 library(tidyverse)
 library(patchwork)
 library(voxhunt)
+library(Seurat)
 
 data('example_seurat')
 load_aba_data('../voxhunt_data/')
@@ -16,6 +17,9 @@ top10 <- markers %>%
     {unique(.$gene)}
 
 voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10)
+
+pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T)
+
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
 plot_structure_similarity(voxmap, groups = example_seurat$cluster)
@@ -29,5 +33,8 @@ mbmap <- mousebrain_map(example_seurat, genes_use = top10)
 plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
 
 plot_map(mbmap, groups = example_seurat$cluster)
+
+
+
 
 

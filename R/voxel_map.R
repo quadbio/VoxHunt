@@ -18,7 +18,8 @@ voxel_map.default <- function(
     groups = NULL,
     method = 'pearson',
     genes_use = NULL,
-    allow_neg = FALSE
+    allow_neg = FALSE,
+    pseudobulk_groups = FALSE
 ){
 
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -35,7 +36,14 @@ voxel_map.default <- function(
     if (!is.null(genes_use)){
         inter_genes <- intersect(inter_genes, genes_use)
     }
-    expr_mat <- t(object[, inter_genes])
+
+    expr_mat <- object[, inter_genes]
+    if (pseudobulk_groups){
+        expr_mat <- aggregate_matrix(expr_mat, groups = groups, fun = Matrix::colMeans)
+    } else {
+        expr_mat <- t(expr_mat)
+    }
+
     voxel_mat[voxel_mat < 1] <- 0
     voxel_mat <- t(voxel_mat[, inter_genes])
 
@@ -45,6 +53,9 @@ voxel_map.default <- function(
             cell = rownames(corr_mat)
         )
     } else {
+        if (pseudobulk_groups){
+            groups <- levels(factor(groups))
+        }
         cell_meta <- tibble(
             cell = rownames(corr_mat),
             group = groups
@@ -77,7 +88,8 @@ voxel_map.Seurat <- function(
     group_name = NULL,
     method = 'pearson',
     genes_use = NULL,
-    allow_neg = FALSE
+    allow_neg = FALSE,
+    pseudobulk_groups = FALSE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
@@ -91,7 +103,8 @@ voxel_map.Seurat <- function(
         groups = groups,
         allow_neg = allow_neg,
         method = method,
-        genes_use = genes_use
+        genes_use = genes_use,
+        pseudobulk_groups = pseudobulk_groups
     )
     return(vox_cor)
 }

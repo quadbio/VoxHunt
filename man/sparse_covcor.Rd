@@ -4,7 +4,7 @@
 \alias{sparse_covcor}
 \title{Fast correlation and covariance calcualtion for sparse matrices}
 \usage{
-sparse_covcor(x, y = NULLRUE)
+sparse_covcor(x, y = NULL)
 }
 \arguments{
 \item{x}{Sparse matrix or character vector.}
