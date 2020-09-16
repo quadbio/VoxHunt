@@ -202,23 +202,22 @@ stage_name <- function(stage){
 sparse_covcor <- function(x, y=NULL) {
     if (!is(x, "dgCMatrix")) stop("x should be a dgCMatrix")
     if (is.null(y)) {
-        xtx <- crossprod(x)
         n <- nrow(x)
-        cMeans <- colMeans(x)
-        covmat <- (as.matrix(xtx) - n*tcrossprod(cMeans))/(n-1)
-        sdvec <- sqrt(diag(covmat))
-        cormat <- covmat/crossprod(t(sdvec))
+        muX <- Matrix::colMeans(x)
+        covmat <- (as.matrix(Matrix::crossprod(x)) - n * Matrix::tcrossprod(muX)) / (n-1)
+        sdvec <- sqrt(Matrix::diag(covmat))
+        cormat <- covmat / Matrix::tcrossprod(sdvec)
         return(list(cov=covmat, cor=cormat))
     } else {
         if (!is(y, "dgCMatrix")) stop("y should be a dgCMatrix")
         if (nrow(x) != nrow(y)) stop("x and y should have the same number of rows")
         n <- nrow(x)
-        cMeansX <- colMeans(x)
-        cMeansY <- colMeans(y)
-        covmat <- (as.matrix(crossprod(x, y)) - n * tcrossprod(cMeansX, cMeansY))/(n-1)
-        sdvecX <- sqrt(diag((as.matrix(crossprod(x)) - n*tcrossprod(cMeansX))/(n-1)))
-        sdvecY <- sqrt(diag((as.matrix(crossprod(y)) - n*tcrossprod(cMeansY))/(n-1)))
-        cormat <- covmat / outer(sdvecX, sdvecY)
+        muY <- Matrix::colMeans(y)
+        muX <- Matrix::colMeans(x)
+        covmat <- (as.matrix(Matrix::crossprod(x, y)) - n * Matrix::tcrossprod(muX, muY)) / (n-1)
+        sdvecX <- sqrt((Matrix::colSums(x^2) - n*muX^2) / (n-1))
+        sdvecY <- sqrt((Matrix::colSums(y^2) - n*muY^2) / (n-1))
+        cormat <- covmat / Matrix::tcrossprod(sdvecX, sdvecY)
         return(list(cov=covmat, cor=cormat))
     }
 }
