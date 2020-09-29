@@ -99,6 +99,15 @@ plot_structure_similarity <- function(object, ...){
     UseMethod(generic = 'plot_structure_similarity', object = object)
 }
 
+#' Devonvolute bulk RNA-seq data based on reference data
+#'
+#' @rdname deconvolute
+#' @export deconvolute
+#'
+deconvolute <- function(object, ...){
+    UseMethod(generic = 'deconvolute', object = object)
+}
+
 
 
 
