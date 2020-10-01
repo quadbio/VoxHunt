@@ -36,6 +36,7 @@ bsmap <- brainspan_map(
     pseudobulk_groups = F
 )
 plot_map(bsmap)
+plot_structure_similarity(bsmap)
 
 ### La Manno Mousebrain
 load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain/')

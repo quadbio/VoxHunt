@@ -806,8 +806,8 @@ plot_map.BrainSpanMap <- function(
             ungroup()
     }
 
+    plot_df <- suppressMessages(inner_join(plot_df, brainspan$row_meta))
     plot_df <- plot_df %>%
-        inner_join(brainspan$row_meta) %>%
         mutate(structure_group=factor(structure_group, levels=bs_names)) %>%
         arrange(structure_group, age_num) %>%
         mutate(ref=factor(ref, levels=unique(.$ref)))
