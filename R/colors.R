@@ -71,3 +71,24 @@ struct_custom2 <- tibble(
     colors = struct_colors_custom2
 )
 
+#### Brainspan colors ####
+bs_names <- c('NCx', 'HIP', 'AMY', 'GE', 'STR', 'DTH', 'URL', 'CB')
+bs_colors <- c('#ad1457', '#f48fb1', '#884ea0', '#7b1fa2', '#5e35b1',
+               '#9fa8da', '#1b5e20', '#aed581')
+names(bs_colors) <- bs_names
+
+
+bs_age_colors <- c(
+    '#BDBDBD', '#636363',
+    '#E999DA', '#883D79',
+    '#E9A0A6', '#E55868', '#8E3637',
+    '#EFB935', '#916C22', '#AED15A', '#5D7B2E',
+    '#7372D7', '#3A397D')
+names(bs_age_colors) <- c(
+    8,9,
+    12,13,
+    16,17,19,
+    21,24,25,26,
+    35,37
+)
+
