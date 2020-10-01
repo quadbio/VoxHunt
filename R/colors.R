@@ -46,24 +46,6 @@ struct_names_custom2 <- c(
     'telencephalic vesicle (roof plate)'
 )
 
-struct_symbol_custom2 <- c(
-    'OB',
-    'Pall',
-    'SPall',
-    'PTel',
-    'TelHy',
-    'Hy',
-    'D',
-    'M',
-    'PPH',
-    'PH',
-    'PMH',
-    'MH',
-    'SpC',
-    'TVa',
-    'TVr'
-)
-
 struct_colors_custom2 <- c(
     '#f48fb1',
     '#ad1457',
@@ -82,10 +64,9 @@ struct_colors_custom2 <- c(
     '#bdbdbd'
 )
 
-names(struct_colors_custom2) <- struct_symbol_custom2
+names(struct_colors_custom2) <- struct_names_custom2
 
 struct_custom2 <- tibble(
-    symbol = struct_symbol_custom2,
     annot = struct_names_custom2,
     colors = struct_colors_custom2
 )
