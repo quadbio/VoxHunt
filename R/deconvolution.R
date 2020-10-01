@@ -4,7 +4,10 @@
 #' @param stage Developmental stage to use as reference.
 #' @param other_types Whether to infer proportions of type 'other'.
 #'
+#' @rdname deconvolute
+#' @export
 #' @return A tibble with deconvoluted proportions for each reference structure.
+#'
 #'
 deconvolute.default <- function(
     expr_mat, genes_use,
