@@ -12,12 +12,14 @@ deconvolute.default <- function(
     stage = 'E13',
     annotation_level = 'custom_2',
     pseudo_tpm = FALSE,
-    other_types = FALSE
+    other_types = FALSE,
+    involve_regions = NULL
 ){
     ref <- get_aba_ref(
         stage = stage,
         annotation_level = annotation_level,
-        pseudo_tpm = pseudo_tpm
+        pseudo_tpm = pseudo_tpm,
+        involve_regions = involve_regions
     )
 
     decon_df <- run_epic(
@@ -39,7 +41,8 @@ deconvolute.default <- function(
 get_aba_ref <- function(
     stage = 'E13',
     annotation_level = 'custom_2',
-    pseudo_tpm = FALSE
+    pseudo_tpm = FALSE,
+    involve_regions = NULL
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -60,6 +63,11 @@ get_aba_ref <- function(
     ref_expr <- aggregate_matrix(voxel_mat, groups=voxel_annot)
     ref_sd <- aggregate_matrix(as.matrix(voxel_mat), groups=voxel_annot, fun=matrixStats::colSds)
     rownames(ref_sd) <- rownames(ref_expr)
+
+    if (!is.null(involve_regions)){
+        ref_expr <- ref_expr[, involve_regions]
+        ref_sd <- ref_sd[, involve_regions]
+    }
 
     ref <- list(
         expr = ref_expr,
