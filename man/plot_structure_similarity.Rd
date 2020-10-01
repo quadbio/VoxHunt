@@ -3,6 +3,7 @@
 \name{plot_structure_similarity}
 \alias{plot_structure_similarity}
 \alias{plot_structure_similarity.VoxelMap}
+\alias{plot_structure_similarity.BrainSpanMap}
 \alias{plot_structure_similarity.MousebrainMap}
 \title{Plot similarity to brain structures}
 \usage{
@@ -18,6 +19,14 @@ plot_structure_similarity(object, ...)
   include_unannotated = FALSE,
   scale = T,
   ...
+)
+
+\method{plot_structure_similarity}{BrainSpanMap}(
+  object,
+  groups = NULL,
+  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
+  map_colors = blues_flat,
+  scale = TRUE
 )
 
 \method{plot_structure_similarity}{MousebrainMap}(
@@ -43,6 +52,8 @@ e.g. clusters, cell types.}
 }
 \value{
 A plot showing average correlation to each brain structure.
+
+A similarity map.
 
 A plot showing average correlation to each brain structure.
 }

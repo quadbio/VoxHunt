@@ -736,11 +736,11 @@ three_dim_plot <- function(
 #'
 #' @return A similarity map.
 #'
-#' @rdname plot_map
+#' @rdname plot_structure_similarity
 #' @export
-#' @method plot_map BrainSpanMap
+#' @method plot_structure_similarity BrainSpanMap
 #'
-plot_map.BrainSpanMap <- function(
+plot_structure_similarity.BrainSpanMap <- function(
     object,
     groups = NULL,
     annotation_level = c('structure_group', 'structure_name', 'structure_acronym'),
@@ -772,7 +772,73 @@ plot_map.BrainSpanMap <- function(
         theme(
             axis.text.x = element_text(angle=45, hjust=1)
         ) +
-        labs(x = 'Group', y = 'Structure', fill = 'Scaled\ncorrelation')
+        labs(x = 'Group', y = 'Structure', fill = 'Similarity')
+    return(p)
+}
+
+#' @import ggplot2
+#' @import dplyr
+#' @import patchwork
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param annotation_level The structure annotation level to summarize to.
+#'
+#' @return A similarity map.
+#'
+#' @rdname plot_map
+#' @export
+#' @method plot_map BrainSpanMap
+#'
+plot_map.BrainSpanMap <- function(
+    object,
+    groups = NULL,
+    map_colors = blues,
+    scale = FALSE
+){
+    utils::data(brainspan, envir = environment())
+
+    plot_df <- summarize_groups(object, groups) %>%
+        group_by(group)
+
+    if (scale){
+        plot_df <- mutate(plot_df, corr=zscale(corr)) %>%
+            ungroup()
+    }
+
+    plot_df <- plot_df %>%
+        inner_join(brainspan$row_meta) %>%
+        mutate(structure_group=factor(structure_group, levels=bs_names)) %>%
+        arrange(structure_group, age_num) %>%
+        mutate(ref=factor(ref, levels=unique(.$ref)))
+
+    p1 <- ggplot(plot_df, aes(ref, group, fill=corr)) +
+        geom_tile() +
+        facet_grid(~structure_group, scales='free', space='free') +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        scale_fill_gradientn(colors=map_colors) +
+        no_x_text() +
+        labs(y='Group', fill='Similarity')
+
+    p2 <- ggplot(plot_df, aes(ref, fill=factor(age_num))) +
+        geom_bar(width=1) +
+        scale_fill_manual(values=bs_age_colors) +
+        facet_grid(~structure_group, scales='free', space='free') +
+        scale_x_discrete(expand=c(0,0)) +
+        scale_y_discrete(expand=c(0,0)) +
+        theme(
+            strip.text = element_blank(),
+            axis.title.y = element_blank(),
+            axis.text = element_blank(),
+            axis.ticks = element_blank()
+        ) +
+        labs(x='BrainSpan sample', fill='Age [pcw]')
+
+    p <- p1 / p2 + plot_layout(heights=c(10,1), guides = 'collect') &
+        theme(
+            plot.margin = unit(rep(0.2, 4), 'lines'),
+        )
     return(p)
 }
 
@@ -956,5 +1022,35 @@ no_text <- function(){
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank()
+    )
+}
+
+#' Remove x-axis text from plot
+#'
+#' @import ggplot2
+#'
+#' @rdname no_x_text
+#' @export
+#'
+no_x_text <- function(){
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+    )
+}
+
+#' Remove y-axis text from plot
+#'
+#' @import ggplot2
+#'
+#' @rdname no_y_text
+#' @export
+#'
+no_y_text <- function(){
+    theme(
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
     )
 }

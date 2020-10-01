@@ -29,8 +29,13 @@ plot_structure_similarity(voxmap, groups = example_seurat$cluster)
 pb_bsmap <- brainspan_map(example_seurat, genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 plot_map(pb_bsmap)
 
-bsmap <- brainspan_map(example_seurat, genes_use = top10)
-plot_map(bsmap, groups = example_seurat$cluster)
+bsmap <- brainspan_map(
+    example_seurat,
+    genes_use = top10,
+    group_name = 'cluster',
+    pseudobulk_groups = F
+)
+plot_map(bsmap)
 
 ### La Manno Mousebrain
 load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain/')
@@ -76,6 +81,8 @@ ggplot(prop_df, aes(sample, prop, fill=factor(struct, levels=struct_names_custom
     scale_fill_manual(values=struct_colors_custom2) +
     scale_y_continuous(expand=c(0,0)) +
     scale_x_discrete(expand=c(0,0))
+
+
 
 
 

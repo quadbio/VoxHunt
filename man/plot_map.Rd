@@ -22,13 +22,7 @@ plot_map(object, ...)
   ...
 )
 
-\method{plot_map}{BrainSpanMap}(
-  object,
-  groups = NULL,
-  annotation_level = c("structure_group", "structure_name", "structure_acronym"),
-  map_colors = blues_flat,
-  scale = TRUE
-)
+\method{plot_map}{BrainSpanMap}(object, groups = NULL, map_colors = blues, scale = FALSE)
 
 \method{plot_map}{MousebrainMap}(
   object,
