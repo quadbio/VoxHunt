@@ -38,7 +38,8 @@ deconvolute.default <- function(
 #'
 get_aba_ref <- function(
     stage = 'E13',
-    annotation_level = 'custom_2'
+    annotation_level = 'custom_2',
+    pseudo_tpm = FALSE
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
         stop('Data has not been loaded. Please run load_aba_data() first.')
@@ -87,16 +88,17 @@ run_epic <- function(
         ref_sd <- as.matrix(ref_sd)
     }
 
-    epic_decon <- EPIC::EPIC(
-        bulk = as.matrix(expr_mat),
-        reference = list(
-            refProfiles = as.matrix(ref_expr),
-            sigGenes = genes_use,
-            refProfiles.var = ref_sd
-        ),
-        withOtherCells = other_types
+    epic_decon <- suppressWarnings(
+        EPIC::EPIC(
+            bulk = as.matrix(expr_mat),
+            reference = list(
+                refProfiles = as.matrix(ref_expr),
+                sigGenes = genes_use,
+                refProfiles.var = ref_sd
+            ),
+            withOtherCells = other_types
+        )
     )
-
     prop_df <- epic_decon$mRNAProportions %>%
         as_tibble(rownames='sample') %>%
         gather(struct, prop, -sample)
