@@ -943,3 +943,18 @@ no_legend <- function(){
         legend.position = 'none'
     )
 }
+
+#' Remove text from plot
+#'
+#' @import ggplot2
+#'
+#' @rdname no_text
+#' @export
+#'
+no_text <- function(){
+    theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()
+    )
+}
