@@ -1,0 +1,109 @@
+---
+title: "Mapping to other references"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Getting started with VoxHunt}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
+---
+
+<style type="text/css">
+body{
+    font-family: Helvetica;
+    font-size: 12pt;
+}
+</style>
+
+```{r, echo = FALSE, message=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Comparing single-cell data to BrainSpan
+
+You might want to compare your data also to human data instead of the mouse brain. Unfortunately, quantified and registered transcriptomic maps are not yet available for the developing human brain at this scale. However, we can compare cells to RNA-seq data of microdissected human brain regions from BrainSpan. The data is directly downloaded with VoxHunt.
+
+```{r, results='hide'}
+library(voxhunt)
+```
+```{r}
+data('brainspan')
+names(brainspan)
+```
+
+Before we compute similarities, we do some feature selection on to obtain a set of marker genes. In the future we will also implement the functionality to do this on the BrainSpan data. You could either do this youself or do feature selection on the ISH data, which we have found to work well.
+
+```{r, results='hide', echo=F}
+load_aba_data('~/Dropbox/projects/VoxHunt/voxhunt_rds/')
+```
+
+```{r, results='hide'}
+regional_markers <- structure_markers('E13') %>%
+    group_by(group) %>%
+    top_n(10, auc) %>% 
+    {unique(.$gene)}
+```
+
+Using these features, we can now construct a similarity map to stages pcw 10 - pcw 24. We also use the argument `pseudobulk_groups` to summarize the single cell data before calculating the correlation. This makes everything much faster and usually yields very similary results as mapping each cell individually.
+
+```{r}
+ref_map <- brainspan_map(
+    example_seurat,
+    stages = 10:24,
+    group_name = 'cluster',
+    genes_use = regional_markers,
+    pseudobulk_groups = T
+)
+print(ref_map)
+```
+
+And plot the similarity to the individual samples in brainspan categorized into structure groups:
+
+```{r, fig.height=3, fig.width=10}
+plot_map(ref_map)
+```
+
+We can again observe the patterns we've seen when mapping to ISH data: Cortical neurons are highly correlated with the neocortex (NCx), diencephalic neurons with the dorsal thalamus (DTH) and GE neurons with the ganglionic eminences (GE) and the amygdala (AMY). 
+
+You can also plot the similarities summarized to structures, rather than for each individual sample.
+
+```{r, fig.height=4, fig.width=2.6}
+plot_structure_similarity(ref_map, annotation_level = 'structure_name', scale = F)
+```
+
+
+
+## Mapping to developing mouse brain scRNA-seq data (La Manno & Siletti et al.)
+
+The recently released scRNA-seq atlas of the developing mouse brain ([La Manno & Siletti et al.](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1)) provides a further great ressource for evaluating cell identity. The data from the preprint can be obtained [here](http://mousebrain.org/downloads.html). If after you downloaded both loom files to a directory, you can load it to be used by VoxHunt:
+
+```{r, eval=F, echo=T}
+load_mousebrain_data('~/path/to/data')
+```
+```{r, results='hide', echo=F}
+load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain')
+```
+
+After this, mapping your single cell data is as easy as calling
+
+```{r}
+mb_map <- mousebrain_map(example_seurat, group_name = 'cluster', genes_use = regional_markers)
+print(mb_map)
+```
+
+As with other maps, you can plot the object with
+
+```{r, fig.height=3, fig.width=7}
+plot_map(mb_map, downsample=50000, point_size=0.1)
+```
+
+and plot the similarity to different cell types with:
+
+```{r, fig.height=5, fig.width=10}
+plot_structure_similarity(mb_map, cluster = F)
+```
+
+For annotations of these maps, please have a look at the beautiful Figure 1 of the [preprint](https://www.biorxiv.org/content/10.1101/2020.07.02.184051v1).
+
+Note 1: In this case, we only compute the similarity to aggregated clusters of the data, as correlation to >300.000 cells is computationally quite intense. Further, the plotting function `plot_map()` takes an argument subsample, which allows downsampling the cells for faster plotting.
+
+Note 2: The mapping functionality to this dataset is still pretty basic, considering how rich it is. This is partially because the publically available annotations are still quite coarse. We are working on this and will integrate it better in the future.
