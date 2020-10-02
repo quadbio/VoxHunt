@@ -42,6 +42,7 @@ plot_structure_similarity(bsmap)
 load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain/')
 pb_mbmap <- mousebrain_map(example_seurat, genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 plot_structure_similarity(pb_mbmap, cluster=T)
+plot_structure_similarity(pb_mbmap, cluster=F)
 plot_map(pb_mbmap)
 
 mbmap <- mousebrain_map(example_seurat, genes_use = top10)

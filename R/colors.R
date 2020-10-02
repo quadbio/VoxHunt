@@ -92,3 +92,13 @@ names(bs_age_colors) <- c(
     35,37
 )
 
+#### Mousebrain colors ####
+mb_names <- c('Forebrain', 'Midbrain', 'Hindbrain', 'Head')
+mb_colors <- c('#ab1673', '#007A92', '#239b56', '#fbc02d')
+names(mb_colors) <- mb_names
+
+
+
+
+
+

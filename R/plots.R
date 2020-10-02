@@ -862,20 +862,18 @@ plot_map.BrainSpanMap <- function(
 plot_structure_similarity.MousebrainMap <- function(
     object,
     groups = NULL,
-    region_colors = many,
-    class_colors = many,
     map_colors = blues_flat,
     cluster = TRUE,
     scale = T,
     ...
 ){
     annot_df <- object$ref_meta %>%
-        distinct(class, region) %>%
-        mutate(region_class=paste0(region, '_', class))
+        distinct(region, class) %>%
+        mutate(region_class=paste0(class, '_', region))
 
     plot_df <- summarize_groups(object, groups) %>%
         distinct(group, cluster, corr, class, region) %>%
-        mutate(region_class=paste0(region, '_', class)) %>%
+        mutate(region_class=paste0(class, '_', region)) %>%
         group_by(group, region_class) %>%
         summarize(corr=mean(corr)) %>%
         ungroup() %>%
@@ -899,7 +897,8 @@ plot_structure_similarity.MousebrainMap <- function(
             )
     } else {
         plot_df <- suppressMessages(left_join(plot_df, annot_df)) %>%
-            arrange(region_class) %>%
+            mutate(region = factor(region, levels=mb_names)) %>%
+            arrange(region_class, region) %>%
             mutate(region_class = factor(region_class, levels=unique(region_class)))
     }
 
@@ -919,7 +918,7 @@ plot_structure_similarity.MousebrainMap <- function(
         theme_void() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_manual(values=region_colors) +
+        scale_fill_manual(values=mb_colors) +
         theme(
             legend.position = 'right'
         ) +
@@ -930,7 +929,7 @@ plot_structure_similarity.MousebrainMap <- function(
         theme_void() +
         scale_x_discrete(expand=c(0,0)) +
         scale_y_discrete(expand=c(0,0)) +
-        scale_fill_manual(values=class_colors) +
+        scale_fill_manual(values=many) +
         theme(
             legend.position = 'right'
         ) +
