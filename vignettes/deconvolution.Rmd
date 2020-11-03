@@ -36,7 +36,8 @@ load_aba_data('~/Dropbox/projects/VoxHunt/voxhunt_rds/')
 
 ```{r}
 # DE at level 2 
-markers <- structure_markers('E13', annotation_level = 'custom_2')
+markers <- structure_markers('E13', annotation_level = 'custom_2') %>% 
+    filter(gene%in%rownames(example_pseudobulk))
 
 # Structures to be included in the deconvolution
 # Here, we use all major structures at level 2
@@ -64,7 +65,6 @@ top50 <- markers %>%
 Using these gene sets, we can now deconvolute the RNA-seq data. We also transform the ISH intensities to pseudo-TPMs as we found that this increases performance. The `deconvolute()` function in VoxHunt returns a data frame with proportions of different brain regions for each sample in the input data.
 
 ```{r}
-
 prop_df <- deconvolute(
     example_pseudobulk[top50, ], top15,
     involve_regions = involve_regions,
