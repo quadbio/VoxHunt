@@ -1,12 +1,59 @@
+title: VoxHunt
 navbar:
-  structure:
-    left:  [intro, vignettes, reference]
-    right: [github]
-  components:
-    vignettes:
+  title: ~
+  type: default
+  left:
+    install:
+      text: Install
+      href: articles/install.html
+    intro:
+      text: Get started
+      href: articles/getting_started.html
+    articles:
       text: Vignettes
       menu:
-      - text: Get started
+      - text: Exploing the Allen Brain Atlas
+        href: articles/getting_started.html
+      - text: Other references
+        href: articles/other_references.html
+      - text: Deconvolution
+        href: articles/deconvolution.html
+    reference:
+      text: Reference
+      href: reference/index.html
+reference:
+  - title: Data loading
+    desc: Functions for loading reference data
+    contents:
+      - '`load_aba_data`'
+      - '`load_mousebrain_data`'
+  - title: Marker discovery
+    desc: Functions to find brain structure markers
+    contents:
+      - '`structure_markers`'
+      - '`variable_genes`'
+  - title: Reference mapping
+    desc: Functions to perform comparisons with different references
+    contents:
+      - '`voxel_map`'
+      - '`brainspan_map`'
+      - '`mousebrain_map`'
+  - title: Deconvolution
+    desc: Functions to perform reference-based deconvolution of RNA-seq data
+    contents:
+      - '`deconvolute`'
+  - title: Visualization
+    desc: Plotting functions to visualize marker expression and mapping results
+    contents:
+      - starts_with('plot_')
+      - starts_with('no_')
+  - title: Utilities
+    desc: Utility functions for plotting and summarizing results
+    contents:
+      - starts_with('summarize_')
+      - '`assign_cells`'
+      - '`as_matrix`'
+      - starts_with('no_')
 repo:
   url:
     home: https://github.com/quadbiolab/VoxHunt

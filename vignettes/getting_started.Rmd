@@ -1,0 +1,161 @@
+---
+title: "Getting started with VoxHunt"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Getting started with VoxHunt}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
+---
+
+
+```{r, echo = FALSE, message=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+This vignette gives you an introduction on how to use VoxHunt to swiftly explore the Developing Mouse Brain Atlas ISH data, find brain structure-specific markers and project organoid cells to spatial brain maps.
+
+## Exploring the ABA
+
+VoxHunt provides a number of convenient functions to explore the Allen Developing Mouse Brain Atlas data computationally using R. To do so, you first need to point VoxHunt to the ABA gene expression data, which you can download [here](https://data.mendeley.com/datasets/g4xg38mwcn/2). Now, we'll point VoxHunt to the location of these files:  
+
+```{r, results='hide'}
+library(voxhunt)
+```
+```{r, eval=F, echo=T}
+load_aba_data('~/path/to/data')
+```
+```{r, results='hide', echo=F}
+load_aba_data('~/Dropbox/projects/VoxHunt/voxhunt_rds/')
+```
+Per default, VoxHunt will not load all of the data at once, but only when we require it. 
+
+Now that we have the data, we can start exploring. For instance, you can plot the E13.5 and P14 mouse brain with annotated brain structures:
+```{r, fig.height=2, fig.width=8}
+p1 <- plot_annotation('E13')
+p2 <- plot_annotation('P4', show_legend=T)
+ggarrange(p1, p2, nrow=1)
+```
+
+We can also plot the expression of different genes over these voxel maps:
+
+```{r, fig.height=4, fig.width=6}
+genes <- c('NEUROD6', 'EOMES', 'DCN', 'DLX1', 'DLX2', 'GBX2', 'OTX2', 'GATA3', 'PAX8')
+plot_expression('E15', genes = genes) & no_legend()
+```
+
+Here we plotted just the sagittal view with a maximum intensity projection for all voxels, sometimes this hides the expression of certain genes. VoxHunt also allows you to define the sections that will be used in the plot:
+
+```{r, fig.height=1.2, fig.width=2}
+plot_expression('E15', genes = 'DCN', slices = 5:10) & no_legend()
+```
+
+We can also plot the expression of multiple genes for many coronal sections at the same time:
+
+```{r, fig.height=8, fig.width=6}
+plot_expression(
+    'E15', 
+    genes = genes, 
+    view = 'slice', 
+    slices = c(4, 12, 24, 30, 35, 40)
+) & no_legend()
+```
+
+
+In addition to plotting well-known canonical markers, we can also perform DE to find specific markers for brain structures we are interested in:
+
+```{r, fig.width=4, fig.height=1.2}
+marker_df <- structure_markers('E15', annotation_level = 'custom_4')
+hippo_markers <- marker_df %>% 
+    filter(group=='hippocampus') %>% 
+    top_n(2, auc)
+plot_expression('E15', genes=hippo_markers$gene, nrow=1) & no_legend()
+```
+
+
+## Spatial similarity maps
+
+Ok, now to the interesting part: mapping single cell transcriptomes. Projecting single cells to these spatial maps based on several hundred genes can be very informative about cell type composition of the organoid. First, we load an Seurat object. The example case we use here contains 2300 cells from cerebral organoids.
+
+```{r}
+data(example_seurat)
+head(example_seurat@meta.data)
+```
+
+Before we start mapping the cells, we'll do some feature selection to get region specific genes from the ABA:
+
+```{r}
+regional_markers <- structure_markers('E13') %>%
+    group_by(group) %>%
+    top_n(10, auc) %>% 
+    {unique(.$gene)}
+head(regional_markers)
+```
+
+Now let's use these markers to map our single cells to the brain. The `group_name` parameter refers to a metadata column that groups the data into clusters or cell types.
+
+```{r}
+vox_map <- voxel_map(
+    example_seurat, 
+    stage = 'E13', 
+    group_name = 'cluster', 
+    genes_use = regional_markers
+)
+print(vox_map)
+```
+
+We can first look at the coarse-grained level, what brain structures these cell types are most similar to:
+
+```{r, fig.height=3, fig.width=6}
+plot_structure_similarity(vox_map, cluster=F)
+```
+
+Here, we can already appreciate that our cell types have distinct similarity patterns to certain brain structures, i.e. cortical neurons are similar to the pallium, GE neurons to the subpallium and diencephalic neurons to the diencephalon. 
+
+We can further explore our voxel map more spatially. The `plot_map()` function lets us plot spatial similarity maps in a number of different ways. Per default, it will show us a sagittal view of the projection for each of the groups:
+
+```{r, fig.height=2, fig.width=8}
+plot_map(vox_map, nrow=1) & no_legend()
+```
+
+
+However, as we have seen with the expression plots, we can also slice these voxel maps however we want to reveal structures that might be hidden in the sagittal projection. For instance, the highest correlation for the GE neurons seem to be hidden somewhere inside the brain, so lets look at fewer coronal sections: 
+
+
+```{r, fig.height=12, fig.width=3}
+plot_map(vox_map, view='slice', slices=seq(1, 40, 4)) & no_legend()
+```
+
+Finally, VoxHunt also allows you to explore similarity maps interactively in 3D with a little help of plotly:
+
+```{r}
+plot_map_3d(
+    vox_map, 
+    show_group = 'ctx_cerebral', 
+    width = 800, 
+    height = 600
+)
+```
+
+
+## Custom plotting
+
+VoxHunt provides some basic plotting functions to visualize the similarity maps. Of course, you go beyond those if you are familiar with plotting in R. To turn a VoxelMap or ReferenceMap object into a data frame for plotting with e.g. `ggplot()`, VoxHunt provides some convenience functions that return either group (`summarize_groups()`) or structure summaries (`summarize_structures()`)  of the map:
+
+```{r}
+group_map <- summarize_groups(vox_map)
+head(group_map)
+```
+
+```{r}
+struct_map <- summarize_structures(vox_map)
+head(struct_map)
+```
+
+If you'd like to visualize the structure similarities in a low dimensional embedding of single-cell space (e.g. UMAP), you can use `assign_cells()` to assign each cell to the maximum correalting voxel. The resulting dataframe can then be joined with the embedding coordinates or added to the `Seurat` metadata for plotting. 
+
+```{r}
+cell_assignment <- assign_cells(vox_map)
+head(cell_assignment)
+```
+
+

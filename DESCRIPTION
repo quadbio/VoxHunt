@@ -1,8 +1,9 @@
 Package: voxhunt
 Type: Package
 Title: Projecting single-cell transcriptomes to spatial brain maps
-Version: 0.6.1
-Author: Jonas Simon Fleck
+Version: 0.7.1
+Author@R: person("Jonas Simon", "Fleck", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-4686-7254"))
 Maintainer: Jonas Simon Fleck <jonas.fleck@bsse.ethz.ch>
 Description: Find out which brain regions emerge in your organoids.
 License: MIT
