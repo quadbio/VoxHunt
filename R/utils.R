@@ -255,6 +255,7 @@ safe_cor <- function(
         corr_mat <- stats::cor(x, y, method = method)
     }
     corr_mat[is.na(corr_mat)] <- 0
+    corr_mat[is.infinite(corr_mat)] <- 1
     corr_mat <- Matrix::Matrix(corr_mat, sparse=TRUE)
     if (!allow_neg){
         corr_mat[corr_mat < 0] <- 0
