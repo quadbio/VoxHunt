@@ -32,8 +32,6 @@ plot_structure_similarity(object, ...)
 \method{plot_structure_similarity}{MousebrainMap}(
   object,
   groups = NULL,
-  region_colors = many,
-  class_colors = many,
   map_colors = blues_flat,
   cluster = TRUE,
   scale = T,
