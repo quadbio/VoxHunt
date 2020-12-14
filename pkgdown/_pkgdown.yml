@@ -1,0 +1,12 @@
+navbar:
+  structure:
+    left:  [intro, vignettes, reference]
+    right: [github]
+  components:
+    vignettes:
+      text: Vignettes
+      menu:
+      - text: Get started
+repo:
+  url:
+    home: https://github.com/quadbiolab/VoxHunt

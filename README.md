@@ -1,5 +1,4 @@
-# VoxHunt <img src="figures/logo.png" align="right" width="120" />
-
+# VoxHunt <img src="man/figures/logo.png" align="right" width="120" />
 
 You want to validate your new brain organoid protocol, find out which cell types emerge in your current batch of cerebral organoids or just find a very specific marker for a tiny brain structure? VoxHunt might be what you are looking for.
 
@@ -8,7 +7,7 @@ You want to validate your new brain organoid protocol, find out which cell types
 
 Brain organoids are complex and can contain cells at various stages of differentiation from different brain structures. Single cell genomic methods provide powerful approaches to explore cell composition, differentiation trajectories, gene regulation, and genetic perturbations in brain organoid systems. VoxHunt is a handy tool to assess brain organoid patterning, developmental state, and cell composition through systematic comparisons of single cell transcriptomes to three-dimensional in situ hybridization data from the Allen Brain Atlas.
 
-<img src="figures/abstract.png" align="center" />
+<img src="man/figures/abstract.png" align="center" />
 
 
 ## Installation
