@@ -5,6 +5,8 @@ library(voxhunt)
 library(Seurat)
 
 data('example_seurat')
+data('brainspan')
+data('voxel_meta')
 load_aba_data('../voxhunt_data/')
 plot_expression('E13', 'NEUROD6')
 plot_expression('E15', 'NEUROD6', view='sagittal')
@@ -20,7 +22,7 @@ top10 <- markers %>%
 pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 plot_map(pb_voxmap)
 
-voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10)
+voxmap <- voxel_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2', 'LHX2'))
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
 plot_structure_similarity(voxmap, groups = example_seurat$cluster)
