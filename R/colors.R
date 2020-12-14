@@ -64,11 +64,30 @@ struct_colors_custom2 <- c(
     '#bdbdbd'
 )
 
+struct_symbol_custom2 <- c(
+    'OB',
+    'Pall',
+    'SPall',
+    'POTel',
+    'TelH',
+    'Hyp',
+    'D',
+    'M',
+    'PPH',
+    'PH',
+    'PMH',
+    'MH',
+    'SpC',
+    'TelA',
+    'TelR'
+)
+
 names(struct_colors_custom2) <- struct_names_custom2
 
 struct_custom2 <- tibble(
     annot = struct_names_custom2,
-    colors = struct_colors_custom2
+    colors = struct_colors_custom2,
+    symbol = struct_symbol_custom2
 )
 
 #### Brainspan colors ####

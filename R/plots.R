@@ -375,7 +375,7 @@ plot_structure_similarity.VoxelMap <- function(
     ...
 ){
     annot_df <- object$voxel_meta %>%
-        distinct_('custom_2', annotation_level) %>%
+        distinct_at(c('custom_2', annotation_level)) %>%
         rename('struct'=annotation_level, 'annot'='custom_2')
     if (annotation_level == 'custom_2'){
         annot_df$struct <- annot_df$annot
@@ -386,7 +386,7 @@ plot_structure_similarity.VoxelMap <- function(
 
     plot_df <- summarize_groups(object, groups) %>%
         group_by_at(c('group', annotation_level)) %>%
-        summarize(corr=mean(corr)) %>%
+        summarize(corr=mean(corr, na.rm=T)) %>%
         ungroup() %>%
         group_by(group)
 
