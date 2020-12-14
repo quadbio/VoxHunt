@@ -1,0 +1,10 @@
+pandoc: 2.3.1
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  deconvolution: deconvolution.html
+  getting_started: getting_started.html
+  install: install.html
+  other_references: other_references.html
+last_built: 2020-12-14T17:43Z
+
