@@ -96,7 +96,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#voxhunt" class="anchor"></a>VoxHunt <img src="reference/figures/logo.png" align="right" width="120">
 </h1></div>
-<p>VoxHunt is a package for to assess brian organoid patterning, developmental state, and cell composition through systematic comparisons of single cell transcriptomes to three-dimensional in situ hybridization data from the Allen Brain Atlas and a number of other useful references.</p>
+<p>VoxHunt is a package for assessing brain organoid patterning, developmental state, and cell composition through systematic comparisons of single cell transcriptomes to three-dimensional in situ hybridization data from the Allen Brain Atlas and a number of other useful reference datasets.</p>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
@@ -122,17 +122,17 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p><a href="https://github.com/immunogenomics/presto">Presto</a>, one of VoxHunt’s dependencies is not on CRAN and has to be installed from GitHub:</p>
-<pre class="{r}"><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html"># install.packages('devtools')
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html"># install.packages('devtools')
 devtools::install_github('immunogenomics/presto')</a></code></pre>
 <p>Once Presto is installed, you can install VoxHunt with</p>
-<pre class="{r}"><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github('quadbiolab/voxhunt')</a></code></pre>
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github('quadbiolab/voxhunt')</a></code></pre>
 <p>In addition to the R package itself, you’ll also need to download the the ABA expression data from <a href="http://dx.doi.org/10.17632/g4xg38mwcn.2">here</a>.</p>
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick start</h2>
 <p>If you have a <code>seurat_object</code> with single cell transcriptomic data of your organoid ready, you can start right away with projecting them to the brain:</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/base/library.html"># Load VoxHunt
+<pre><code><a href="https://rdrr.io/r/base/library.html"># Load VoxHunt
 library(voxhunt)
 
 # Point VoxHunt to ABA expression data
