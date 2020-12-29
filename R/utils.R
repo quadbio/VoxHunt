@@ -143,6 +143,7 @@ aggregate_matrix <- function(
 #' Get gene expression values from matrix
 #'
 #' @import dplyr
+#' @import tidyr
 #'
 #' @param expr_mat A samples x genes gene expression matrix.
 #' @param markers A character vector with the names of the genes to obtain.

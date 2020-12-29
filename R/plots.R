@@ -240,6 +240,7 @@ plot_map_3d.VoxelMap <- function(
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import purrr
 #'
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
@@ -296,6 +297,7 @@ slice_plot <- function(
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import purrr
 #'
 #' @param view String indicating the perspective to show. Valid values are
 #' 'sagittal', 'coronal', 'traverse', 'z' , 'x', 'y', 'slice', '3D'.
@@ -351,6 +353,7 @@ mapping_plot <- function(
 #' @import ggplot2
 #' @import dplyr
 #' @import egg
+#' @import tidyr
 #'
 #' @param groups A metadata column or character vector to group the cells,
 #' e.g. clusters, cell types.
@@ -453,6 +456,7 @@ plot_structure_similarity.VoxelMap <- function(
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import tidyr
 #'
 #' @param stage The developmental stage to plot.
 #' @param genes A character vector with the genes to plot.
@@ -628,6 +632,7 @@ plot_expression_3d <- function(
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import purrr
 #'
 #' @param expr_mat A sample x gene expression matrix.
 #' @param meta Metadata with embedding coordinates.
@@ -943,6 +948,7 @@ plot_structure_similarity.MousebrainMap <- function(
 
 #' @import ggplot2
 #' @import dplyr
+#' @import purrr
 #'
 #' @param groups A metadata column or character vector to group the cells,
 #' e.g. clusters, cell types.
