@@ -350,6 +350,7 @@ mapping_plot <- function(
 
 #' @import ggplot2
 #' @import dplyr
+#' @import egg
 #'
 #' @param groups A metadata column or character vector to group the cells,
 #' e.g. clusters, cell types.
