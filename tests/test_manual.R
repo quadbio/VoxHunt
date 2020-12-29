@@ -27,6 +27,7 @@ plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
 plot_structure_similarity(voxmap, groups = example_seurat$cluster)
 
+
 ### BrainSpan
 pb_bsmap <- brainspan_map(example_seurat, genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 plot_map(pb_bsmap)

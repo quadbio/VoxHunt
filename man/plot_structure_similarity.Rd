@@ -13,7 +13,7 @@ plot_structure_similarity(object, ...)
   object,
   groups = NULL,
   annotation_level = "custom_3",
-  annotation_colors = struct_colors_custom2,
+  annotation_colors = sym_colors_custom2,
   map_colors = blues_flat,
   cluster = TRUE,
   include_unannotated = FALSE,
