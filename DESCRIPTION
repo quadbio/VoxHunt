@@ -17,7 +17,8 @@ Imports:
     purrr,
     RColorBrewer,
     tibble,
-    tidyr
+    tidyr,
+    viridis
 Depends:
     dplyr,
     presto,
@@ -27,7 +28,8 @@ Depends:
     purrr,
     RColorBrewer,
     tibble,
-    tidyr
+    tidyr,
+    viridis
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,

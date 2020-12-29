@@ -14,13 +14,13 @@ Brain organoids are complex and can contain cells at various stages of different
 
 [Presto](https://github.com/immunogenomics/presto), one of VoxHunt's dependencies is not on CRAN and has to be installed from GitHub:
 
-```{r}
+```r
 # install.packages('devtools')
 devtools::install_github('immunogenomics/presto')
 ```
 
 Once Presto is installed, you can install VoxHunt with
-```{r}
+```r
 devtools::install_github('quadbiolab/voxhunt')
 ```
 
@@ -30,7 +30,7 @@ In addition to the R package itself, you'll also need to download the the ABA ex
 
 If you have a `seurat_object` with single cell transcriptomic data of your organoid ready, you can start right away with projecting them to the brain:
 
-```{r}
+```r
 # Load VoxHunt
 library(voxhunt)
 
