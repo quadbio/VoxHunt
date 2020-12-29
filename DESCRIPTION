@@ -2,9 +2,13 @@ Package: voxhunt
 Type: Package
 Title: Projecting single-cell transcriptomes to spatial brain maps
 Version: 0.8.0
-Authors: Jonas Simon Fleck
+Authors@R: person(given = "Jonas Simon",
+               family = "Fleck",
+               role = c("aut", "cre"),
+               email = "jonas.fleck@bsse.ethz.ch",
+               comment = c(ORCID = "0000-0002-4686-7254"))
 Maintainer: Jonas Simon Fleck <jonas.fleck@bsse.ethz.ch>
-Description: Find out which brain regions emerge in your organoids.
+Description: Annotate brain organoid cell identities and find brain structure markers through reference atlas queries.
 License: MIT
 Encoding: UTF-8
 LazyData: true
@@ -18,21 +22,12 @@ Imports:
     RColorBrewer,
     tibble,
     tidyr,
-    viridis
-Depends:
-    dplyr,
-    presto,
-    egg,
-    Matrix,
-    ggplot2,
-    purrr,
-    RColorBrewer,
-    tibble,
-    tidyr,
+    hdf5r,
     viridis
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    tidyverse
 VignetteBuilder: knitr
