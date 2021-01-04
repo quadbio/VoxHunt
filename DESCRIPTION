@@ -23,7 +23,8 @@ Imports:
     tibble,
     tidyr,
     viridis,
-    patchwork
+    patchwork,
+    Seurat
 Suggests: 
     knitr,
     Seurat,
