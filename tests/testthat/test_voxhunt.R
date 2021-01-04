@@ -40,17 +40,13 @@ test_that('plot_map does not throw errors.', {
     expect_error(plot_map(vm, view='slice'), NA)
 })
 
+test_that('plot_map_3d does not throw errors.', {
+    expect_error(plot_map_3d(vm), NA)
+    expect_error(plot_map_3d(vm, annotation_level='custom_2'), NA)
+})
+
 test_that('plot_structure_similarity does not throw errors.', {
     expect_error(plot_structure_similarity(vm, groups=example_seurat$cluster), NA)
 })
-
-#### BrainSpan ####
-test_that('brainspan map does not throw errors.', {
-    expect_error(brainspan_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2')), NA)
-})
-
-
-
-
 
 
