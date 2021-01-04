@@ -1,6 +1,10 @@
 language: r
+os:
+- linux
+- osx
+- windows
 install:
-- R -e 'devtools::install_deps(dep = T)'
+- R -e 'remotes::install_deps(dependencies = T)'
 script:
 - R CMD build .
 - R CMD install *tar.gz
