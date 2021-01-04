@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VoxHunt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -123,8 +123,8 @@
 <p>Per default, VoxHunt will not load all of the data at once, but only when we require it.</p>
 <p>Now that we have the data, we can start exploring. For instance, you can plot the E13.5 and P14 mouse brain with annotated brain structures:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'E13'</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'P4'</span>, show_legend<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">voxhunt</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'E13'</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">voxhunt</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'P4'</span>, show_legend<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p>We can also plot the expression of different genes over these voxel maps:</p>
@@ -218,7 +218,7 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">group_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_groups.BrainSpanMap.html">summarize_groups</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">group_map</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 25
+<pre><code>## # A tibble: 6 x 27
 ##   voxel group  corr stage structure_name     x     y     z structure_id level_1
 ##   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
 ## 1 E13p… ctx_… 0.413 E13   superficial s…    18    26     0    111220560 forebr…
@@ -227,10 +227,10 @@
 ## 4 E13p… ctx_… 0.456 E13   intermediate …    16    25     0    111220558 forebr…
 ## 5 E13p… ctx_… 0.435 E13   periventricul…    17    25     0    111220556 forebr…
 ## 6 E13p… ctx_… 0.426 E13   periventricul…    18    25     0    111220556 forebr…
-## # … with 15 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
+## # … with 17 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
 ## #   level_5 &lt;chr&gt;, level_6 &lt;chr&gt;, level_7 &lt;lgl&gt;, level_8 &lt;lgl&gt;, level_9 &lt;lgl&gt;,
 ## #   level_10 &lt;lgl&gt;, custom_1 &lt;chr&gt;, custom_2 &lt;chr&gt;, custom_3 &lt;chr&gt;,
-## #   custom_4 &lt;chr&gt;, stratum &lt;chr&gt;, idx &lt;dbl&gt;</code></pre>
+## #   custom_4 &lt;chr&gt;, stratum &lt;chr&gt;, idx &lt;dbl&gt;, ge_annot &lt;chr&gt;, ctx_annot &lt;chr&gt;</code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">struct_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_structures.BrainSpanMap.html">summarize_structures</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">struct_map</span><span class="op">)</span></code></pre></div>
@@ -247,7 +247,7 @@
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cell_assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_cells.html">assign_cells</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cell_assignment</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 25
+<pre><code>## # A tibble: 6 x 27
 ##   voxel  corr cell  stage structure_name     x     y     z structure_id level_1
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
 ## 1 E13p… 0.639 cere… E13   intermediate …     5    13     2        15983 forebr…
@@ -256,10 +256,10 @@
 ## 4 E13p… 0.387 cere… E13   superficial s…    13    26     2    111220560 forebr…
 ## 5 E13p… 0.438 cere… E13   periventricul…    18    16    11        16399 forebr…
 ## 6 E13p… 0.379 cere… E13   superficial s…    23    12     1    111220570 forebr…
-## # … with 15 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
+## # … with 17 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
 ## #   level_5 &lt;chr&gt;, level_6 &lt;chr&gt;, level_7 &lt;lgl&gt;, level_8 &lt;lgl&gt;, level_9 &lt;lgl&gt;,
 ## #   level_10 &lt;lgl&gt;, custom_1 &lt;chr&gt;, custom_2 &lt;chr&gt;, custom_3 &lt;chr&gt;,
-## #   custom_4 &lt;chr&gt;, stratum &lt;chr&gt;, idx &lt;dbl&gt;</code></pre>
+## #   custom_4 &lt;chr&gt;, stratum &lt;chr&gt;, idx &lt;dbl&gt;, ge_annot &lt;chr&gt;, ctx_annot &lt;chr&gt;</code></pre>
 </div>
   </div>
 
