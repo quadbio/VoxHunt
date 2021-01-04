@@ -19,12 +19,16 @@
 plot_annotation.default <- function(
     object = 'E13',
     annotation_level = 'custom_2',
-    annotation_colors = many,
+    annotation_colors = NULL,
     slices = NULL,
     show_coordinates = FALSE,
     show_legend = FALSE,
     alpha = 0.5
 ){
+    # Set custom_2 colors if annotation level is custom_2
+    if (is.null(annotation_colors)){
+        annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
+    }
     utils::data(voxel_meta, envir = environment())
     age <- stage_name(object)
     meta <- filter(voxel_meta, stage == age)
@@ -57,6 +61,10 @@ plot_annotation.VoxelMap <- function(
     show_legend = FALSE,
     alpha = 0.5
 ){
+    # Set custom_2 colors if annotation level is custom_2
+    if (is.null(annotation_colors)){
+        annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
+    }
     meta <- object$voxel_meta
     if (!is.null(slices)){
         meta <- filter(meta, z %in% slices)
@@ -100,7 +108,7 @@ annotation_plot <- function(
         scale_fill_manual(values = annotation_colors, na.value='gray') +
         labs(title = age, fill= 'Structure') +
         theme_bw() +
-        dr_guides
+        min_guides()
     if (!show_coordinates){
         p <- p + theme_void()
     }
@@ -140,7 +148,7 @@ plot_map.VoxelMap <- function(
     slices = NULL,
     groups = NULL,
     annotation_level = 'custom_2',
-    annotation_colors = struct_colors_custom2,
+    annotation_colors = NULL,
     map_colors = gyrdpu_flat,
     show_coordinates = FALSE,
     show_legend = FALSE,
@@ -150,6 +158,10 @@ plot_map.VoxelMap <- function(
 
     plot_df <- summarize_groups(object, groups)
 
+    # Set custom_2 colors if annotation level is custom_2
+    if (is.null(annotation_colors)){
+        annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
+    }
     if (view == 'slice'){
         if (is.null(slices)){
             slices <- seq(1, 40, 2)
@@ -202,7 +214,7 @@ plot_map_3d.VoxelMap <- function(
     groups = NULL,
     show_group = NULL,
     annotation_level = NULL,
-    annotation_colors = many,
+    annotation_colors = NULL,
     map_colors = inferno_flat,
     sizes = c(1, 1000),
     both_hemispheres = TRUE,
@@ -281,7 +293,7 @@ slice_plot <- function(
             theme(
                 strip.text = element_blank(),
                 legend.position = 'none',
-                plot.title = element_text(angle = 60, hjust = 0, vjust = 0, size = 10)
+                plot.title = element_text(angle = 60, vjust = 0.5, hjust = 0, size = 10)
                 ) +
             labs(title = g)
         return(p)
@@ -443,7 +455,7 @@ plot_structure_similarity.VoxelMap <- function(
         theme(
             legend.position = 'top'
         ) +
-        labs(fill='Similarity')
+        labs(fill='Structure')
 
     p <- patchwork::wrap_plots(p2, p1, heights=c(1,10), ncol=1, ...)
     return(p)
@@ -478,7 +490,7 @@ plot_expression <- function(
     view = 'sagittal',
     slices = NULL,
     annotation_level = 'custom_2',
-    annotation_colors = many,
+    annotation_colors = NULL,
     expression_colors = gyrdpu,
     ...
 ){
@@ -497,6 +509,11 @@ plot_expression <- function(
             paste0('"', view, '" is not a valid view argument. Try one of these:\n'),
             paste(possible_views, collapse = ', '), '\n'
         ))
+    }
+
+    # Set custom_2 colors if annotation level is custom_2
+    if (is.null(annotation_colors)){
+        annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
     }
 
     voxel_mat <- DATA_LIST[[stage]]$matrix
@@ -706,6 +723,10 @@ three_dim_plot <- function(
             ...
         )
     } else {
+        # Set custom_2 colors if annotation level is custom_2
+        if (is.null(annotation_colors)){
+            annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
+        }
         p <- plotly::plot_ly(
             int_df,
             x = ~x,

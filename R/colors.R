@@ -9,6 +9,25 @@ blues_flat <- colorRampPalette(c('white', RColorBrewer::brewer.pal(n=9, name='Bl
 ylorrd <- colorRampPalette(RColorBrewer::brewer.pal(n=9, name='YlOrRd'))(100)
 ylorrd_flat <- colorRampPalette(RColorBrewer::brewer.pal(n=9, name='YlOrRd'), bias=0.8)(100)
 
+#### Themes for plots ####
+min_theme <- function(){
+    theme(
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.border = element_blank()
+    )
+}
+
+min_guides <- function(){
+    guides(
+        color = guide_legend(override.aes = list(size = 5, alpha=1)),
+        fill = guide_legend(override.aes = list(size = 5, alpha=1)),
+        alpha = guide_legend(override.aes = list(size = 5))
+    )
+}
 #### Structure colors ####
 struct_names_custom2 <- c(
     'olfactory bulb',
