@@ -1,0 +1,6 @@
+language: r
+install:
+- R -e 'devtools::install_deps(dep = T)'
+script:
+- R CMD build .
+- R CMD install *tar.gz
