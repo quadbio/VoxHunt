@@ -10,6 +10,7 @@ data('voxel_meta')
 load_aba_data('../voxhunt_data/')
 plot_expression('E13', 'NEUROD6')
 plot_expression('E15', 'NEUROD6', view='sagittal')
+plot_annotation('E15')
 
 
 markers <- structure_markers('E13')

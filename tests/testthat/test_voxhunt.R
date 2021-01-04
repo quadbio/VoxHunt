@@ -21,7 +21,12 @@ load_aba_data('../../../voxhunt_rds/')
 test_that('expression plots do not throw errors.', {
     expect_error(plot_expression('E13', gene = c('NEUROD6', 'DLX2')), NA)
     expect_error(plot_expression('E13', gene = c('NEUROD6', 'DLX2'), view = 'slice'), NA)
-    expect_error(plot_expression_3d('E13', gene = c('NEUROD6', 'DLX2')), NA)
+    expect_error(plot_expression_3d('E15', gene = c('NEUROD6', 'DLX2')), NA)
+})
+
+test_that('annotation plots do not throw errors.', {
+    expect_error(plot_annotation('E13'), NA)
+    expect_error(plot_annotation('E18'), NA)
 })
 
 test_that('voxel_map does not throw errors.', {
