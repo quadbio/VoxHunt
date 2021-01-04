@@ -22,12 +22,11 @@ Imports:
     RColorBrewer,
     tibble,
     tidyr,
-    hdf5r,
     viridis,
-    Seurat,
     patchwork
 Suggests: 
     knitr,
+    Seurat,
     rmarkdown,
     testthat,
     tidyverse
