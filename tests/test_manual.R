@@ -10,7 +10,15 @@ data('voxel_meta')
 load_aba_data('../voxhunt_data/')
 plot_expression('E13', 'NEUROD6')
 plot_expression('E15', 'NEUROD6', view='sagittal')
-voxhunt::plot_annotation('E18')
+
+
+ge_colors <- c('#9fa8da','#8e24aa', '#4a148c', 'lightgray', 'lightgray')
+names(ge_colors) <- c('CGE', 'MGE', 'LGE', 'other', NA)
+voxhunt::plot_annotation('E13', annotation_level='ge_annot', annotation_colors=ge_colors, alpha=0.1)
+ctx_colors <- c('#f8bbd0','#ec407a', '#c2185b', '#880e4f', 'lightgray', 'lightgray')
+names(ctx_colors) <- c('NPC', 'IP', 'Neuron', 'Neuron2', 'other', NA)
+voxhunt::plot_annotation('E18', annotation_level='ctx_annot', annotation_colors=ctx_colors, alpha=0.1)
+
 
 markers <- structure_markers('E13')
 top10 <- markers %>%
