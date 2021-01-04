@@ -32,7 +32,7 @@ Suggests:
     testthat,
     tidyverse
 Remotes:
-     github::immunogenomics/presto
+     github::immunogenomics/presto,
      github::GfellerLab/EPIC
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
