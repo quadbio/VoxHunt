@@ -13,11 +13,11 @@ plot_expression('E15', 'NEUROD6', view='sagittal')
 
 
 ge_colors <- c('#9fa8da','#8e24aa', '#4a148c', 'lightgray', 'lightgray')
-names(ge_colors) <- c('CGE', 'MGE', 'LGE', 'other', NA)
+names(ge_colors) <- c('CGE', 'MGE', 'LGE', 'other')
 voxhunt::plot_annotation('E13', annotation_level='ge_annot', annotation_colors=ge_colors, alpha=0.1)
-ctx_colors <- c('#f8bbd0','#ec407a', '#c2185b', '#880e4f', 'lightgray', 'lightgray')
-names(ctx_colors) <- c('NPC', 'IP', 'Neuron', 'Neuron2', 'other', NA)
-voxhunt::plot_annotation('E18', annotation_level='ctx_annot', annotation_colors=ctx_colors, alpha=0.4)
+ctx_colors <- c('#f8bbd0','#ec407a', '#c2185b', '#880e4f', 'lightgray')
+names(ctx_colors) <- c('NPC', 'IP', 'Neuron', 'Neuron2', 'other')
+voxhunt::plot_annotation('E18', annotation_level='ctx_annot', annotation_colors=ctx_colors, alpha=0.4, show_legend=T)
 
 markers <- structure_markers('E13')
 top10 <- markers %>%
@@ -25,10 +25,12 @@ top10 <- markers %>%
     top_n(10, auc) %>%
     {unique(.$gene)}
 
+
 pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 plot_map(pb_voxmap)
 plot_map_3d(pb_voxmap)
 plot_map_3d(pb_voxmap, annotation_level = 'custom_2', both_hemispheres = F)
+
 
 voxmap <- voxel_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2', 'LHX2'))
 plot_map(voxmap, groups = example_seurat$cluster)

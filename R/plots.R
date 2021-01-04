@@ -55,7 +55,7 @@ plot_annotation.default <- function(
 plot_annotation.VoxelMap <- function(
     object,
     annotation_level = 'custom_2',
-    annotation_colors = many,
+    annotation_colors = NULL,
     slices = NULL,
     show_coordinates = FALSE,
     show_legend = FALSE,
