@@ -1,3 +1,5 @@
+![Build](https://github.com/quadbiolab/voxhunt/workflows/build/badge.svg)
+
 # VoxHunt <img src="man/figures/logo.png" align="right" width="120" />
 
 You want to validate your new brain organoid protocol, find out which cell types emerge in your current batch of cerebral organoids or just find a very specific marker for a tiny brain structure? VoxHunt might be what you are looking for.
