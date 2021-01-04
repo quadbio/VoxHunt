@@ -1,4 +1,4 @@
-name: R-build
+name: build
 
 on:
   push:
