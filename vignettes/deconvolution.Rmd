@@ -19,6 +19,7 @@ Using the ABA ISH reference data in VoxHunt, we can also estimate the proportion
 
 ```{r, results='hide'}
 library(voxhunt)
+library(tidyverse)
 data('example_pseudobulk')
 ```
 

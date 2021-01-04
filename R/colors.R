@@ -9,24 +9,6 @@ blues_flat <- colorRampPalette(c('white', RColorBrewer::brewer.pal(n=9, name='Bl
 ylorrd <- colorRampPalette(RColorBrewer::brewer.pal(n=9, name='YlOrRd'))(100)
 ylorrd_flat <- colorRampPalette(RColorBrewer::brewer.pal(n=9, name='YlOrRd'), bias=0.8)(100)
 
-#### Themes for plots ####
-feature_color_scale <- scale_color_gradientn(colours=gyrdpu)
-feature_fill_scale <- scale_fill_gradientn(colours=gyrdpu)
-feature_theme <- theme(legend.position = 'none')
-dr_theme <- theme(
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    axis.title = element_blank(),
-    panel.border = element_blank()
-)
-dr_guides <- guides(
-    color = guide_legend(override.aes = list(size = 5, alpha=1)),
-    fill = guide_legend(override.aes = list(size = 5, alpha=1)),
-    alpha = guide_legend(override.aes = list(size = 5))
-)
-
 #### Structure colors ####
 struct_names_custom2 <- c(
     'olfactory bulb',
@@ -82,10 +64,13 @@ struct_symbol_custom2 <- c(
     'TelR'
 )
 
+
 sym_colors_custom2 <- struct_colors_custom2
 names(sym_colors_custom2) <- struct_symbol_custom2
 names(struct_colors_custom2) <- struct_names_custom2
 
+#' @export
+#'
 struct_custom2 <- tibble(
     annot = struct_names_custom2,
     colors = struct_colors_custom2,
@@ -113,12 +98,31 @@ names(bs_age_colors) <- c(
     35,37
 )
 
+#' @export
+#'
+brainspan_struct <- tibble(
+    annot = bs_names,
+    colors = bs_colors
+)
+
+#' @export
+#'
+brainspan_age <- tibble(
+    annot = names(bs_age_colors),
+    colors = bs_age_colors
+)
+
 #### Mousebrain colors ####
 mb_names <- c('Forebrain', 'Midbrain', 'Hindbrain', 'Head')
 mb_colors <- c('#ab1673', '#007A92', '#239b56', '#fbc02d')
 names(mb_colors) <- mb_names
 
-
+#' @export
+#'
+mousebrain_struct <- tibble(
+    annot = mb_names,
+    colors = mb_colors
+)
 
 
 

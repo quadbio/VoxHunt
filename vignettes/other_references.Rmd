@@ -17,6 +17,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 You might want to compare your data also to human data instead of the mouse brain. Unfortunately, quantified and registered transcriptomic maps are not yet available for the developing human brain at this scale. However, we can compare cells to RNA-seq data of microdissected human brain regions from BrainSpan. The data is directly downloaded with VoxHunt.
 
 ```{r, results='hide'}
+library(tidyverse)
 library(voxhunt)
 ```
 ```{r}
@@ -74,7 +75,7 @@ The recently released scRNA-seq atlas of the developing mouse brain ([La Manno &
 load_mousebrain_data('~/path/to/data')
 ```
 ```{r, results='hide', echo=F}
-load_mousebrain_data('/Volumes/treutlein/PUBLIC_DATA/published/single_cell/2020_linnarson_dev_mouse_brain')
+load_mousebrain_data('/Users/jfleck/data/2020_linnarson_dev_mouse_brain')
 ```
 
 After this, mapping your single cell data is as easy as calling

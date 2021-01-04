@@ -19,6 +19,8 @@ This vignette gives you an introduction on how to use VoxHunt to swiftly explore
 VoxHunt provides a number of convenient functions to explore the Allen Developing Mouse Brain Atlas data computationally using R. To do so, you first need to point VoxHunt to the ABA gene expression data, which you can download [here](https://data.mendeley.com/datasets/g4xg38mwcn/2). Now, we'll point VoxHunt to the location of these files:  
 
 ```{r, results='hide'}
+library(patchwork)
+library(tidyverse)
 library(voxhunt)
 ```
 ```{r, eval=F, echo=T}
@@ -33,7 +35,7 @@ Now that we have the data, we can start exploring. For instance, you can plot th
 ```{r, fig.height=2, fig.width=8}
 p1 <- plot_annotation('E13')
 p2 <- plot_annotation('P4', show_legend=T)
-ggarrange(p1, p2, nrow=1)
+p1 + p2
 ```
 
 We can also plot the expression of different genes over these voxel maps:

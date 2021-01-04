@@ -465,6 +465,7 @@ plot_structure_similarity.VoxelMap <- function(
 #' @param slices A numeric vector indicating the slices to plot.
 #' @param annotation_level The structure annotation level to color code.
 #' @param annotation_colors Color map for structure annotation.
+#' @param expression_colors Color map for expression intensity
 #' @param ... Other arguments passed to patchwork::wrap_plots().
 #'
 #' @return A gene expression plot.
@@ -478,6 +479,7 @@ plot_expression <- function(
     slices = NULL,
     annotation_level = 'custom_2',
     annotation_colors = many,
+    expression_colors = gyrdpu,
     ...
 ){
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -526,7 +528,7 @@ plot_expression <- function(
             slice_df = plot_df,
             annotation_colors = annotation_colors,
             annotation_level = annotation_level,
-            map_colors = gyrdpu,
+            map_colors = expression_colors,
             ...
         )
     } else {
@@ -551,7 +553,7 @@ plot_expression <- function(
                 geom_tile() +
                 theme_void() +
                 labs(title=g) +
-                feature_fill_scale
+                scale_fill_gradientn(colours=expression_colors)
         }
         p <- feature_plot(
             expr_mat = voxel_mat,
@@ -722,7 +724,7 @@ three_dim_plot <- function(
         showgrid = F
     )
     scene <- list(
-        aspectmode='data',
+        aspectmode = 'data',
         xaxis = axis,
         yaxis = axis,
         zaxix = axis

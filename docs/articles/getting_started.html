@@ -75,8 +75,14 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="https://bsse.ethz.ch/qdb">
+    <span class="fas fa-university fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="https://github.com/quadbiolab/VoxHunt">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +115,9 @@
 <a href="#exploring-the-aba" class="anchor"></a>Exploring the ABA</h2>
 <p>VoxHunt provides a number of convenient functions to explore the Allen Developing Mouse Brain Atlas data computationally using R. To do so, you first need to point VoxHunt to the ABA gene expression data, which you can download <a href="https://data.mendeley.com/datasets/g4xg38mwcn/2">here</a>. Now, we’ll point VoxHunt to the location of these files:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">voxhunt</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/quadbiolab/VoxHunt">voxhunt</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/load_aba_data.html">load_aba_data</a></span><span class="op">(</span><span class="st">'~/path/to/data'</span><span class="op">)</span></code></pre></div>
 <p>Per default, VoxHunt will not load all of the data at once, but only when we require it.</p>
@@ -117,7 +125,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'E13'</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span><span class="st">'P4'</span>, show_legend<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
-<span class="fu">ggarrange</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p>We can also plot the expression of different genes over these voxel maps:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">

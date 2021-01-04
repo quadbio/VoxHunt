@@ -19,7 +19,13 @@ Brain organoids are complex and can contain cells at various stages of different
 devtools::install_github('immunogenomics/presto')
 ```
 
-Once Presto is installed, you can install VoxHunt with
+If you want to perform deconvolution, you also have to install EPIC manually:
+
+```r
+devtools::install_github('GfellerLab/EPIC')
+```
+
+Once all external dependencies are installed, you can install VoxHunt with
 ```r
 devtools::install_github('quadbiolab/voxhunt')
 ```

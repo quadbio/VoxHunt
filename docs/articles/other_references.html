@@ -75,8 +75,14 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="https://bsse.ethz.ch/qdb">
+    <span class="fas fa-university fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="https://github.com/quadbiolab/VoxHunt">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -108,7 +114,8 @@
 <a href="#comparing-single-cell-data-to-brainspan" class="anchor"></a>Comparing single-cell data to BrainSpan</h2>
 <p>You might want to compare your data also to human data instead of the mouse brain. Unfortunately, quantified and registered transcriptomic maps are not yet available for the developing human brain at this scale. However, we can compare cells to RNA-seq data of microdissected human brain regions from BrainSpan. The data is directly downloaded with VoxHunt.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">voxhunt</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/quadbiolab/VoxHunt">voxhunt</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'brainspan'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">brainspan</span><span class="op">)</span></code></pre></div>

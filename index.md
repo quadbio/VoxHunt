@@ -1,4 +1,4 @@
-# VoxHunt <img src="man/figures/logo.png" align="right" width="120" />
+# VoxHunt <img src="man/figures/logo.png" align="right" width="150" />
 
 VoxHunt is a package for assessing brain organoid patterning, developmental state, and cell composition through systematic comparisons of single cell transcriptomes to three-dimensional in situ hybridization data from the Allen Brain Atlas and a number of other useful reference datasets.
 
@@ -28,8 +28,13 @@ VoxHunt currently implements the following features:
 devtools::install_github('immunogenomics/presto')
 ```
 
-Once Presto is installed, you can install VoxHunt with
+If you want to perform deconvolution, you also have to install EPIC manually:
 
+```r
+devtools::install_github('GfellerLab/EPIC')
+```
+
+Once all external dependencies are installed, you can install VoxHunt with
 ```r
 devtools::install_github('quadbiolab/voxhunt')
 ```

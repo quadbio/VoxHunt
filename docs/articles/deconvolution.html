@@ -75,8 +75,14 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="https://bsse.ethz.ch/qdb">
+    <span class="fas fa-university fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="https://github.com/quadbiolab/VoxHunt">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -108,7 +114,8 @@
 <a href="#deconvolution-of-rna-seq-data-with-voxhunt" class="anchor"></a>Deconvolution of RNA-seq data with VoxHunt</h2>
 <p>Using the ABA ISH reference data in VoxHunt, we can also estimate the proportion of regional identities in organoids from bulk RNA-seq data without having to rely on single cell data with all celltypes we might expect. In the manuscript, we show that this works very well, even considering the presence of NPCs and Neurons in the same organoid. Here, we demonsrate this using pseudo-bulk data (summarized scRNA-seq data) from 2 month old orgnaoids which is included in VoxHunt.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">voxhunt</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/quadbiolab/VoxHunt">voxhunt</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'example_pseudobulk'</span><span class="op">)</span></code></pre></div>
 <p>We found that selecting markers is very important for successful deconvolution, so we select two sets of markers here: One broad set (<code>top50</code>) which we use to preselect features and balance contribution of different brain regions in the feature set. A second set (<code>top15</code>) is used as marker genes as input for the currently implemented deconvolution tool <a href="https://github.com/GfellerLab/EPIC">EPIC</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
