@@ -23,7 +23,9 @@ Imports:
     tibble,
     tidyr,
     hdf5r,
-    viridis
+    viridis,
+    Seurat,
+    patchwork
 Suggests: 
     knitr,
     rmarkdown,

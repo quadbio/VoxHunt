@@ -15,7 +15,7 @@ plot_map(object, ...)
   slices = NULL,
   groups = NULL,
   annotation_level = "custom_2",
-  annotation_colors = struct_colors_custom2,
+  annotation_colors = NULL,
   map_colors = gyrdpu_flat,
   show_coordinates = FALSE,
   show_legend = FALSE,

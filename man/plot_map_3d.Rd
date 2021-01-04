@@ -12,7 +12,7 @@ plot_map_3d(object, ...)
   groups = NULL,
   show_group = NULL,
   annotation_level = NULL,
-  annotation_colors = many,
+  annotation_colors = NULL,
   map_colors = inferno_flat,
   sizes = c(1, 1000),
   both_hemispheres = TRUE,

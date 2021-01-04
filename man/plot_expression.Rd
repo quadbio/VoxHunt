@@ -10,7 +10,8 @@ plot_expression(
   view = "sagittal",
   slices = NULL,
   annotation_level = "custom_2",
-  annotation_colors = many,
+  annotation_colors = NULL,
+  expression_colors = gyrdpu,
   ...
 )
 }
@@ -27,6 +28,8 @@ plot_expression(
 \item{annotation_level}{The structure annotation level to color code.}
 
 \item{annotation_colors}{Color map for structure annotation.}
+
+\item{expression_colors}{Color map for expression intensity}
 
 \item{...}{Other arguments passed to patchwork::wrap_plots().}
 }

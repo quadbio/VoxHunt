@@ -33,8 +33,8 @@ Per default, VoxHunt will not load all of the data at once, but only when we req
 
 Now that we have the data, we can start exploring. For instance, you can plot the E13.5 and P14 mouse brain with annotated brain structures:
 ```{r, fig.height=2, fig.width=8}
-p1 <- plot_annotation('E13')
-p2 <- plot_annotation('P4', show_legend=T)
+p1 <- voxhunt::plot_annotation('E13')
+p2 <- voxhunt::plot_annotation('P4', show_legend=T)
 p1 + p2
 ```
 

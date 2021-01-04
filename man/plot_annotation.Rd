@@ -11,7 +11,7 @@ plot_annotation(object = "E13", ...)
 \method{plot_annotation}{default}(
   object = "E13",
   annotation_level = "custom_2",
-  annotation_colors = many,
+  annotation_colors = NULL,
   slices = NULL,
   show_coordinates = FALSE,
   show_legend = FALSE,
@@ -21,7 +21,7 @@ plot_annotation(object = "E13", ...)
 \method{plot_annotation}{VoxelMap}(
   object,
   annotation_level = "custom_2",
-  annotation_colors = many,
+  annotation_colors = NULL,
   slices = NULL,
   show_coordinates = FALSE,
   show_legend = FALSE,
