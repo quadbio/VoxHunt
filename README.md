@@ -1,4 +1,4 @@
-![Build](https://github.com/quadbiolab/voxhunt/workflows/build/badge.svg)
+![Build](https://github.com/quadbiolab/voxhunt/workflows/R-build/badge.svg)
 
 # VoxHunt <img src="man/figures/logo.png" align="right" width="120" />
 
