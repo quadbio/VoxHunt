@@ -63,9 +63,6 @@ mbmap <- mousebrain_map(example_seurat, genes_use = top10)
 plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
 plot_map(mbmap, groups = example_seurat$cluster)
 
-class(pb_mbmap)
-plot_annotation.MousebrainMap(pb_mbmap)
-
 ### Deconvolution
 data('example_pseudobulk')
 

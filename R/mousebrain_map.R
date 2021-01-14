@@ -20,6 +20,9 @@ mousebrain_map.default <- function(
     allow_neg = FALSE,
     pseudobulk_groups = FALSE
 ){
+    if (!exists('MOUSEBRAIN_DATA')){
+        stop('Data has not been loaded. Please run load_mousebrain_data() first.')
+    }
 
     inter_genes <- intersect(colnames(object), colnames(MOUSEBRAIN_DATA$matrix))
     if (!is.null(genes_use)){

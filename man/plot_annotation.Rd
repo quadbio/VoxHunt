@@ -16,7 +16,11 @@ plot_annotation(object = "E13", ...)
   slices = NULL,
   show_coordinates = FALSE,
   show_legend = FALSE,
-  alpha = 0.5
+  alpha = 0.5,
+  class_colors = many,
+  region_colors = mb_colors,
+  point_size = 0.2,
+  subsample = 50000
 )
 
 \method{plot_annotation}{VoxelMap}(

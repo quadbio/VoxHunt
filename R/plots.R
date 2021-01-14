@@ -1069,6 +1069,10 @@ plot_annotation.MousebrainMap <- function(
     subsample = 50000,
     show_legend = TRUE
 ){
+    if (!exists('MOUSEBRAIN_DATA')){
+        stop('Data has not been loaded. Please run load_mousebrain_data() first.')
+    }
+
     meta <- MOUSEBRAIN_DATA$meta
     if (subsample){
         meta <- sample_n(meta, subsample)
