@@ -27,12 +27,14 @@ top10 <- markers %>%
 
 
 pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
+group_assign <- assign_to_structure(pb_voxmap)
 plot_map(pb_voxmap)
 plot_map_3d(pb_voxmap)
 plot_map_3d(pb_voxmap, annotation_level = 'custom_2', both_hemispheres = F)
 
 
 voxmap <- voxel_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2', 'LHX2'))
+cell_assign <- assign_to_structure(voxmap)
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
 plot_structure_similarity(voxmap, groups = example_seurat$cluster)

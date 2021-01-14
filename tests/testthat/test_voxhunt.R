@@ -40,6 +40,11 @@ test_that('plot_map does not throw errors.', {
     expect_error(plot_map(vm, view='slice'), NA)
 })
 
+test_that('assign_cells does not throw errors.', {
+    expect_error(assign_cells(vm), NA)
+    expect_error(assign_to_structure(vm), NA)
+})
+
 test_that('plot_map_3d does not throw errors.', {
     expect_error(plot_map_3d(vm), NA)
     expect_error(plot_map_3d(vm, annotation_level='custom_2'), NA)

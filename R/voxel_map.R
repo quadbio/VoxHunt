@@ -69,7 +69,8 @@ voxel_map.default <- function(
         corr_mat = corr_mat,
         cell_meta = cell_meta,
         voxel_meta = voxel_meta,
-        genes = inter_genes
+        genes = inter_genes,
+        single_cell = !pseudobulk_groups
     )
     class(vox_map) <- 'VoxelMap'
 
@@ -179,18 +180,23 @@ summarize_groups.VoxelMap <- function(
 #'
 assign_cells.VoxelMap <- function(object){
 
+    col_name <- if (object$single_cell) 'cell' else 'group'
     which_max_corr <- colnames(object$corr_mat)[apply(object$corr_mat, 1, which.max)]
     max_corr <- apply(object$corr_mat, 1, max)
     max_corr_df <- tibble(
         voxel = which_max_corr,
-        corr = max_corr,
-        cell = rownames(object$corr_mat)
+        corr = max_corr
     )
+    max_corr_df[col_name] <- rownames(object$corr_mat)
 
     max_corr_df <- suppressMessages(left_join(max_corr_df, object$voxel_meta))
 
     return(max_corr_df)
 }
+
+#' @rdname assign_cells
+#' @export
+assign_to_structure <- assign_cells
 
 
 #' @import Matrix

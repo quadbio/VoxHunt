@@ -3,11 +3,14 @@
 \name{assign_cells}
 \alias{assign_cells}
 \alias{assign_cells.VoxelMap}
+\alias{assign_to_structure}
 \title{Assign cells to structure}
 \usage{
 assign_cells(object, ...)
 
 \method{assign_cells}{VoxelMap}(object)
+
+assign_to_structure(object, ...)
 }
 \arguments{
 \item{object}{A VoxelMap opject}
