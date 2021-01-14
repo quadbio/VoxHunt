@@ -30,7 +30,7 @@ plot_map(object, ...)
   map_colors = ylorrd_flat,
   point_size = 0.2,
   subsample = 50000,
-  scale = T,
+  scale = TRUE,
   show_legend = FALSE,
   ...
 )

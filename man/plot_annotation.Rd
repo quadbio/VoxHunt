@@ -4,6 +4,7 @@
 \alias{plot_annotation}
 \alias{plot_annotation.default}
 \alias{plot_annotation.VoxelMap}
+\alias{plot_annotation.MousebrainMap}
 \title{Plot brain structure annotation}
 \usage{
 plot_annotation(object = "E13", ...)
@@ -27,9 +28,20 @@ plot_annotation(object = "E13", ...)
   show_legend = FALSE,
   alpha = 0.5
 )
+
+\method{plot_annotation}{MousebrainMap}(
+  object,
+  class_colors = many,
+  region_colors = mb_colors,
+  point_size = 0.2,
+  subsample = 50000,
+  show_legend = TRUE
+)
 }
 \arguments{
 \item{object}{String indicating the developmental stage from the ABA.}
+
+\item{...}{Other arguments passed to patchwork::wrap_plots().}
 
 \item{annotation_level}{The structure annotation level to color code.}
 
@@ -42,9 +54,24 @@ plot_annotation(object = "E13", ...)
 \item{show_legend}{Logical. Whether to show a color legend or not.}
 
 \item{alpha}{Float. The alpha value for grid tiles.}
+
+\item{class_colors}{Color map for classes (celltypes).}
+
+\item{region_colors}{Color map for regions.}
+
+\item{point_size}{Point size.}
+
+\item{subsample}{Subsample mousebrain cells for faster plotting.}
+
+\item{groups}{A metadata column or character vector to group the cells,
+e.g. clusters, cell types.}
+
+\item{scale}{Logical. Whether to scale correlation values.}
 }
 \value{
 An annotation plot.
+
+A similarity map.
 }
 \description{
 Plot the voxel map of the developing mouse brain colorcoded by structure annotation.

@@ -34,7 +34,7 @@ plot_structure_similarity(object, ...)
   groups = NULL,
   map_colors = blues_flat,
   cluster = TRUE,
-  scale = T,
+  scale = TRUE,
   ...
 )
 }
