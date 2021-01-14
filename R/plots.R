@@ -23,8 +23,23 @@ plot_annotation.default <- function(
     slices = NULL,
     show_coordinates = FALSE,
     show_legend = FALSE,
-    alpha = 0.5
+    alpha = 0.5,
+    class_colors = many,
+    region_colors = mb_colors,
+    point_size = 0.2,
+    subsample = 50000
 ){
+    if (object=='mousebrain'){
+        p <- plot_annotation.MousebrainMap(
+            object = NULL,
+            class_colors = class_colors,
+            region_colors = region_colors,
+            point_size = point_size,
+            subsample = subsample,
+            show_legend = show_legend
+        )
+        return(p)
+    }
     # Set custom_2 colors if annotation level is custom_2
     if (is.null(annotation_colors)){
         annotation_colors <- if (annotation_level=='custom_2') {struct_colors_custom2} else {many}
@@ -893,7 +908,7 @@ plot_structure_similarity.MousebrainMap <- function(
     groups = NULL,
     map_colors = blues_flat,
     cluster = TRUE,
-    scale = T,
+    scale = TRUE,
     ...
 ){
     annot_df <- object$ref_meta %>%
@@ -994,7 +1009,7 @@ plot_map.MousebrainMap <- function(
     map_colors = ylorrd_flat,
     point_size = 0.2,
     subsample = 50000,
-    scale = T,
+    scale = TRUE,
     show_legend = FALSE,
     ...
 ){
@@ -1024,6 +1039,56 @@ plot_map.MousebrainMap <- function(
     p <- patchwork::wrap_plots(plot_list, ...)
     return(p)
 }
+
+
+#' @import ggplot2
+#' @import dplyr
+#' @import patchwork
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param region_colors Color map for regions.
+#' @param class_colors Color map for classes (celltypes).
+#' @param point_size Point size.
+#' @param subsample Subsample mousebrain cells for faster plotting.
+#' @param show_legend Logical. Whether to show a color legend or not.
+#' @param scale Logical. Whether to scale correlation values.
+#' @param ... Other arguments passed to patchwork::wrap_plots().
+#'
+#' @return A similarity map.
+#'
+#' @rdname plot_annotation
+#' @export
+#' @method plot_annotation MousebrainMap
+#'
+plot_annotation.MousebrainMap <- function(
+    object,
+    class_colors = many,
+    region_colors = mb_colors,
+    point_size = 0.2,
+    subsample = 50000,
+    show_legend = TRUE
+){
+    meta <- MOUSEBRAIN_DATA$meta
+    if (subsample){
+        meta <- sample_n(meta, subsample)
+    }
+    p1 <- ggplot(meta, aes(tSNE1, tSNE2, color=region)) + ggtitle('Region') +
+        scale_color_manual(values=region_colors) +
+        labs(color='Region')
+    p2 <- ggplot(meta, aes(tSNE1, tSNE2, color=class)) + ggtitle('Class') +
+        scale_color_manual(values=class_colors) +
+        labs(color='Class')
+    p <- p1 + p2 & theme_void() & geom_point(size=0.3) &
+        guides(
+            color = guide_legend(override.aes = list(size = 5, alpha=1)),
+            fill = guide_legend(override.aes = list(size = 5, alpha=1)),
+            alpha = guide_legend(override.aes = list(size = 5))
+        )
+    return(p)
+}
+
+
 
 #### UTILS ####
 #' Remove legend from plot
