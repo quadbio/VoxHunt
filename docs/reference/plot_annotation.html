@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VoxHunt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
       </span>
     </div>
 
@@ -161,7 +161,11 @@
   slices <span class='op'>=</span> <span class='cn'>NULL</span>,
   show_coordinates <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show_legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  alpha <span class='op'>=</span> <span class='fl'>0.5</span>
+  alpha <span class='op'>=</span> <span class='fl'>0.5</span>,
+  class_colors <span class='op'>=</span> <span class='va'>many</span>,
+  region_colors <span class='op'>=</span> <span class='va'>mb_colors</span>,
+  point_size <span class='op'>=</span> <span class='fl'>0.2</span>,
+  subsample <span class='op'>=</span> <span class='fl'>50000</span>
 <span class='op'>)</span>
 
 <span class='co'># S3 method for VoxelMap</span>
@@ -173,6 +177,16 @@
   show_coordinates <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show_legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
   alpha <span class='op'>=</span> <span class='fl'>0.5</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for MousebrainMap</span>
+<span class='fu'>plot_annotation</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  class_colors <span class='op'>=</span> <span class='va'>many</span>,
+  region_colors <span class='op'>=</span> <span class='va'>mb_colors</span>,
+  point_size <span class='op'>=</span> <span class='fl'>0.2</span>,
+  subsample <span class='op'>=</span> <span class='fl'>50000</span>,
+  show_legend <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,6 +195,10 @@
     <tr>
       <th>object</th>
       <td><p>String indicating the developmental stage from the ABA.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments passed to patchwork::wrap_plots().</p></td>
     </tr>
     <tr>
       <th>annotation_level</th>
@@ -206,11 +224,37 @@
       <th>alpha</th>
       <td><p>Float. The alpha value for grid tiles.</p></td>
     </tr>
+    <tr>
+      <th>class_colors</th>
+      <td><p>Color map for classes (celltypes).</p></td>
+    </tr>
+    <tr>
+      <th>region_colors</th>
+      <td><p>Color map for regions.</p></td>
+    </tr>
+    <tr>
+      <th>point_size</th>
+      <td><p>Point size.</p></td>
+    </tr>
+    <tr>
+      <th>subsample</th>
+      <td><p>Subsample mousebrain cells for faster plotting.</p></td>
+    </tr>
+    <tr>
+      <th>groups</th>
+      <td><p>A metadata column or character vector to group the cells,
+e.g. clusters, cell types.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Logical. Whether to scale correlation values.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An annotation plot.</p>
+<p>A similarity map.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
