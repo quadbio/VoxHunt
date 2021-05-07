@@ -66,6 +66,6 @@ If you want to find out more about VoxHunt's functionality, have a look at vigne
 
 ## Citation
 
-If you find VoxHunt useful for your research, please consider citing our preprint:
+If you find VoxHunt useful for your research, please consider citing our paper:
 
-[Fleck, J.S., et al., Resolving brain organoid heterogeneity by mapping single cell genomic data to a spatial reference. bioRxiv, 2020, https://doi.org/10.1101/2020.01.06.896282 ](https://www.biorxiv.org/content/10.1101/2020.01.06.896282v1)
+[Fleck, J.S., Sanchís-Calleja F. et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)

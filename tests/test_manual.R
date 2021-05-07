@@ -28,7 +28,9 @@ top10 <- markers %>%
 
 pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 group_assign <- assign_to_structure(pb_voxmap)
-plot_map(pb_voxmap)
+plot_map(pb_voxmap, show_legend = T)
+plot_map(pb_voxmap, view='slice', show_legend = F)
+plot_map(pb_voxmap, view='sagittal', show_legend = F)
 plot_map_3d(pb_voxmap)
 plot_map_3d(pb_voxmap, annotation_level = 'custom_2', both_hemispheres = F)
 

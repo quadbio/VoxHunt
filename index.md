@@ -66,18 +66,18 @@ After loading VoxHunt, we first point it to the directory with the unpacked [ABA
 
 ## Citation
 
-If you find VoxHunt useful for your research, please consider citing our preprint:
+If you find VoxHunt useful for your research, please consider citing our paper:
 
-[Fleck, J.S., et al., Resolving brain organoid heterogeneity by mapping single cell genomic data to a spatial reference. bioRxiv, 2020](https://www.biorxiv.org/content/10.1101/2020.01.06.896282v1)
+[Fleck, J.S., Sanchís-Calleja F. et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)
 
 ```
-@article {,
-	author = {Fleck, Jonas Simon and He, Zhisong and Boyle, Michael James and Camp, J. Gray and Treutlein, Barbara},
-	title = {Resolving brain organoid heterogeneity by mapping single cell genomic data to a spatial reference},
-	year = {2020},
-	doi = {10.1101/2020.01.06.896282},
-	URL = {https://www.biorxiv.org/content/early/2020/01/07/2020.01.06.896282},
-	journal = {bioRxiv}
+@Article{,
+    title = {Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases},
+    author = {Jonas Simon Fleck and Fátima Sanchís-Calleja and Zhisong He and Margozata Santel and Michael James Boyle and J. Gray Camp and Barbara Treutlein},
+    journal = {Cell Stem Cell},
+    year = {2021},
+    url = {https://doi.org/10.1016/j.stem.2021.02.015},
+    doi = {10.1101/2020.01.06.896282}
 }
 ```
 
