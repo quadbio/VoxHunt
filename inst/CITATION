@@ -8,7 +8,7 @@ citEntry(entry = "Article",
   journal = "Cell Stem Cell",
   year = "2021",
   url = "https://doi.org/10.1016/j.stem.2021.02.015",
-  doi = "10.1101/2020.01.06.896282",
+  doi = "10.1016/j.stem.2021.02.015",
   textVersion = "Fleck JS, Sanchís-Calleja F et al. Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell (2021)."
 )
 

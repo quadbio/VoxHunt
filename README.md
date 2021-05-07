@@ -68,4 +68,4 @@ If you want to find out more about VoxHunt's functionality, have a look at vigne
 
 If you find VoxHunt useful for your research, please consider citing our paper:
 
-[Fleck, J.S., Sanchís-Calleja F. et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)
+[Fleck, JS, Sanchís-Calleja F et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)

@@ -68,7 +68,7 @@ After loading VoxHunt, we first point it to the directory with the unpacked [ABA
 
 If you find VoxHunt useful for your research, please consider citing our paper:
 
-[Fleck, J.S., Sanchís-Calleja F. et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)
+[Fleck, JS, Sanchís-Calleja F et al., Resolving organoid brain region identities by mapping single-cell genomic data to reference atlases. Cell Stem Cell, 2020, https://doi.org/10.1016/j.stem.2021.02.015](https://doi.org/10.1016/j.stem.2021.02.015)
 
 ```
 @Article{,
@@ -77,7 +77,7 @@ If you find VoxHunt useful for your research, please consider citing our paper:
     journal = {Cell Stem Cell},
     year = {2021},
     url = {https://doi.org/10.1016/j.stem.2021.02.015},
-    doi = {10.1101/2020.01.06.896282}
+    doi = {10.1016/j.stem.2021.02.015}
 }
 ```
 
