@@ -41,7 +41,7 @@ plot_map(object, ...)
   groups = NULL,
   map_colors = ylorrd_flat,
   point_size = 0.2,
-  subsample = 10000,
+  subsample = NULL,
   scale = TRUE,
   show_legend = FALSE,
   ...

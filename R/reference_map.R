@@ -202,4 +202,3 @@ summarize_groups.ReferenceMap <- function(
     return(plot_df)
 }
 
-
