@@ -15,7 +15,7 @@ voxel_map(object, ...)
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 
 \method{voxel_map}{Seurat}(
@@ -25,7 +25,7 @@ voxel_map(object, ...)
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 }
 \arguments{

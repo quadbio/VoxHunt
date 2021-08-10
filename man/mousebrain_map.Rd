@@ -14,7 +14,7 @@ mousebrain_map(object, ...)
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 
 \method{mousebrain_map}{Seurat}(
@@ -23,7 +23,7 @@ mousebrain_map(object, ...)
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 }
 \arguments{

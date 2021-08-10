@@ -5,6 +5,7 @@
 \alias{plot_map.VoxelMap}
 \alias{plot_map.BrainSpanMap}
 \alias{plot_map.MousebrainMap}
+\alias{plot_map.ReferenceMap}
 \title{Plot similarity map of single cells}
 \usage{
 plot_map(object, ...)
@@ -30,6 +31,17 @@ plot_map(object, ...)
   map_colors = ylorrd_flat,
   point_size = 0.2,
   subsample = 50000,
+  scale = TRUE,
+  show_legend = FALSE,
+  ...
+)
+
+\method{plot_map}{ReferenceMap}(
+  object,
+  groups = NULL,
+  map_colors = ylorrd_flat,
+  point_size = 0.2,
+  subsample = 10000,
   scale = TRUE,
   show_legend = FALSE,
   ...
@@ -60,9 +72,11 @@ e.g. clusters, cell types.}
 
 \item{point_size}{Point size.}
 
-\item{subsample}{Subsample mousebrain cells for faster plotting.}
+\item{subsample}{Subsample reference cells for faster plotting.}
 }
 \value{
+A similarity map.
+
 A similarity map.
 
 A similarity map.

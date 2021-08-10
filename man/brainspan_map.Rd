@@ -13,7 +13,7 @@
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 
 \method{brainspan_map}{Seurat}(
@@ -23,7 +23,7 @@
   method = "pearson",
   genes_use = NULL,
   allow_neg = FALSE,
-  pseudobulk_groups = FALSE
+  pseudobulk_groups = TRUE
 )
 
 brainspan_map(object, ...)
