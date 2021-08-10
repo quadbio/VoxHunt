@@ -77,6 +77,7 @@ voxel_map.default <- function(
     return(vox_map)
 }
 
+
 #' @param group_name A string indicating the metadata column for grouping the cells,
 #' e.g. clusters, cell types.
 #'

@@ -1093,6 +1093,64 @@ plot_annotation.MousebrainMap <- function(
 }
 
 
+#### PLOTS FOR REFERENCE MAPS ####
+#' @import ggplot2
+#' @import dplyr
+#' @import purrr
+#'
+#' @param groups A metadata column or character vector to group the cells,
+#' e.g. clusters, cell types.
+#' @param map_colors Color map for correlation values.
+#' @param point_size Point size.
+#' @param subsample Subsample reference cells for faster plotting.
+#' @param show_legend Logical. Whether to show a color legend or not.
+#' @param scale Logical. Whether to scale correlation values.
+#' @param ... Other arguments passed to patchwork::wrap_plots().
+#'
+#' @return A similarity map.
+#'
+#' @rdname plot_map
+#' @export
+#' @method plot_map ReferenceMap
+#'
+plot_map.ReferenceMap <- function(
+    object,
+    groups = NULL,
+    map_colors = ylorrd_flat,
+    point_size = 0.2,
+    subsample = NULL,
+    scale = TRUE,
+    show_legend = FALSE,
+    ...
+){
+    plot_df <- summarize_groups(object, groups = groups, summarize = 'query') %>%
+        inner_join(object$reduction, by=c('query_group'='cell'))
+
+    if (is.numeric(subsample)){
+        plot_df <- sample_n(plot_df, min(subsample, ncol(object$corr_mat)))
+    }
+    if (scale){
+        plot_df <- group_by(plot_df, ref_group) %>%
+            mutate(corr=zscale(corr))
+    }
+
+    plot_list <- map(levels(factor(plot_df$ref_group)), function(g){
+        ptbl <- dplyr::filter(plot_df, ref_group==g)
+        p <- ggplot(ptbl, aes(x, y, col=corr)) +
+            geom_point(size=point_size) +
+            theme_void() +
+            scale_color_gradientn(colors=map_colors) +
+            labs(title=g)
+        if (!show_legend){
+            p <- p + no_legend()
+        }
+        return(p)
+    })
+
+    p <- patchwork::wrap_plots(plot_list, ...)
+    return(p)
+}
+
 
 #### UTILS ####
 #' Remove legend from plot

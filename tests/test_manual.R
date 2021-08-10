@@ -67,43 +67,15 @@ mbmap <- mousebrain_map(example_seurat, genes_use = top10)
 plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
 plot_map(mbmap, groups = example_seurat$cluster)
 
-### Deconvolution
-data('example_pseudobulk')
 
-markers <- structure_markers('E13', annotation_level = 'custom_2')
+### General reference mapping
 
-involve_regions <- c(
-    'pallium', 'subpallium',
-    'diencephalon', 'midbrain', 'hypothalamus',
-    'prepontine hindbrain', 'pontine hindbrain', 'medullary hindbrain'
-)
+example_seurat <- example_seurat %>%
+    FindVariableFeatures() %>% ScaleData() %>% RunPCA() %>% RunUMAP(dims=1:10)
+DimPlot(example_seurat, group.by='cluster')
 
-top15 <- markers %>%
-    filter(group%in%involve_regions) %>%
-    filter(gene%in%rownames(example_pseudobulk)) %>%
-    group_by(group) %>%
-    top_n(15, auc) %>%
-    {unique(.$gene)}
-
-top50 <- markers %>%
-    filter(group%in%involve_regions) %>%
-    filter(gene%in%rownames(example_pseudobulk)) %>%
-    group_by(group) %>%
-    top_n(50, auc) %>%
-    {unique(.$gene)}
-
-prop_df <- deconvolute(
-    example_pseudobulk[top50, ], top15,
-    involve_regions = involve_regions,
-    pseudo_tpm = T
-)
-
-ggplot(prop_df, aes(sample, prop, fill=factor(struct, levels=struct_names_custom2))) +
-    geom_bar(stat='identity') +
-    scale_fill_manual(values=struct_colors_custom2) +
-    scale_y_continuous(expand=c(0,0)) +
-    scale_x_discrete(expand=c(0,0))
-
+ref_map <- reference_map(example_seurat, example_seurat, group_name='cluster', genes_use=top10)
+plot_map(ref_map, show_legend = T)
 
 
 

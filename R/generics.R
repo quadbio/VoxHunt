@@ -11,6 +11,17 @@ voxel_map <- function(object, ...){
     UseMethod(generic = 'voxel_map', object = object)
 }
 
+#' Compare a query scRNA-seq dataset with a reference
+#'
+#' Calculates correlation between single-cell gene expression.
+#'
+#' @rdname reference_map
+#' @export reference_map
+#'
+reference_map <- function(object, ...){
+    UseMethod(generic = 'reference_map', object = object)
+}
+
 #' Project single cell gene expression data to BrainSpan
 #'
 #' Calculates correlation between single-cell gene expression and reference samples from
