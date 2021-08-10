@@ -18,7 +18,7 @@ mousebrain_map.default <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
     if (!exists('MOUSEBRAIN_DATA')){
         stop('Data has not been loaded. Please run load_mousebrain_data() first.')
@@ -78,7 +78,7 @@ mousebrain_map.Seurat <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){

@@ -20,7 +20,7 @@ brainspan_map.default <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
 
     utils::data(brainspan, envir = environment())
@@ -83,7 +83,7 @@ brainspan_map.Seurat <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){

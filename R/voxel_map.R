@@ -20,7 +20,7 @@ voxel_map.default <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
 
     if (!exists('DATA_LIST') | !exists('PATH_LIST')){
@@ -91,7 +91,7 @@ voxel_map.Seurat <- function(
     method = 'pearson',
     genes_use = NULL,
     allow_neg = FALSE,
-    pseudobulk_groups = FALSE
+    pseudobulk_groups = TRUE
 ){
     expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
     if (is.null(group_name)){
