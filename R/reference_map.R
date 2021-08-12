@@ -192,7 +192,7 @@ summarize_groups.ReferenceMap <- function(
         cnames <- c('ref_group', 'query_group')
     }
 
-    cluster_cor <- aggregate_matrix(corr_mat, groups=group_vec, fun=fun)
+    cluster_cor <- t(aggregate_matrix(corr_mat, groups=group_vec, fun=fun))
 
     plot_df <- cluster_cor %>%
         as.matrix() %>%

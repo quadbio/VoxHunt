@@ -56,6 +56,7 @@ bsmap <- brainspan_map(example_seurat, genes_use = c('NEUROD6', 'DLX2'))
 plot_map(bsmap)
 plot_structure_similarity(bsmap)
 
+
 ### La Manno Mousebrain
 load_mousebrain_data('/Users/jfleck/data/2020_linnarson_dev_mouse_brain')
 pb_mbmap <- mousebrain_map(example_seurat, genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
@@ -69,13 +70,20 @@ plot_map(mbmap, groups = example_seurat$cluster)
 
 
 ### General reference mapping
-
-example_seurat <- example_seurat %>%
+ref_srt <- example_seurat %>%
     FindVariableFeatures() %>% ScaleData() %>% RunPCA() %>% RunUMAP(dims=1:10)
+ref_srt$cluster <- NULL
 DimPlot(example_seurat, group.by='cluster')
 
-ref_map <- reference_map(example_seurat, example_seurat, group_name='cluster', genes_use=top10)
+ref_map <- reference_map(example_seurat, ref_srt, group_name='cluster', genes_use=top10)
+
+ref_map$
+
 plot_map(ref_map, show_legend = T)
+
+summarize_groups(ref_map)
+
+
 
 
 
