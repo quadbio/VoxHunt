@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VoxHunt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -159,6 +159,9 @@
 <span class='co'># S3 method for MousebrainMap</span>
 <span class='fu'>summarize_groups</span><span class='op'>(</span><span class='va'>object</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span>, fun <span class='op'>=</span> <span class='va'>colMeans</span><span class='op'>)</span>
 
+<span class='co'># S3 method for ReferenceMap</span>
+<span class='fu'>summarize_groups</span><span class='op'>(</span><span class='va'>object</span>, summarize <span class='op'>=</span> <span class='st'>"query"</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span>, fun <span class='op'>=</span> <span class='va'>colMeans</span><span class='op'>)</span>
+
 <span class='co'># S3 method for VoxelMap</span>
 <span class='fu'>summarize_groups</span><span class='op'>(</span><span class='va'>object</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span>, fun <span class='op'>=</span> <span class='va'>colMeans</span><span class='op'>)</span></pre>
 
@@ -174,11 +177,17 @@ e.g. clusters, cell types.</p></td>
       <th>fun</th>
       <td><p>Function used to aggregate the groups.</p></td>
     </tr>
+    <tr>
+      <th>summarize</th>
+      <td><p>A character vector indicating whether to summarize the
+query (`'query'`) or the reference (`'reference'`) cells.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble with group summaries</p>
+<p>A tibble with group summaries</p>
 <p>A tibble with group summaries</p>
 <p>A tibble with group summaries</p>
 

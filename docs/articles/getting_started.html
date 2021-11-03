@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VoxHunt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="getting_started_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started with VoxHunt</h1>
@@ -116,7 +116,7 @@
 <p>VoxHunt provides a number of convenient functions to explore the Allen Developing Mouse Brain Atlas data computationally using R. To do so, you first need to point VoxHunt to the ABA gene expression data, which you can download <a href="https://data.mendeley.com/datasets/g4xg38mwcn/2">here</a>. Now, we’ll point VoxHunt to the location of these files:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/quadbiolab/VoxHunt">voxhunt</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/load_aba_data.html">load_aba_data</a></span><span class="op">(</span><span class="st">'~/path/to/data'</span><span class="op">)</span></code></pre></div>
@@ -186,7 +186,7 @@
 <span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span></code></pre></div>
 <pre><code>## A VoxelMap object
-## 2300 cells mapped to
+## 3 groups mapped to
 ## 9510 voxels in the E13 mouse brain
 ## based on 183 features</code></pre>
 <p>We can first look at the coarse-grained level, what brain structures these cell types are most similar to:</p>
@@ -214,19 +214,19 @@
 <div id="custom-plotting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-plotting" class="anchor"></a>Custom plotting</h2>
-<p>VoxHunt provides some basic plotting functions to visualize the similarity maps. Of course, you go beyond those if you are familiar with plotting in R. To turn a VoxelMap or ReferenceMap object into a data frame for plotting with e.g. <code>ggplot()</code>, VoxHunt provides some convenience functions that return either group (<code><a href="../reference/summarize_groups.BrainSpanMap.html">summarize_groups()</a></code>) or structure summaries (<code><a href="../reference/summarize_structures.BrainSpanMap.html">summarize_structures()</a></code>) of the map:</p>
+<p>VoxHunt provides some basic plotting functions to visualize the similarity maps. Of course, you go beyond those if you are familiar with plotting in R. To turn a VoxelMap or ReferenceMap object into a data frame for plotting with e.g. <code>ggplot()</code>, VoxHunt provides some convenience functions that return either group (<code><a href="../reference/summarize_groups.BrainSpanMap.html">summarize_groups()</a></code>) or structure summaries (<code><a href="../reference/summarize_structures.BrainSpanMap.html">summarize_structures()</a></code>) of the map:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">group_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_groups.BrainSpanMap.html">summarize_groups</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">group_map</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 27
-##   voxel group  corr stage structure_name     x     y     z structure_id level_1
-##   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
-## 1 E13p… ctx_… 0.413 E13   superficial s…    18    26     0    111220560 forebr…
-## 2 E13p… ctx_… 0.404 E13   superficial s…    19    26     0    111220560 forebr…
-## 3 E13p… ctx_… 0.477 E13   superficial s…    15    25     0    111220560 forebr…
-## 4 E13p… ctx_… 0.456 E13   intermediate …    16    25     0    111220558 forebr…
-## 5 E13p… ctx_… 0.435 E13   periventricul…    17    25     0    111220556 forebr…
-## 6 E13p… ctx_… 0.426 E13   periventricul…    18    25     0    111220556 forebr…
+##   voxel  group  corr stage structure_name     x     y     z structure_id level_1
+##   &lt;chr&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
+## 1 E13pt… ctx_… 0.524 E13   superficial s…    18    26     0    111220560 forebr…
+## 2 E13pt… ctx_… 0.512 E13   superficial s…    19    26     0    111220560 forebr…
+## 3 E13pt… ctx_… 0.605 E13   superficial s…    15    25     0    111220560 forebr…
+## 4 E13pt… ctx_… 0.578 E13   intermediate …    16    25     0    111220558 forebr…
+## 5 E13pt… ctx_… 0.552 E13   periventricul…    17    25     0    111220556 forebr…
+## 6 E13pt… ctx_… 0.540 E13   periventricul…    18    25     0    111220556 forebr…
 ## # … with 17 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
 ## #   level_5 &lt;chr&gt;, level_6 &lt;chr&gt;, level_7 &lt;lgl&gt;, level_8 &lt;lgl&gt;, level_9 &lt;lgl&gt;,
 ## #   level_10 &lt;lgl&gt;, custom_1 &lt;chr&gt;, custom_2 &lt;chr&gt;, custom_3 &lt;chr&gt;,
@@ -235,27 +235,24 @@
 <code class="sourceCode R"><span class="va">struct_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_structures.BrainSpanMap.html">summarize_structures</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">struct_map</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 4
-##   cell             struct                corr group           
-##   &lt;chr&gt;            &lt;fct&gt;                &lt;dbl&gt; &lt;chr&gt;           
-## 1 cerebral_HC00013 caudal hypothalamus 0.0850 ctx_cerebral    
-## 2 cerebral_HC00030 caudal hypothalamus 0.0292 ctx_cerebral    
-## 3 cerebral_HC00036 caudal hypothalamus 0.0336 ctx_cerebral    
-## 4 cerebral_HC00040 caudal hypothalamus 0.117  ctx_cerebral    
-## 5 cerebral_HC00043 caudal hypothalamus 0.125  dien_ex_cerebral
-## 6 cerebral_HC00046 caudal hypothalamus 0.111  ge_cerebral</code></pre>
+##   cell             struct                         corr group           
+##   &lt;chr&gt;            &lt;fct&gt;                         &lt;dbl&gt; &lt;fct&gt;           
+## 1 ctx_cerebral     caudal hypothalamus          0.0743 ctx_cerebral    
+## 2 dien_ex_cerebral caudal hypothalamus          0.0883 dien_ex_cerebral
+## 3 ge_cerebral      caudal hypothalamus          0.154  ge_cerebral     
+## 4 ctx_cerebral     caudal septocommissural area 0.0292 ctx_cerebral    
+## 5 dien_ex_cerebral caudal septocommissural area 0.0920 dien_ex_cerebral
+## 6 ge_cerebral      caudal septocommissural area 0.0498 ge_cerebral</code></pre>
 <p>If you’d like to visualize the structure similarities in a low dimensional embedding of single-cell space (e.g. UMAP), you can use <code><a href="../reference/assign_cells.html">assign_cells()</a></code> to assign each cell to the maximum correalting voxel. The resulting dataframe can then be joined with the embedding coordinates or added to the <code>Seurat</code> metadata for plotting.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cell_assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_cells.html">assign_cells</a></span><span class="op">(</span><span class="va">vox_map</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cell_assignment</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 27
-##   voxel  corr cell  stage structure_name     x     y     z structure_id level_1
-##   &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
-## 1 E13p… 0.639 cere… E13   intermediate …     5    13     2        15983 forebr…
-## 2 E13p… 0.566 cere… E13   intermediate …    11    22     0    111220558 forebr…
-## 3 E13p… 0.678 cere… E13   superficial s…    10    22     0    111220560 forebr…
-## 4 E13p… 0.387 cere… E13   superficial s…    13    26     2    111220560 forebr…
-## 5 E13p… 0.438 cere… E13   periventricul…    18    16    11        16399 forebr…
-## 6 E13p… 0.379 cere… E13   superficial s…    23    12     1    111220570 forebr…
+<pre><code>## # A tibble: 3 x 27
+##   voxel   corr group stage structure_name     x     y     z structure_id level_1
+##   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  
+## 1 E13pt… 0.671 ctx_… E13   intermediate …     6    19     2    111220558 forebr…
+## 2 E13pt… 0.580 dien… E13   intermediate …    20    18     8        16409 forebr…
+## 3 E13pt… 0.471 ge_c… E13   periventricul…    14    12     6        15837 forebr…
 ## # … with 17 more variables: level_2 &lt;chr&gt;, level_3 &lt;chr&gt;, level_4 &lt;chr&gt;,
 ## #   level_5 &lt;chr&gt;, level_6 &lt;chr&gt;, level_7 &lt;lgl&gt;, level_8 &lt;lgl&gt;, level_9 &lt;lgl&gt;,
 ## #   level_10 &lt;lgl&gt;, custom_1 &lt;chr&gt;, custom_2 &lt;chr&gt;, custom_3 &lt;chr&gt;,

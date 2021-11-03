@@ -45,6 +45,7 @@ reference:
       - '`voxel_map`'
       - '`brainspan_map`'
       - '`mousebrain_map`'
+      - '`reference_map`'
   - title: Deconvolution
     desc: Functions to perform reference-based deconvolution of RNA-seq data
     contents:

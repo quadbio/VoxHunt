@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VoxHunt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -180,6 +180,18 @@
   scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
   show_legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for ReferenceMap</span>
+<span class='fu'>plot_map</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  map_colors <span class='op'>=</span> <span class='va'>ylorrd_flat</span>,
+  point_size <span class='op'>=</span> <span class='fl'>0.2</span>,
+  subsample <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show_legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -233,13 +245,14 @@ e.g. clusters, cell types.</p></td>
     </tr>
     <tr>
       <th>subsample</th>
-      <td><p>Subsample mousebrain cells for faster plotting.</p></td>
+      <td><p>Subsample reference cells for faster plotting.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A similarity map.</p>
+<p>A similarity map.</p>
 <p>A similarity map.</p>
 <p>A similarity map.</p>
 
