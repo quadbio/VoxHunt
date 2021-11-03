@@ -58,7 +58,7 @@ reference_map.default <- function(
 
     if (!is.null(groups)){
         if (pseudobulk_groups){
-            groups <- levels(factor(groups))
+            groups <- factor(levels(factor(groups)), levels=levels(factor(groups)))
         }
         query_meta$group <- groups
     }

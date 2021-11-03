@@ -50,7 +50,7 @@ brainspan_map.default <- function(
         )
     } else {
         if (pseudobulk_groups){
-            groups <- levels(factor(groups))
+            groups <- factor(levels(factor(groups)), levels=levels(factor(groups)))
         }
         cell_meta <- tibble(
             cell = rownames(corr_mat),
