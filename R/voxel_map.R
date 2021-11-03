@@ -124,7 +124,7 @@ print.VoxelMap <- function(object){
     n_voxels <- dim(object$corr_mat)[2]
     n_genes <- length(object$genes)
     stage  <- unique(object$voxel_meta$stage)
-    entity <- ifelse(single_cell, 'cells', 'groups')
+    entity <- ifelse(object$single_cell, 'cells', 'groups')
     cat(paste0(
         'A VoxelMap object\n', n_cells, ' ', entity, ' mapped to\n',
         n_voxels, ' voxels in the ', stage, ' mouse brain\nbased on ',
