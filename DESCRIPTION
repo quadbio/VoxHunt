@@ -1,7 +1,7 @@
 Package: voxhunt
 Type: Package
 Title: Projecting single-cell transcriptomes to spatial brain maps
-Version: 1.0.0
+Version: 1.0.1
 URL: https://github.com/quadbiolab/VoxHunt
 Authors@R: person(given = "Jonas Simon",
                family = "Fleck",

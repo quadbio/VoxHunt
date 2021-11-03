@@ -77,8 +77,6 @@ DimPlot(example_seurat, group.by='cluster')
 
 ref_map <- reference_map(example_seurat, ref_srt, group_name='cluster', genes_use=top10)
 
-ref_map$
-
 plot_map(ref_map, show_legend = T)
 
 summarize_groups(ref_map)
