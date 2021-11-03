@@ -114,8 +114,9 @@ print.BrainSpanMap <- function(object){
     n_cells <- dim(object$corr_mat)[1]
     n_ref <- dim(object$corr_mat)[2]
     n_genes <- length(object$genes)
+    entity <- ifelse(single_cell, 'cells', 'groups')
     cat(paste0(
-        'A BrainSpanMap object\n', n_cells, ' cells mapped to\n',
+        'A BrainSpanMap object\n', n_cells, ' ', entity, ' mapped to\n',
         n_ref, ' reference samples \nbased on ',
         n_genes, ' features\n'
     ))
