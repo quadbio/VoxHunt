@@ -1124,18 +1124,18 @@ plot_map.ReferenceMap <- function(
     ...
 ){
     plot_df <- summarize_groups(object, groups = groups, summarize = 'query') %>%
-        inner_join(object$reduction, by=c('query_group'='cell'))
+        inner_join(object$reduction, by=c('ref_group'='cell'))
 
     if (is.numeric(subsample)){
         plot_df <- sample_n(plot_df, min(subsample, ncol(object$corr_mat)))
     }
     if (scale){
-        plot_df <- group_by(plot_df, ref_group) %>%
+        plot_df <- group_by(plot_df, query_group) %>%
             mutate(corr=zscale(corr))
     }
 
-    plot_list <- map(levels(factor(plot_df$ref_group)), function(g){
-        ptbl <- dplyr::filter(plot_df, ref_group==g)
+    plot_list <- map(levels(factor(plot_df$query_group)), function(g){
+        ptbl <- dplyr::filter(plot_df, query_group==g)
         p <- ggplot(ptbl, aes(x, y, col=corr)) +
             geom_point(size=point_size) +
             theme_void() +

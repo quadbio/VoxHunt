@@ -35,7 +35,7 @@ plot_map_3d(pb_voxmap)
 plot_map_3d(pb_voxmap, annotation_level = 'custom_2', both_hemispheres = F)
 
 
-voxmap <- voxel_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2', 'LHX2'))
+voxmap <- voxel_map(example_seurat, 'E13', genes_use = c('NEUROD6', 'DLX2', 'LHX2'), pseudobulk_groups = F)
 cell_assign <- assign_to_structure(voxmap)
 plot_map(voxmap, groups = example_seurat$cluster)
 plot_map(voxmap, groups = example_seurat$cluster, view='slice')
@@ -64,7 +64,7 @@ plot_structure_similarity(pb_mbmap, cluster=T)
 plot_structure_similarity(pb_mbmap, cluster=F)
 plot_map(pb_mbmap)
 
-mbmap <- mousebrain_map(example_seurat, genes_use = top10)
+mbmap <- mousebrain_map(example_seurat, genes_use = top10, pseudobulk_groups = F)
 plot_structure_similarity(mbmap, groups = example_seurat$cluster, cluster=F)
 plot_map(mbmap, groups = example_seurat$cluster)
 
@@ -72,13 +72,11 @@ plot_map(mbmap, groups = example_seurat$cluster)
 ### General reference mapping
 ref_srt <- example_seurat %>%
     FindVariableFeatures() %>% ScaleData() %>% RunPCA() %>% RunUMAP(dims=1:10)
-ref_srt$cluster <- NULL
-DimPlot(example_seurat, group.by='cluster')
+DimPlot(ref_srt, group.by='cluster')
 
 ref_map <- reference_map(example_seurat, ref_srt, group_name='cluster', genes_use=top10)
 
 plot_map(ref_map, show_legend = T)
-
 summarize_groups(ref_map)
 
 
