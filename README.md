@@ -62,7 +62,7 @@ In addition to the ABA, we have also included functions that facilitate mapping 
 
 ## More
 
-If you want to find out more about VoxHunt's functionality, have a look at vignettes on our [website](https://quadbiolab.github.io/VoxHunt/index.html).
+If you want to find out more about VoxHunt's functionality, have a look at vignettes on our [website](https://quadbio.github.io/VoxHunt/index.html).
 
 ## Citation
 
