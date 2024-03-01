@@ -85,7 +85,7 @@ brainspan_map.Seurat <- function(
     allow_neg = FALSE,
     pseudobulk_groups = TRUE
 ){
-    expr_mat <- t(Seurat::GetAssayData(object, slot = 'data'))
+    expr_mat <- t(SeuratObject::LayerData(object, layer = 'data'))
     if (is.null(group_name)){
         groups <- Seurat::Idents(object)
     } else {

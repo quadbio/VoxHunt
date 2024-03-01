@@ -96,9 +96,9 @@ reference_map.Seurat <- function(
     allow_neg = FALSE,
     pseudobulk_groups = TRUE
 ){
-    expr_mat <- t(Seurat::GetAssayData(object, slot = slot, assay = assay))
+    expr_mat <- t(SeuratObject::LayerData(object, layer = slot, assay = assay))
     query_meta <- as_tibble(object@meta.data, rownames='cell')
-    ref_mat <- t(Seurat::GetAssayData(reference_object, slot = slot, assay = assay))
+    ref_mat <- t(SeuratObject::LayerData(reference_object, layer = slot, assay = assay))
     ref_meta <- as_tibble(reference_object@meta.data, rownames='cell')
     reduction <- as_tibble(reference_object[['umap']]@cell.embeddings, rownames='cell')[,1:3]
     colnames(reduction)[2:3] <- c('x', 'y')

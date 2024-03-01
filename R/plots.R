@@ -367,7 +367,7 @@ mapping_plot <- function(
                 plot.title = element_text(size = 8)
                 ) +
             scale_fill_gradientn(colors = map_colors) +
-            scale_alpha_continuous(guide = FALSE) +
+            scale_alpha_continuous(guide = "none") +
             labs(title = g)
         return(p)
     })
