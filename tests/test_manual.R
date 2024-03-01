@@ -24,7 +24,6 @@ top10 <- markers %>%
     top_n(10, auc) %>%
     {unique(.$gene)}
 
-
 pb_voxmap <- voxel_map(example_seurat, 'E13', genes_use = top10, pseudobulk_groups = T, group_name = 'cluster')
 group_assign <- assign_to_structure(pb_voxmap)
 plot_map(pb_voxmap, show_legend = T)

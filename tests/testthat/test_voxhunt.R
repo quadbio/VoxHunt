@@ -6,7 +6,7 @@ library(voxhunt)
 #### ABA Voxel Maps ####
 test_that('load_aba_data warns if files are not present.', {
     expect_warning(load_aba_data('/'))
-    expect_warning(load_aba_data('../../../voxhunt_rds/'), NA)
+    expect_warning(load_aba_data('../../../voxhunt_data/'), NA)
 })
 
 test_that('data can be loaded.', {
@@ -16,7 +16,7 @@ test_that('data can be loaded.', {
 })
 
 data('example_seurat')
-load_aba_data('../../../voxhunt_rds/')
+load_aba_data('../../../voxhunt_data/')
 
 test_that('expression plots do not throw errors.', {
     expect_error(plot_expression('E13', gene = c('NEUROD6', 'DLX2')), NA)
